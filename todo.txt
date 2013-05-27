@@ -1,0 +1,15 @@
+Bronie
+    magazynki, rozrzut, odrzut, ilosc pociskow,
+    ilosc magazynkow, rodzaj magazynku (normalny, shotgun),
+    czas przeladowania, czas pomiedzy strzalami (cooldown).
+
+Niezalezne poruszczanie przod/tyl i lewo/prawo.
+
+System kolizji
+    kolizje wzgledem scian z tile mapy.
+    kolizje z innymi aktorami
+
+Pickups
+    Magazynki, bronie
+    Jakas zewnetrzna klasa na pickupy
+
