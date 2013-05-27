@@ -38,6 +38,9 @@ public class PlayerInputListener extends InputListener {
             case Input.Keys.D:
                 player.movement().add(Movement.RIGHT);
                 break;
+            case Input.Keys.R:
+                player.reload();
+                break;
             case Input.Keys.NUM_1:
                 player.changeWeapon(WeaponSlot.MELEE);
                 break;

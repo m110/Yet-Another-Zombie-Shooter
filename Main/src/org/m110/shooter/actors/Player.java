@@ -226,6 +226,12 @@ public class Player extends Actor {
         }
     }
 
+    public void reload() {
+        if (activeWeapon != null) {
+            activeWeapon.reload();
+        }
+    }
+
     public Weapon getActiveWeapon() {
         return activeWeapon;
     }

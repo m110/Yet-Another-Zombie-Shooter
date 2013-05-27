@@ -2,11 +2,13 @@ package org.m110.shooter;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.tiled.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.m110.shooter.actors.Player;
 import org.m110.shooter.core.PlayerInputListener;
@@ -34,6 +36,7 @@ public class Shooter extends Game {
 
     private TiledLayer collisions;
 
+    private ShapeRenderer renderer;
     private SpriteBatch batch;
     private Texture crosshair;
     private Texture hud;
@@ -57,6 +60,7 @@ public class Shooter extends Game {
         camera.setToOrtho(false, GAME_WIDTH, GAME_HEIGHT);
 
         batch = new SpriteBatch();
+        renderer = new ShapeRenderer();
         crosshair = new Texture(Gdx.files.internal("images/crosshair.png"));
         hud = new Texture(Gdx.files.internal("images/hud.png"));
 
@@ -107,6 +111,12 @@ public class Shooter extends Game {
         Weapon weapon = player.getActiveWeapon();
         if (weapon != null) {
             batch.draw(weapon.getTexture(), hudX + 15, hudY + 15);
+            batch.end();
+
+            // Draw magazines
+            weapon.drawMagazines(hudX + 80, hudY + 13, renderer);
+
+            batch.begin();
         }
         batch.end();
 
@@ -169,6 +179,7 @@ public class Shooter extends Game {
         tileMapRenderer.dispose();
         atlas.dispose();
         batch.dispose();
+        renderer.dispose();
         crosshair.dispose();
     }
 
