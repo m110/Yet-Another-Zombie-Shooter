@@ -1,6 +1,7 @@
 package org.m110.shooter.weapons;
 
 import org.m110.shooter.actors.Bullet;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.StandardMagazine;
 
 /**
@@ -8,11 +9,12 @@ import org.m110.shooter.weapons.magazines.StandardMagazine;
  */
 public class Rifle extends Weapon {
 
-    public Rifle() {
-        super(2, WeaponSlot.RILE, "rifle");
+    public Rifle(GameScreen game) {
+        super(game, 2, WeaponSlot.RILE, "rifle");
         setBulletsCount(1);
         setBulletVelocity(Bullet.BASE_VELOCITY + 5.0f);
         setCooldown(0.25f);
+        setReloadCooldown(0.80f);
         setOffsetFactor(3.5f);
 
         addMagazine(new StandardMagazine(30, 30));

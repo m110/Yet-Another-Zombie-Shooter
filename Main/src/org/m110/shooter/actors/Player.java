@@ -2,15 +2,18 @@ package org.m110.shooter.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.*;
 
 import java.util.EnumSet;
@@ -20,7 +23,7 @@ import java.util.Iterator;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Player extends Actor {
+public class Player extends ShooterActor {
 
     /**
      * Time in seconds between steps sound.
@@ -57,17 +60,32 @@ public class Player extends Actor {
      */
     private final Array<Bullet> bullets;
 
+    private int health = 100;
+    private int stamina = 100;
+    private final float staminaRegenTime = 0.1f;
+    private float staminaTime = 0.0f;
+
+    private final float staminaBaseUseTime = 0.01f;
+    private float staminaUseTime = 0.0f;
+
+    private final float changeWeaponBaseTime = 0.4f;
+    private float changeWeaponTime = 0.0f;
+
     /**
      * The velocity of moving player.
      */
-    private float velocity = 5.0f;
+    private float velocity = 10.0f;
+
+    private boolean sprintActive = false;
+    private float bonusVelocity = 5.0f;
 
     // Weapons related stuff
 
     private final HashMap<WeaponSlot, Weapon> weapons;
     private Weapon activeWeapon;
 
-    public Player(float startX, float startY) {
+    public Player(GameScreen game, float startX, float startY) {
+        super(game);
         // Load the texture
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
 
@@ -93,9 +111,9 @@ public class Player extends Actor {
         activeWeapon = null;
 
         // temporary
-        addWeapon(new Pistol());
-        addWeapon(new Shotgun());
-        addWeapon(new Rifle());
+        addWeapon(new Pistol(game));
+        addWeapon(new Shotgun(game));
+        addWeapon(new Rifle(game));
     }
 
     /**
@@ -110,26 +128,62 @@ public class Player extends Actor {
             activeWeapon.updateCooldown(delta);
         }
 
-        float newX = getX();
-        float newY = getY();
-
-        if (movement.contains(Movement.UP)) {
-            newY += velocity;
+        // Stamina regeneration
+        if (!sprintActive && stamina < 100) {
+            if (staminaTime < 0) {
+                stamina++;
+                staminaTime = staminaRegenTime;
+            } else staminaTime -= delta;
         }
 
-        if (movement.contains(Movement.DOWN)) {
-            newY -= velocity;
+        // Stamina use
+        if (sprintActive) {
+            if (stamina == 0) {
+                sprintActive = false;
+            } else {
+                if (staminaUseTime < 0) {
+                    stamina--;
+                    staminaUseTime = staminaBaseUseTime;
+                } else staminaUseTime -= delta;
+            }
         }
 
-        if (movement.contains(Movement.LEFT)) {
-            newX -= velocity;
-        }
+        // Update change weapon time
+        changeWeaponTime -= delta;
 
-        if (movement.contains(Movement.RIGHT)) {
-            newX += velocity;
-        }
+        if (!movement.isEmpty()) {
+            float newX = getX() + getOriginX();
+            float newY = getY() + getOriginY();
 
-        if (newX != getX() || newY != getY()) {
+            float totalVelocity = velocity;
+            if (sprintActive) {
+                totalVelocity += bonusVelocity;
+            }
+
+            double finalAngle = getRotation();
+
+            if (movement.contains(Movement.UP)) {
+                if (movement.contains(Movement.LEFT)) {
+                    finalAngle += 45.0;
+                } else if (movement.contains(Movement.RIGHT)) {
+                    finalAngle -= 45.0;
+                }
+            } else if (movement.contains(Movement.DOWN)) {
+                finalAngle += 180.0;
+                if (movement.contains(Movement.LEFT)) {
+                    finalAngle -= 45.0;
+                } else if (movement.contains(Movement.RIGHT)) {
+                    finalAngle += 45.0;
+                }
+            } else if (movement.contains(Movement.LEFT)) {
+                finalAngle += 90.0;
+            } else if (movement.contains(Movement.RIGHT)) {
+                finalAngle += 270.0;
+            }
+
+            newX += (float) Math.cos(Math.toRadians(finalAngle)) * totalVelocity;
+            newY += (float) Math.sin(Math.toRadians(finalAngle)) * totalVelocity;
+
             // Play step sound
             if (stepSoundTimer < delta) {
                 stepSound[stepNumber].play();
@@ -139,18 +193,23 @@ public class Player extends Actor {
             } else stepSoundTimer -= delta;
 
             // Move player
-            if (newX != getX() && !checkCollisions(newX, getY())) {
+            if (!checkCollisions(newX - getOriginX(), newY - getOriginY())) {
                 MoveToAction moveAction = new MoveToAction();
                 moveAction.setDuration(0.05f);
-                moveAction.setPosition(newX, getY());
+                moveAction.setPosition(newX - getOriginX(), newY - getOriginY());
                 addAction(moveAction);
-            }
-
-            if (newY != getY() && !checkCollisions(getX(), newY)) {
-                MoveToAction moveAction = new MoveToAction();
-                moveAction.setDuration(0.05f);
-                moveAction.setPosition(getX(), newY);
-                addAction(moveAction);
+            } else {
+                if (!checkCollisions(newX - getOriginX(), getY())) {
+                    MoveToAction moveAction = new MoveToAction();
+                    moveAction.setDuration(0.05f);
+                    moveAction.setPosition(newX - getOriginX(), getY());
+                    addAction(moveAction);
+                } else if (!checkCollisions(getX(), newY - getOriginY())) {
+                    MoveToAction moveAction = new MoveToAction();
+                    moveAction.setDuration(0.05f);
+                    moveAction.setPosition(getX(), newY - getOriginY());
+                    addAction(moveAction);
+                }
             }
 
             // Update the "look at"
@@ -169,7 +228,7 @@ public class Player extends Actor {
     }
 
     private boolean checkCollisions(float newX, float newY) {
-        return Shooter.getInstance().collidesWithWall(newX, newY, getWidth(), getHeight());
+        return game.collidesWithWall(newX, newY, getWidth(), getHeight());
     }
 
     /**
@@ -179,6 +238,20 @@ public class Player extends Actor {
     public void draw(SpriteBatch batch, float parentAlpha) {
        batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
+        /* debug
+        batch.end();
+
+        ShapeRenderer r = new ShapeRenderer();
+        r.setProjectionMatrix(batch.getProjectionMatrix());
+        r.setTransformMatrix(batch.getTransformMatrix());
+        r.setColor(Color.RED);
+        r.begin(ShapeRenderer.ShapeType.Line);
+        r.line(getX()+getOriginX(), getY()+getOriginY(), getStage().getCamera().position.x + Gdx.input.getX() - Shooter.GAME_WIDTH / 2,
+                getStage().getCamera().position.y - Gdx.input.getY() + Shooter.GAME_HEIGHT / 2);
+        r.end();
+        batch.begin();
+        */
     }
 
     /**
@@ -211,16 +284,45 @@ public class Player extends Actor {
     }
 
     public boolean changeWeapon(WeaponSlot slot) {
+        if (changeWeaponTime > 0) {
+            return false;
+        }
+
         // Chech if player has any weapon of this slot
         if (weapons.containsKey(slot)) {
             // Change only if current weapon is in another slot
             if (activeWeapon.getSlot() != slot) {
                 activeWeapon = weapons.get(slot);
                 activeWeapon.setActive();
+                changeWeaponTime = changeWeaponBaseTime;
                 return true;
             } else {
                 return false;
             }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean nextWeapon() {
+        if (weapons.size() > 1) {
+            WeaponSlot slot = activeWeapon.getSlot().getNext();
+            while (!weapons.containsKey(slot)) {
+                slot = slot.getNext();
+            }
+            return changeWeapon(slot);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean previousWeapon() {
+        if (weapons.size() > 1) {
+            WeaponSlot slot = activeWeapon.getSlot().getPrevious();
+            while (!weapons.containsKey(slot)) {
+                slot = slot.getPrevious();
+            }
+            return changeWeapon(slot);
         } else {
             return false;
         }
@@ -251,9 +353,9 @@ public class Player extends Actor {
         double a2 = Math.atan2(py - py, px - x);
 
         // Calculate degrees
-        float degrees = (float) Math.toDegrees(a1 - a2);
+        float degrees = 360 + (float) Math.toDegrees(a1 - a2);
         if (x <= px ) {
-            degrees += 180.0f;
+            degrees -= 180.0f;
         }
 
         setRotation(degrees);
@@ -265,6 +367,18 @@ public class Player extends Actor {
      */
     public EnumSet<Movement> movement() {
         return movement;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public void setSprintActive(boolean sprintActive) {
+        this.sprintActive = sprintActive;
     }
 }
 

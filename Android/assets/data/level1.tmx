@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="100" orientation="orthogonal" tileheight="32" tilewidth="32" version="1.0" width="100"><properties><property name="blended tiles" value=""/></properties>
+ <tileset firstgid="1" name="Main" tileheight="32" tilewidth="32">
+  <image height="32" source="tileset.png" width="128"/>
+ </tileset>
+ <layer height="100" name="background" width="100">
+  <data compression="zlib" encoding="base64">
+   eJzt1UsSgjAQQEHg/od2a1EiSSY/SC96qTWZZ+KxbdsBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMNg+wQxvswf3qkmbHqVdoj353+N7v6l7jvQkrUfOjqN3bFUpu4/0KWm5qlp7v9tx6R17q1p34GqPJe/Xym1q9zjvL+c/5Wqe0Tt6covIHTnPVOtco/c8skVpj1+z6dHuzWrdI/J7qfEbmLlF9Fyp31H7Do/o0aNFryY1Zmsx+6w9IudKfV9a9ejVpHePyPmuPveE2Vfp8ZTZ39Rj5Ix6zDPfiCajz7NlzHk3e+65ct7FXj6c30tq
+  </data>
+ </layer>
+ <layer height="100" name="walls" width="100">
+  <data compression="zlib" encoding="base64">
+   eJzt19luwyAUAFFLyf9/c9WnRgS8cC94amYkS63TQMrxlte2bS831GaM9GClBys9WOnBSg9WerDSg5UerPRgpQcrPVjpwUoPVnqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClBys9WOnBSg9WerDSg5UerPRgpQcrPVjpwUoPVnqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClBys9WOnBSg9WerDSg5UerPRgpQcrPVjpwUoPVnqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClB6sMj/L9GveX5aFJTqM8tsa+rDmfWqZH6xw52uyv6JpE1laX7yJrUa5lxlirl+lR7oucL6s28pjutVn5Otb7P19dr4jJSkWP3c/tXWwZz1SrPZeNPMb3xul934oeo4/JrHPmibU8ZszZ+33xqRa/tZ5XZ89b7m95PP27Z9b3uci8tf21tSufEa7MUzvmRjyrRys97pi33Lfn8W68tzX+2TWvvVb7eXSk8/jM/ePT5GiMq/Me/T7zOt7z+Y+uN5HPsjdOzSO6ZmfOhxkm0XvjldeujHs0TvYzyNnrxOhz5a7rVM/9o/zb1jgzGjXvnfeNyHFIuOet5PEfGrF2esQa5eHG2X4AzQoH9w==
+  </data>
+ </layer>
+ <objectgroup height="100" name="actors" width="100">
+  <object height="32" name="player" width="32" x="40" y="3128"/>
+ </objectgroup>
+</map>

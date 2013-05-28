@@ -4,17 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import org.m110.shooter.Shooter;
 import org.m110.shooter.actors.Bullet;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.Magazine;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public abstract class Weapon {
+
+    protected final GameScreen game;
 
     private final TextureRegion texture;
     private final WeaponSlot slot;
@@ -27,14 +33,18 @@ public abstract class Weapon {
     private float bulletVelocity = Bullet.BASE_VELOCITY;
     private float offsetFactor = 2.5f;
     private int bulletsCount = 1;
-    private float cooldown = 0.5f;
-    private float cooldownLeft = 0.0f;
+    protected float cooldown = 0.5f;
+    protected float cooldownLeft = 0.0f;
+    protected float reloadCooldown = 0.50f;
+    protected float reloadCooldownLeft = 0.0f;
 
     private int maxMagazines = 5;
     private Array<Magazine> magazines;
     protected Magazine activeMagazine;
 
-    public Weapon(int textureNumber, WeaponSlot slot, String name) {
+    public Weapon(GameScreen game, int textureNumber, WeaponSlot slot, String name) {
+        this.game = game;
+
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/weapons.png")),
                                     textureNumber*48, 0, 48, 48);
         this.slot = slot;
@@ -49,7 +59,8 @@ public abstract class Weapon {
     }
 
     public Array<Bullet> fire(float x, float y, float rotation) {
-        if (activeMagazine == null || cooldownLeft > 0.0f) {
+        // No magazine or weapon cooldown or still reloading
+        if (activeMagazine == null || cooldownLeft > 0.0f || reloadCooldownLeft > 0.0f) {
             return null;
         }
 
@@ -67,7 +78,7 @@ public abstract class Weapon {
             float angle = rotation + MathUtils.random(-offsetFactor, offsetFactor);
 
             // Create and store new bullet
-            Bullet bullet = new Bullet(x, y, angle, bulletVelocity);
+            Bullet bullet = new Bullet(game, x, y, angle, bulletVelocity);
             bullets.add(bullet);
         }
 
@@ -78,7 +89,7 @@ public abstract class Weapon {
     }
 
     public void reload() {
-        if (magazines.size == 1) {
+        if (magazines.size == 1 || reloadCooldownLeft > 0) {
             return;
         }
 
@@ -93,6 +104,7 @@ public abstract class Weapon {
         }
 
         activeMagazine = magazines.get(index);
+        reloadCooldownLeft = reloadCooldown;
     }
 
     public void addMagazine(Magazine magazine) {
@@ -104,7 +116,7 @@ public abstract class Weapon {
         }
     }
 
-    public void drawMagazines(float x, float y, ShapeRenderer renderer) {
+    public void drawMagazines(float x, float y, ShapeRenderer renderer, SpriteBatch batch) {
         for (Magazine magazine : magazines) {
             if (magazine == activeMagazine) {
                 renderer.setColor(Color.WHITE);
@@ -121,12 +133,18 @@ public abstract class Weapon {
             renderer.filledRect(x, y, 14, magazine.getBulletsPercent() * 30);
             renderer.end();
 
+            BitmapFont font = Shooter.getInstance().getSmallFont();
+            batch.begin();
+            font.draw(batch, ""+magazine.getBullets(), x-1, y+42);
+            batch.end();
+
             x += 20;
         }
     }
 
     public void updateCooldown(float delta) {
         cooldownLeft -= delta;
+        reloadCooldownLeft -= delta;
     }
 
     public void setActive() {
@@ -148,6 +166,10 @@ public abstract class Weapon {
 
     public void setCooldown(float cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public void setReloadCooldown(float reloadCooldown) {
+        this.reloadCooldown = reloadCooldown;
     }
 
     public void setMaxMagazines(int maxMagazines) {

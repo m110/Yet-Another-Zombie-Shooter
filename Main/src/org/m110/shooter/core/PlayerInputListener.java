@@ -41,6 +41,9 @@ public class PlayerInputListener extends InputListener {
             case Input.Keys.R:
                 player.reload();
                 break;
+            case Input.Keys.SHIFT_LEFT:
+                player.setSprintActive(true);
+                break;
             case Input.Keys.NUM_1:
                 player.changeWeapon(WeaponSlot.MELEE);
                 break;
@@ -72,6 +75,9 @@ public class PlayerInputListener extends InputListener {
             case Input.Keys.D:
                 player.movement().remove(Movement.RIGHT);
                 break;
+            case Input.Keys.SHIFT_LEFT:
+                player.setSprintActive(false);
+                break;
         }
         return true;
     }
@@ -82,6 +88,16 @@ public class PlayerInputListener extends InputListener {
             case Input.Buttons.LEFT:
                 player.attack();
                 break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean scrolled (InputEvent event, float x, float y, int amount) {
+        if (amount < 0) {
+            player.nextWeapon();
+        } else {
+            player.previousWeapon();
         }
         return true;
     }

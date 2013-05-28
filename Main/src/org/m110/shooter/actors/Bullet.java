@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Bullet extends Actor {
+public class Bullet extends ShooterActor {
 
     public static final float BASE_VELOCITY = 10.0f;
 
@@ -35,7 +36,8 @@ public class Bullet extends Actor {
      */
     private boolean moving;
 
-    public Bullet(float x, float y, float angle, float velocity) {
+    public Bullet(GameScreen game, float x, float y, float angle, float velocity) {
+        super(game);
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/bullet.png")));
         this.angle = angle;
         this.velocity = velocity;
@@ -63,12 +65,12 @@ public class Bullet extends Actor {
         addAction(moveAction);
 
         // Is bullet out of bounds?
-        if (getX() < 0 || getY() < 0 || getX() > Shooter.getInstance().getMapWidth() || getY() > Shooter.getInstance().getMapHeight()) {
+        if (getX() < 0 || getY() < 0 || getX() > game.getMapWidth() || getY() > game.getMapHeight()) {
             moving = false;
         }
 
         // Did bullet hit the wall?
-        if (Shooter.getInstance().collidesWithWall(getX(), getY(), getWidth(), getHeight())) {
+        if (game.collidesWithWall(getX(), getY(), getWidth(), getHeight())) {
             moving = false;
         }
     }
