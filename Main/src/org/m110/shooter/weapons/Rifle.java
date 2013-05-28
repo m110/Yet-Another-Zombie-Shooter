@@ -12,14 +12,13 @@ public class Rifle extends Weapon {
     public Rifle(GameScreen game) {
         super(game, 2, WeaponSlot.RILE, "rifle");
         setBulletsCount(1);
+        setDefaultMagazineCapacity(30);
         setBulletVelocity(Bullet.BASE_VELOCITY + 5.0f);
-        setCooldown(0.25f);
+        setCooldown(0.1f);
         setReloadCooldown(0.80f);
         setOffsetFactor(3.5f);
+        setDamage(20);
 
-        addMagazine(new StandardMagazine(30, 30));
-        addMagazine(new StandardMagazine(30, 30));
-        addMagazine(new StandardMagazine(30, 30));
-        addMagazine(new StandardMagazine(30, 30));
+        addMagazine(new StandardMagazine(defaultMagazineCapacity, defaultMagazineCapacity));
     }
 }

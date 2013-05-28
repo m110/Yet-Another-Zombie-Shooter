@@ -31,16 +31,19 @@ public class Bullet extends ShooterActor {
      */
     private float velocity;
 
+    private int damage;
+
     /**
      * Is the bullet still in use?
      */
     private boolean moving;
 
-    public Bullet(GameScreen game, float x, float y, float angle, float velocity) {
+    public Bullet(GameScreen game, float x, float y, float angle, float velocity, int damage) {
         super(game);
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/bullet.png")));
         this.angle = angle;
         this.velocity = velocity;
+        this.damage = damage;
         moving = true;
 
         setWidth(texture.getRegionWidth());
@@ -73,6 +76,11 @@ public class Bullet extends ShooterActor {
         if (game.collidesWithWall(getX(), getY(), getWidth(), getHeight())) {
             moving = false;
         }
+
+        // Did bullet hit an enemy?
+        if (game.collidesWithEnemy(this)) {
+            moving = false;
+        }
     }
 
     @Override
@@ -83,5 +91,9 @@ public class Bullet extends ShooterActor {
 
     public boolean isMoving() {
         return moving;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

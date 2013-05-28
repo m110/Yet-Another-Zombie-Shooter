@@ -11,11 +11,22 @@ import com.badlogic.gdx.graphics.g2d.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.actors.Bullet;
 import org.m110.shooter.actors.Player;
+import org.m110.shooter.actors.ShooterActor;
+import org.m110.shooter.actors.Zombie;
 import org.m110.shooter.core.PlayerInputListener;
+import org.m110.shooter.pickups.AmmoPickup;
+import org.m110.shooter.pickups.CratePickup;
+import org.m110.shooter.pickups.Pickup;
 import org.m110.shooter.weapons.Weapon;
+
+import java.util.Iterator;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -57,6 +68,10 @@ public class GameScreen implements Screen {
     private final float mapWidth;
     private final float mapHeight;
 
+    private final Group shooterActors;
+    private final Array<ShooterActor> enemies;
+    private final Array<Pickup> pickups;
+
     public GameScreen(int levelID) {
         this.levelID = levelID;
 
@@ -91,18 +106,62 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCursorCatched(true);
 
+        shooterActors = new Group();
+        stage.addActor(shooterActors);
+        enemies = new Array<>();
+        pickups = new Array<>();
+
         for (TiledObject object : map.objectGroups.get(0).objects) {
-            switch(object.name) {
-                case "player":
-                    final float startX = object.x;
-                    final float startY = mapHeight - object.y - map.tileHeight;
-                    player = new Player(this, startX, startY);
-                    stage.addActor(player);
-                    stage.addListener(new PlayerInputListener(player));
+            final float objX = object.x;
+            final float objY = mapHeight - object.y - map.tileHeight;
+            switch (object.type) {
+                case "node":
+                    switch (object.name) {
+                        case "start":
+                            player = new Player(this, objX, objY);
+                            stage.addListener(new PlayerInputListener(player));
+                            break;
+                    }
+                    break;
+                case "enemy":
+                    ShooterActor enemy = null;
+                    switch (object.name) {
+                        case "zombie":
+                            enemy = new Zombie(this, objX, objY);
+                            break;
+                    }
+                    if (enemy != null) {
+                        // Update rotation
+                        if (object.properties.containsKey("rotation")) {
+                            enemy.setRotation(Integer.parseInt(object.properties.get("rotation")));
+                        }
+                        enemies.add(enemy);
+                        shooterActors.addActor(enemy);
+                    }
+                    break;
+                case "crate":
+                    int bullets = 0;
+                    if (object.properties.containsKey("ammo")) {
+                        bullets = Integer.parseInt(object.properties.get("ammo"));
+                    }
+                    Pickup pickup = new CratePickup(object.name, objX, objY, bullets);
+                    pickups.add(pickup);
+                    shooterActors.addActor(pickup);
+                    break;
+                case "ammo":
+                    bullets = 0;
+                    if (object.properties.containsKey("ammo")) {
+                        bullets = Integer.parseInt(object.properties.get("ammo"));
+                    }
+                    pickup = new AmmoPickup(object.name, objX, objY, bullets);
+                    pickups.add(pickup);
+                    shooterActors.addActor(pickup);
                     break;
             }
         }
 
+        // To ensure player will appear on top...
+        shooterActors.addActor(player);
     }
 
     @Override
@@ -110,12 +169,39 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+        // Is player dead? (Game Over)
+        if (player.isDead()) {
+            Shooter.getInstance().gameOver();
+        }
+
+        // Check collision with pickups
+        Iterator<Pickup> pit = pickups.iterator();
+        while (pit.hasNext()) {
+            Pickup pickup = pit.next();
+            if (collidesWith(player, pickup)) {
+                if (pickup.pickUp(player)) {
+                    pickup.remove();
+                    pit.remove();
+                } else {
+                    // todo print alert of something
+                }
+            }
+        }
+
         centerCamera();
         tileMapRenderer.render(camera);
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
+        // Check dead enemies
+        Iterator<ShooterActor> it = enemies.iterator();
+        while (it.hasNext()) {
+            ShooterActor enemy = it.next();
+            if (enemy.isDead()) {
+                it.remove();
+            }
+        }
         // Draw HUD
         batch.begin();
         float leftX = 20;
@@ -219,10 +305,62 @@ public class GameScreen implements Screen {
         int x2 = (int)((x + width) / 32);
         int y2 = h - (int)((y + height) / 32);
         if (tiles[y1][x1] == 0 && tiles[y2][x2] == 0 &&
-                tiles[y1][x2] == 0 && tiles[y2][x1] == 0) {
+            tiles[y1][x2] == 0 && tiles[y2][x1] == 0) {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean collidesWithEnemy(Bullet bullet) {
+        float bx = bullet.getX();
+        float by = bullet.getY();
+        float bw = bullet.getWidth();
+        float bh = bullet.getHeight();
+        for (ShooterActor enemy : enemies) {
+            float ex = enemy.getX();
+            float ey = enemy.getY();
+            float ew = enemy.getWidth();
+            float eh = enemy.getHeight();
+            if (bx < ex+ew && bx+bw > ex &&
+                by < ey+eh && by+bh > ey) {
+                enemy.damage(bullet.getDamage());
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean collidesWithEnemy(float newX, float newY, float width, float height, ShooterActor except) {
+        for (ShooterActor enemy : enemies) {
+            if (except != null && enemy == except) {
+                continue;
+            }
+
+            float ex = enemy.getX();
+            float ey = enemy.getY();
+            float ew = enemy.getWidth();
+            float eh = enemy.getHeight();
+            if (newX < ex+ew && newX+width > ex &&
+                newY < ey+eh && newY+height > ey) {
+                return true;
+            }
+        }
+
+        if (except != player) {
+            return collidesWith(except, player);
+        }
+
+        return false;
+    }
+
+    public boolean collidesWith(Actor a, Actor b) {
+        if (a.getX() < b.getX()+b.getWidth() && a.getX()+a.getWidth() > b.getX() &&
+            a.getY() < b.getY()+b.getHeight() && a.getY()+a.getHeight() > b.getY()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -257,6 +395,18 @@ public class GameScreen implements Screen {
         crosshair.dispose();
         leftHUD.dispose();
         rightHUD.dispose();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public ShapeRenderer getRenderer() {
+        return renderer;
     }
 
     public float getMapWidth() {

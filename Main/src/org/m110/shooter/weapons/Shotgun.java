@@ -19,13 +19,15 @@ public class Shotgun extends Weapon {
     public Shotgun(GameScreen game) {
         super(game, 1, WeaponSlot.SHOTGUN, "shotgun");
         setBulletsCount(6);
+        setDefaultMagazineCapacity(8);
         setBulletVelocity(Bullet.BASE_VELOCITY + 1.0f);
         setCooldown(0.75f);
         setReloadCooldown(0.70f);
-        setOffsetFactor(6.5f);
+        setOffsetFactor(14.5f);
         setMaxMagazines(1);
+        setDamage(20);
 
-        magazine = new ShotgunMagazine(8, 8, 16);
+        magazine = new ShotgunMagazine(defaultMagazineCapacity, defaultMagazineCapacity, 0);
         addMagazine(magazine);
     }
 

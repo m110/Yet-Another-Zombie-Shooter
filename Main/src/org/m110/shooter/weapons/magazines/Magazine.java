@@ -13,7 +13,7 @@ public abstract class Magazine {
         this.slot = slot;
         this.maxBullets = maxBullets;
 
-        if (bullets > maxBullets) {
+        if (bullets > maxBullets || bullets == 0) {
             this.bullets = maxBullets;
         } else {
             this.bullets = bullets;
@@ -49,6 +49,16 @@ public abstract class Magazine {
     public void addBullet() {
         if (bullets < maxBullets) {
             bullets++;
+        }
+    }
+
+    public void setBullets(int bullets) {
+        if (bullets > maxBullets) {
+            this.bullets = maxBullets;
+        } else if (bullets > 0) {
+            this.bullets = bullets;
+        } else {
+            this.bullets = 0;
         }
     }
 

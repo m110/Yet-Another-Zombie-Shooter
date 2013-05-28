@@ -12,14 +12,14 @@ public class Pistol extends Weapon {
     public Pistol(GameScreen game) {
         super(game, 0, WeaponSlot.PISTOL, "pistol");
         setBulletsCount(1);
+        setDefaultMagazineCapacity(12);
         setBulletVelocity(Bullet.BASE_VELOCITY);
         setCooldown(0.6f);
         setReloadCooldown(0.50f);
         setOffsetFactor(2.5f);
+        setDamage(15);
 
-        addMagazine(new StandardMagazine(12, 12));
-        addMagazine(new StandardMagazine(12, 12));
-        addMagazine(new StandardMagazine(12, 12));
+        addMagazine(new StandardMagazine(defaultMagazineCapacity, defaultMagazineCapacity));
     }
 
 }

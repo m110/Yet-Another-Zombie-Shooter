@@ -1,9 +1,11 @@
 package org.m110.shooter.core;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import org.m110.shooter.actors.Player;
+import org.m110.shooter.*;
 import org.m110.shooter.weapons.WeaponSlot;
 
 /**
@@ -56,6 +58,9 @@ public class PlayerInputListener extends InputListener {
             case Input.Keys.NUM_4:
                 player.changeWeapon(WeaponSlot.RILE);
                 break;
+            case Input.Keys.ESCAPE:
+                Gdx.input.setCursorCatched(false);
+                break;
         }
         return true;
     }
@@ -86,6 +91,9 @@ public class PlayerInputListener extends InputListener {
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         switch (button) {
             case Input.Buttons.LEFT:
+                if (!Gdx.input.isCursorCatched()) {
+                    Gdx.input.setCursorCatched(true);
+                }
                 player.attack();
                 break;
         }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.m110.shooter.actors.Player;
 import org.m110.shooter.core.PlayerInputListener;
+import org.m110.shooter.screens.GameOverScreen;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.screens.MenuScreen;
 import org.m110.shooter.weapons.Weapon;
@@ -33,6 +34,7 @@ public class Shooter extends Game {
 
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
+    private GameOverScreen gameOverScreen;
 
     private Shooter() {}
 
@@ -56,10 +58,14 @@ public class Shooter extends Game {
 
         menuScreen = new MenuScreen();
         gameScreen = new GameScreen(1);
+        gameOverScreen = new GameOverScreen();
 
         setScreen(gameScreen);
     }
 
+    public void gameOver() {
+        setScreen(gameOverScreen);
+    }
 
     @Override
     public void dispose() {

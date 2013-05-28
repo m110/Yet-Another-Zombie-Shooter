@@ -37,6 +37,9 @@ public abstract class Weapon {
     protected float cooldownLeft = 0.0f;
     protected float reloadCooldown = 0.50f;
     protected float reloadCooldownLeft = 0.0f;
+    protected int defaultMagazineCapacity = 10;
+
+    protected int damage = 10;
 
     private int maxMagazines = 5;
     private Array<Magazine> magazines;
@@ -78,7 +81,7 @@ public abstract class Weapon {
             float angle = rotation + MathUtils.random(-offsetFactor, offsetFactor);
 
             // Create and store new bullet
-            Bullet bullet = new Bullet(game, x, y, angle, bulletVelocity);
+            Bullet bullet = new Bullet(game, x, y, angle, bulletVelocity, damage);
             bullets.add(bullet);
         }
 
@@ -107,12 +110,16 @@ public abstract class Weapon {
         reloadCooldownLeft = reloadCooldown;
     }
 
-    public void addMagazine(Magazine magazine) {
+    public boolean addMagazine(Magazine magazine) {
         if (magazines.size < maxMagazines) {
             magazines.add(magazine);
             if (activeMagazine == null) {
                 activeMagazine = magazine;
             }
+            reloadSound.play();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -147,33 +154,57 @@ public abstract class Weapon {
         reloadCooldownLeft -= delta;
     }
 
+    public void setActiveMagazineAmmo(int ammo) {
+        activeMagazine.setBullets(ammo);
+    }
+
+    public Magazine getActiveMagazine() {
+        return activeMagazine;
+    }
+
     public void setActive() {
         readySound.play();
         cooldownLeft = 0.0f;
     }
 
-    public void setBulletVelocity(float bulletVelocity) {
+    protected void setBulletVelocity(float bulletVelocity) {
         this.bulletVelocity = bulletVelocity;
     }
 
-    public void setOffsetFactor(float offsetFactor) {
+    protected void setOffsetFactor(float offsetFactor) {
         this.offsetFactor = offsetFactor;
     }
 
-    public void setBulletsCount(int bulletsCount) {
+    protected void setBulletsCount(int bulletsCount) {
         this.bulletsCount = bulletsCount;
     }
 
-    public void setCooldown(float cooldown) {
+    protected void setCooldown(float cooldown) {
         this.cooldown = cooldown;
     }
 
-    public void setReloadCooldown(float reloadCooldown) {
+    protected void setReloadCooldown(float reloadCooldown) {
         this.reloadCooldown = reloadCooldown;
     }
 
-    public void setMaxMagazines(int maxMagazines) {
+    protected void setMaxMagazines(int maxMagazines) {
         this.maxMagazines = maxMagazines;
+    }
+
+    protected void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    protected void setDefaultMagazineCapacity(int defaultMagazineCapacity) {
+        this.defaultMagazineCapacity = defaultMagazineCapacity;
+    }
+
+    public int getDefaultMagazineCapacity() {
+        return defaultMagazineCapacity;
+    }
+
+    public void playReloadSound() {
+        reloadSound.play();
     }
 
     public TextureRegion getTexture() {
