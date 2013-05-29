@@ -1,36 +1,39 @@
 package org.m110.shooter.ai;
 
-import org.m110.shooter.actors.Player;
-import org.m110.shooter.actors.ShooterActor;
+import org.m110.shooter.Shooter;
+import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.Player;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public class BasicAI extends AI {
 
-    private final float updateInterval = 0.04f;
-    private float updateTime = 0.0f;
+    public BasicAI(Entity me) {
+        super(me);
+    }
 
     @Override
-    public void act(ShooterActor me, float delta) {
+    public void act(float delta) {
         if (me.isDead()) {
             return;
         }
 
-        if (updateTime < 0) {
-            Player player = me.getGame().getPlayer();
-            float distance = me.distanceTo(player);
-            if (distance < me.getWidth() + player.getWidth()) {
-                me.attack(player);
-            } else if (distance < 400.0f) {
-                me.lookAt(player.getWorldX(), player.getWorldY());
+        Player player = Shooter.getInstance().getGame().getPlayer();
 
-                float newX = me.getWorldX() + (float) Math.cos(Math.toRadians(me.getRotation())) * me.getVelocity();
-                float newY = me.getWorldY() + (float) Math.sin(Math.toRadians(me.getRotation())) * me.getVelocity();
-
-                me.move(newX, newY);
+        if (!me.inCombat()) {
+            if (me.distanceTo(player) < 400.0f) {
+                me.startCombat(player);
             }
-            updateTime = updateInterval;
-        } else updateTime -= delta;
+        } else {
+            me.attackChase();
+        }
+    }
+
+    @Override
+    public void afterHit() {
+        if (!me.inCombat()) {
+            me.startCombat(me.getGame().getPlayer());
+        }
     }
 }

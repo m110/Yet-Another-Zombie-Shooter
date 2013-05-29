@@ -27,14 +27,19 @@ public class ShotgunMagazine extends Magazine {
         }
     }
 
-    public void addAllBullets(int allBullets) {
+    public boolean addAllBullets(int allBullets) {
         if (allBullets == 0) {
             allBullets = getMaxBullets();
         }
 
-        this.allBullets += allBullets;
-        if (this.allBullets > maxAllBullets) {
-            this.allBullets = maxAllBullets;
+        if (this.allBullets >= maxAllBullets) {
+            return false;
+        } else {
+            this.allBullets += allBullets;
+            if (this.allBullets > maxAllBullets) {
+                this.allBullets = maxAllBullets;
+            }
+            return true;
         }
     }
 }

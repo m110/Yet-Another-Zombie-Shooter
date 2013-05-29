@@ -1,100 +1,125 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="100" orientation="orthogonal" tileheight="32" tilewidth="32" version="1.0" width="100"><properties><property name="blended tiles" value=""/></properties>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="200" orientation="orthogonal" tileheight="32" tilewidth="32" version="1.0" width="200"><properties><property name="blended tiles" value=""/></properties>
  <tileset firstgid="1" name="Main" tileheight="32" tilewidth="32">
   <image height="32" source="tileset.png" width="128"/>
  </tileset>
- <layer height="100" name="background" width="100">
+ <layer height="200" name="background" width="200">
   <data compression="zlib" encoding="base64">
-   eJzt1UsSwiAQQMEk5f3P7NayjAGGX0Iveqk1zBM8tm07AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgstcEMwBwL/sEMzzNHtyrJm16lHaJ9uR/j8/9pu450pO0Hjk7jt6xVaXsPtKnpOWqau39aseld+ypat2Bsz2WvF8rt6nd43t/Of8pZ/OM3tGdW0TuyPdMtc41es8jW5T2+DWbHu3erNY9Ir+XGr+BmVtEz5X6HbXv8IgePVr0alJjthazz9ojcq7U96VVj15NeveInO/sc3eYfZUed5n9ST1GzqjHPPONaDL6PFvGnFez554r513s5Q3m30ts
+   eJzt10Fu21AQREEn9v3PnG0geGxSpNT9ySpgVkFkGuknKR8fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0OOvqzq6pPfg9NEsvQenj2bpPTh9NEvvwemjWXoPTh/N0ntw+miW3oPTR7P0Hpw+mqX34PTRLL0Hp49m6T04fTRL78Hpo1l6D04fzdJ7cPpolt6D00ez9B6cPpql9+D00Sy9B6ePZuk9OH00S+/B6aNZeg9OH83Se3D6aJbeg9NHs/QenD6apffg9NEsvQenj2bpPTh9NEvvwemjWXoPTh/N0ntw+miW3oPTR7P0Hpw+mqX34PTRLL0Hp49m6T04fTRL78Hpo1l6D04fzdJ7cPpolt6D00ez9B6cPpql9+D00Sy9B6ePZuk9bL2vgmfQx/2k9+D00Sy9B6ePZuk9OH00S+9hy/0peAZ93NM7N35k53dphC7v7uPZTo72tcrRJdXH/3vfuvsjfa1ydEn3sWfzRz+DVji6pFo40sszba1ydGloY3qdZ35Oet/6uJZ3drCnkWe+b12hFbq09PG45z3/J5meJ711fayvpY0jnyGPz3RW8/qgpY1n+/ju2fTBWZr6+O471qv7ONLvGU3qo1tTG0d3tvU1zv6M08d1tfXxjkbOeLZXPLs++jT2cWRnW78PvaqPo43QpbWPI3ub/t4Kz06Xu/SxyrPT5Up9pJ5PH9d1lT7SHZzVCF32vr+ddUffZ1/1HGf1+d2f6WM9rZu84uljPfrQBzN96IOZPvTBTB/6YKYPfTDThz6Y6UMfzPShD2b60Aezu/fx9cafpY/16EMfzPShD2Z37+Odp4/16EMfzPShD2b60AczfeiDmT70wUwf+mCmD30w04c+mOmjpw199NGHPpjpQx/MEn3csRF9rGnPv50+9HE3+tAHs1Qfd2tEH2vShz6Y6UMfzJJ93KkRfawpvZnPj+0d/dbW3u5+a/an19rzHrD1d9QHjz7TDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARf4BtdpDug==
   </data>
  </layer>
- <layer height="100" name="walls" width="100">
+ <layer height="200" name="walls" width="200">
   <data compression="zlib" encoding="base64">
-   eJzt1+tqhDAQQGHB93/n/ihLwXpJnBlz3JwPhLJbk8XjLeuyLKsbahODPVjswWIPFnuw2IPFHiz2YLEHiz1Y7MFiDxZ7sNiDxR4s9mCxB4s9WOzBYg8We7DYg8UeLPZgsQeLPVjswWIPFnuw2IPFHiz2YLEHiz1Y7MFiDxZ7sNiDxR4s9mCxB4s9WOzBYg8We7DYg8UeLPZgsQeLPVjswWIPFnuw2IPFHiz2YLEHiz1Y7MFiDxZ7sNiDxR4s9mCxB4s9WOzBYg8We7DYgyWzxxrY9CvjeESPq13+ZPXIYBNWj+yx3sgeLBU9os+SmWU+zzPGtUdNj+Xgs6s57VH3vtu79vD9Kn4MIus614X/Za7jMsaaXfa6Out6mVXlOX23zcz3sMh7ac++kSYziZ67LfesyHM7Y4w3qTzHz8a5u9+MParPyaxr5hsd9Xhizt714lO/b6RRa+SzY33WI+Ndmtwzaz0XmXfv86y1zdU4Lfs92W/bY8S8288yevQe873v9v6uRrqOW54fV7814/3gzvWUJfL7r+43kd/SMkfWvJ/99/6+mjdb9NnY813PuC3XwXa/iNb7RPW1Muo+def5sf3fo3GeUDXvyOdG5DwkPPNm6vEGFcfOHjFVPdw42w86NghN
+   eJzt3euKE0EUhdFmfP93Fv9JJknfqk/t0702LJAxF5H6zHSi+LMsyw8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACE+EOU2eeB331YxvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRRx8500cefeRMH3n0kTN95NFHzvSRp7qPM/+3692njzxV5+7sOX9CJ/rIU9nHqMe5ayP6yNOtj9GPlTR95NFHzvSRZ1YfZ69F7jh95Km+Pl/72tbHuuP0kWdmH8uHr327/bf7dJ8+8sx+f3fvZx/ev+JufZz5nO9JnxPqI8/V5+31XI/4jPCu00ee6j5ev3bm9eRu00eeqj7Wfn7vmb/j91z6yHPl2dp7fs80cofpI88VZ2vP+1Bbbjvi+TpMH3lGn6FR5/LsNbw+mNnH1X9mj3pN6TR95DnTx5Xb+rnhpw66tfFv+shz5BxV/dn87ex/62PEe8cz+tJHnqNnqGJH+jhyxtceZ8v9Rl1zzT4PnO+jamuvDWf72NvAu5979+Oj00eebte8W64/1s79iOv9I683W55j9nngWB9Hz9Pa90d7t+f6fNR1yf/3f/fjtefd8/izzwPH+9iz2X0sy+/zfPa1b+v3bmfeH5h9HqjpY8SOXH+83vbT41TsyGvu7PNAnz7WnveK64zR00dvnfvosD196iNPRR9Hr6fPPm/K9NHX3vevRrn68RNt+T2efR441seoJb0ejDrXW59ry21mnwf08bqK63h99KSPmumjJ33UTB896aNm+uhJHzXTR0/6qJk+etLH+41+r1cfPT29j72fYZ55ni23mX0e0Mf/2/Pr0cfzPL2PPdPH8+hj+/TxPPrYPn08z9P7qLz+WLu/PvLoo+b9qy3310eep/fxaVf8XXd99KOPuumjH33UTR/96KNu+uhHH3XTRz/6qJs++tFH3fTRjz5q5vPBnvRRM330pI+a6aOnGX08sRF/P7GnGWdVH59vM/s8kNHH0xrRR0+zzqk+3t9m9nkgp48nNaKPnmae0Sc1oo+eZp/P2c9fNX309O3fz1Fv9nkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEj1F0F+9SM=
   </data>
  </layer>
- <objectgroup height="100" name="actors" width="100">
-  <object height="32" name="start" type="node" width="32" x="58" y="3108"/>
-  <object height="32" name="zombie" type="enemy" width="32" x="627" y="2810">
+ <objectgroup height="200" name="actors" opacity="0.8" width="200">
+  <object height="32" name="zombie" type="entity" width="32" x="2612" y="3255">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="968" y="2369"/>
-  <object height="32" name="zombie" type="enemy" width="32" x="919" y="2647"/>
-  <object height="32" name="zombie" type="enemy" width="32" x="1008" y="2867"/>
-  <object height="32" name="zombie" type="enemy" width="32" x="1618" y="3126">
+  <object height="31" name="pistol" type="ammo" width="38" x="1332" y="3273"/>
+  <object height="32" name="zombie" type="entity" width="32" x="3021" y="3552">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1628" y="3064">
+  <object height="32" name="zombie" type="entity" width="32" x="2945" y="2875">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="node" type="end" width="32" x="1024" y="2432"/>
-  <object height="32" name="zombie" type="enemy" width="32" x="690" y="2894">
+  <object height="26" name="shotgun" type="ammo" width="34" x="3085" y="3531"/>
+  <object height="32" name="zombie" type="entity" width="32" x="2976" y="3099">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1036" y="3107">
+  <object height="32" name="zombie" type="entity" width="32" x="3603" y="3571">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1166" y="3122">
+  <object height="32" name="start" type="node" width="32" x="1280" y="3441"/>
+  <object height="31" name="pistol" type="crate" width="35" x="1260" y="3350"/>
+  <object height="34" name="rifle" type="crate" width="45" x="3961" y="3444"/>
+  <object height="32" name="zombie" type="entity" width="32" x="3287" y="3345">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1691" y="3119">
+  <object height="32" name="zombie" type="entity" width="32" x="3151" y="3567">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1302" y="2900">
+  <object height="32" name="zombie" type="entity" width="32" x="3613" y="3509">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="1293" y="2847">
+  <object height="32" name="zombie" type="entity" width="32" x="3676" y="3564">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="991" y="2654">
+  <object height="32" name="zombie" type="entity" width="32" x="2953" y="2814"/>
+  <object height="24" name="shotgun" type="ammo" width="42" x="3085" y="3570"/>
+  <object height="34" name="rifle" type="ammo" width="45" x="4235" y="3379"/>
+  <object height="32" name="zombie" type="entity" width="32" x="2675" y="3339">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="579" y="2383">
+  <object height="32" name="zombie" type="entity" width="32" x="2564" y="2828">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="633" y="2360">
+  <object height="32" name="zombie" type="entity" width="32" x="2618" y="2805">
    <properties>
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object height="32" name="zombie" type="enemy" width="32" x="960" y="2430">
-   <properties>
-    <property name="rotation" value="180"/>
-   </properties>
-  </object>
-  <object height="31" name="pistol" type="crate" width="35" x="38" y="3017"/>
-  <object height="31" name="pistol" type="ammo" width="38" x="521" y="2684"/>
-  <object height="31" name="shotgun" type="crate" width="34" x="1070" y="2864">
+  <object height="32" name="end" type="node" width="32" x="3009" y="2877"/>
+  <object height="31" name="pistol" type="ammo" width="38" x="2506" y="3129"/>
+  <object height="31" name="shotgun" type="crate" width="34" x="3055" y="3309">
    <properties>
     <property name="ammo" value="5"/>
    </properties>
   </object>
-  <object height="26" name="shotgun" type="ammo" width="34" x="1100" y="3086"/>
-  <object height="24" name="shotgun" type="ammo" width="42" x="1100" y="3125"/>
-  <object height="31" name="pistol" type="ammo" width="38" x="110" y="2940"/>
-  <object height="34" name="rifle" type="crate" width="45" x="1976" y="2999"/>
-  <object height="34" name="rifle" type="ammo" width="45" x="2250" y="2934"/>
-  <object height="34" name="rifle" type="ammo" width="45" x="751" y="2607"/>
+  <object height="32" name="zombie" type="entity" width="32" x="3278" y="3292">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object height="32" name="zombie" type="entity" width="32" x="2904" y="3092"/>
+  <object height="32" name="zombie" type="entity" width="32" x="2993" y="3312"/>
+  <object height="34" name="rifle" type="ammo" width="45" x="2736" y="3052"/>
+  <object height="41" name="start" type="node" width="40" x="2054" y="3553"/>
+  <object height="44" name="pistol" type="crate" width="45" x="2056" y="3437"/>
+  <object height="43" name="pistol" type="ammo" width="40" x="2096" y="3380"/>
+  <object height="38" name="entity" type="charger" width="47" x="4300" y="3785"/>
+  <object height="41" name="entity" type="boomer" width="50" x="3328" y="3808"/>
+  <object height="41" name="entity" type="boomer" width="50" x="3661" y="4390"/>
+  <object height="41" name="entity" type="boomer" width="50" x="4337" y="4254"/>
+  <object height="38" name="entity" type="charger" width="47" x="2881" y="4615"/>
+  <object gid="4" name="fence" type="terrain" x="3712" y="4064"/>
+  <object gid="4" name="fence" type="terrain" x="3712" y="4032"/>
+  <object gid="4" name="fence" type="terrain" x="3712" y="4000"/>
+  <object name="shotgun" type="crate" x="3776" y="3968"/>
+  <object name="shotgun" type="ammo" x="3776" y="4064"/>
+  <object name="shotgun" type="ammo" x="3808" y="4064"/>
+  <object name="shotgun" type="ammo" x="3840" y="4064"/>
+  <object name="rifle" type="crate" x="3840" y="3968"/>
+  <object name="rifle" type="ammo" x="3776" y="4032"/>
+  <object name="rifle" type="ammo" x="3808" y="4032"/>
+  <object name="rifle" type="ammo" x="3840" y="4032"/>
+  <object name="medpack" type="bonus" x="3968" y="3936"/>
+  <object name="adrenaline" type="bonus" x="3968" y="4096"/>
+  <object name="adrenaline" type="bonus" x="4032" y="4096"/>
+  <object name="adrenaline" type="bonus" x="4032" y="4032"/>
+  <object name="medpack" type="bonus" x="4032" y="3936"/>
+  <object name="medpack" type="bonus" x="4032" y="4000"/>
  </objectgroup>
 </map>

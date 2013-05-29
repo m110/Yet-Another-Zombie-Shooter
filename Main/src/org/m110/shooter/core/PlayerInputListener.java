@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import org.m110.shooter.actors.Player;
-import org.m110.shooter.*;
+import org.m110.shooter.entities.Player;
 import org.m110.shooter.weapons.WeaponSlot;
 
 /**
@@ -56,7 +55,7 @@ public class PlayerInputListener extends InputListener {
                 player.changeWeapon(WeaponSlot.SHOTGUN);
                 break;
             case Input.Keys.NUM_4:
-                player.changeWeapon(WeaponSlot.RILE);
+                player.changeWeapon(WeaponSlot.RIFLE);
                 break;
             case Input.Keys.ESCAPE:
                 Gdx.input.setCursorCatched(false);

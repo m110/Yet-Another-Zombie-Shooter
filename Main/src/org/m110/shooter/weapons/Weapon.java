@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.actors.Bullet;
+import org.m110.shooter.entities.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.Magazine;
 
@@ -45,8 +45,8 @@ public abstract class Weapon {
     private Array<Magazine> magazines;
     protected Magazine activeMagazine;
 
-    public Weapon(GameScreen game, int textureNumber, WeaponSlot slot, String name) {
-        this.game = game;
+    public Weapon(int textureNumber, WeaponSlot slot, String name) {
+        this.game = Shooter.getInstance().getGame();
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/weapons.png")),
                                     textureNumber*48, 0, 48, 48);
@@ -59,6 +59,15 @@ public abstract class Weapon {
 
         magazines = new Array<>();
         activeMagazine = null;
+    }
+
+    public static Weapon getByName(String name) {
+        switch (name) {
+            case "pistol": return new Pistol();
+            case "shotgun": return new Shotgun();
+            case "rifle": return new Rifle();
+            default: throw new IllegalArgumentException("No such Weapon: " + name);
+        }
     }
 
     public Array<Bullet> fire(float x, float y, float rotation) {
@@ -81,7 +90,7 @@ public abstract class Weapon {
             float angle = rotation + MathUtils.random(-offsetFactor, offsetFactor);
 
             // Create and store new bullet
-            Bullet bullet = new Bullet(game, x, y, angle, bulletVelocity, damage);
+            Bullet bullet = new Bullet(x, y, angle, bulletVelocity, damage);
             bullets.add(bullet);
         }
 
@@ -110,13 +119,16 @@ public abstract class Weapon {
         reloadCooldownLeft = reloadCooldown;
     }
 
-    public boolean addMagazine(Magazine magazine) {
+    public abstract boolean addMagazine(int bullets);
+
+    protected boolean addMagazine(Magazine magazine) {
         if (magazines.size < maxMagazines) {
             magazines.add(magazine);
             if (activeMagazine == null) {
                 activeMagazine = magazine;
+            } else {
+                reloadSound.play();
             }
-            reloadSound.play();
             return true;
         } else {
             return false;

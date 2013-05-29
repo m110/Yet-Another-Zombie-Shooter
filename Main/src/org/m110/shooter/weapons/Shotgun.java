@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.actors.Bullet;
+import org.m110.shooter.entities.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.ShotgunMagazine;
 
@@ -16,8 +16,8 @@ public class Shotgun extends Weapon {
 
     private ShotgunMagazine magazine;
 
-    public Shotgun(GameScreen game) {
-        super(game, 1, WeaponSlot.SHOTGUN, "shotgun");
+    public Shotgun() {
+        super(1, WeaponSlot.SHOTGUN, "shotgun");
         setBulletsCount(6);
         setDefaultMagazineCapacity(8);
         setBulletVelocity(Bullet.BASE_VELOCITY + 1.0f);
@@ -29,6 +29,12 @@ public class Shotgun extends Weapon {
 
         magazine = new ShotgunMagazine(defaultMagazineCapacity, defaultMagazineCapacity, 0);
         addMagazine(magazine);
+    }
+
+    @Override
+    public boolean addMagazine(int bullets) {
+        playReloadSound();
+        return magazine.addAllBullets(bullets);
     }
 
     @Override

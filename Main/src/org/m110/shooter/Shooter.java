@@ -2,22 +2,10 @@ package org.m110.shooter;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.tiled.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import org.m110.shooter.actors.Player;
-import org.m110.shooter.core.PlayerInputListener;
 import org.m110.shooter.screens.GameOverScreen;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.screens.MenuScreen;
-import org.m110.shooter.weapons.Weapon;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -58,6 +46,7 @@ public class Shooter extends Game {
 
         menuScreen = new MenuScreen();
         gameScreen = new GameScreen(1);
+        gameScreen.loadObjects();
         gameOverScreen = new GameOverScreen();
 
         setScreen(gameScreen);
@@ -65,12 +54,17 @@ public class Shooter extends Game {
 
     public void gameOver() {
         setScreen(gameOverScreen);
+        gameScreen = null;
     }
 
     @Override
     public void dispose() {
         smallFont.dispose();
         mediumFont.dispose();
+    }
+
+    public GameScreen getGame() {
+        return gameScreen;
     }
 
     public BitmapFont getSmallFont() {

@@ -16,16 +16,19 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.actors.Bullet;
-import org.m110.shooter.actors.Player;
-import org.m110.shooter.actors.ShooterActor;
-import org.m110.shooter.actors.Zombie;
+import org.m110.shooter.entities.Bullet;
+import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityFactory;
+import org.m110.shooter.entities.Player;
 import org.m110.shooter.core.PlayerInputListener;
-import org.m110.shooter.pickups.AmmoPickup;
-import org.m110.shooter.pickups.CratePickup;
+import org.m110.shooter.entities.terrain.Fence;
+import org.m110.shooter.pickups.Ammo;
+import org.m110.shooter.pickups.Crate;
 import org.m110.shooter.pickups.Pickup;
+import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.weapons.Weapon;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -36,7 +39,7 @@ public class GameScreen implements Screen {
     private final int levelID;
 
     /**
-     * Scene2D Stage, handles actors.
+     * Scene2D Stage, handles entities.
      */
     private final Stage stage;
 
@@ -68,9 +71,10 @@ public class GameScreen implements Screen {
     private final float mapWidth;
     private final float mapHeight;
 
-    private final Group shooterActors;
-    private final Array<ShooterActor> enemies;
+    private final Group actorsGroup;
+    private final Array<Entity> entities;
     private final Array<Pickup> pickups;
+    private final Array<Fence> fences;
 
     public GameScreen(int levelID) {
         this.levelID = levelID;
@@ -106,11 +110,14 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCursorCatched(true);
 
-        shooterActors = new Group();
-        stage.addActor(shooterActors);
-        enemies = new Array<>();
+        actorsGroup = new Group();
+        stage.addActor(actorsGroup);
+        entities = new Array<>();
         pickups = new Array<>();
+        fences = new Array<>();
+    }
 
+    public void loadObjects() {
         for (TiledObject object : map.objectGroups.get(0).objects) {
             final float objX = object.x;
             final float objY = mapHeight - object.y - map.tileHeight;
@@ -118,50 +125,36 @@ public class GameScreen implements Screen {
                 case "node":
                     switch (object.name) {
                         case "start":
-                            player = new Player(this, objX, objY);
+                            player = new Player(objX, objY);
                             stage.addListener(new PlayerInputListener(player));
                             break;
                     }
                     break;
-                case "enemy":
-                    ShooterActor enemy = null;
-                    switch (object.name) {
-                        case "zombie":
-                            enemy = new Zombie(this, objX, objY);
-                            break;
-                    }
-                    if (enemy != null) {
-                        // Update rotation
-                        if (object.properties.containsKey("rotation")) {
-                            enemy.setRotation(Integer.parseInt(object.properties.get("rotation")));
-                        }
-                        enemies.add(enemy);
-                        shooterActors.addActor(enemy);
+                case "entity":
+                    Entity enemy = spawnEntity(object.name, objX, objY);
+
+                    // Update rotation
+                    if (object.properties.containsKey("rotation")) {
+                        enemy.setRotation(Integer.parseInt(object.properties.get("rotation")));
                     }
                     break;
                 case "crate":
-                    int bullets = 0;
-                    if (object.properties.containsKey("ammo")) {
-                        bullets = Integer.parseInt(object.properties.get("ammo"));
-                    }
-                    Pickup pickup = new CratePickup(object.name, objX, objY, bullets);
-                    pickups.add(pickup);
-                    shooterActors.addActor(pickup);
-                    break;
                 case "ammo":
-                    bullets = 0;
-                    if (object.properties.containsKey("ammo")) {
-                        bullets = Integer.parseInt(object.properties.get("ammo"));
+                case "bonus":
+                    spawnPickup(object, objX, objY);
+                    break;
+                case "terrain":
+                    switch (object.name) {
+                        case "fence":
+                            fences.add(new Fence(objX, objY));
+                            break;
                     }
-                    pickup = new AmmoPickup(object.name, objX, objY, bullets);
-                    pickups.add(pickup);
-                    shooterActors.addActor(pickup);
                     break;
             }
         }
 
         // To ensure player will appear on top...
-        shooterActors.addActor(player);
+        actorsGroup.addActor(player);
     }
 
     @Override
@@ -183,7 +176,7 @@ public class GameScreen implements Screen {
                     pickup.remove();
                     pit.remove();
                 } else {
-                    // todo print alert of something
+                    // todo print alert of somethin
                 }
             }
         }
@@ -194,10 +187,10 @@ public class GameScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        // Check dead enemies
-        Iterator<ShooterActor> it = enemies.iterator();
+        // Check dead entities
+        Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
-            ShooterActor enemy = it.next();
+            Entity enemy = it.next();
             if (enemy.isDead()) {
                 it.remove();
             }
@@ -216,7 +209,7 @@ public class GameScreen implements Screen {
         batch.end();
         renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
         renderer.setColor(Color.RED);
-        renderer.filledRect(leftX+41, leftY+46, (float)player.getHealth()/100 * 158, 9);
+        renderer.filledRect(leftX+41, leftY+46, player.getHealthPercent() * 158, 9);
         renderer.setColor(Color.YELLOW);
         renderer.filledRect(leftX+41, leftY+16, (float)player.getStamina()/100 * 158, 9);
         renderer.end();
@@ -268,7 +261,7 @@ public class GameScreen implements Screen {
         batch.end();
     }
 
-    public void centerCamera() {
+    protected void centerCamera() {
         float x = player.getX();
         float y = player.getY();
 
@@ -293,20 +286,50 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * Spawns new entity.
+     * @param name
+     * @param x
+     * @param y
+     * @return new created entity.
+     */
+    public Entity spawnEntity(String name, float x, float y) {
+        Entity entity = EntityFactory.createEntity(name, x, y);
+        entities.add(entity);
+        actorsGroup.addActor(entity);
+        return entity;
+    }
+
+    public Pickup spawnPickup(TiledObject object, float x, float y) {
+        Pickup pickup = PickupFactory.createPickup(object, x, y);
+        pickups.add(pickup);
+        actorsGroup.addActor(pickup);
+        return pickup;
+    }
+
+    /**
      * Checks whether the object collides with terrain.
      * @return true if object collides with terrain, false otherwise.
      */
-    public boolean collidesWithWall(float x, float y, float width, float height) {
+    public boolean collidesWithWall(float x, float y, Actor actor) {
         int[][] tiles = collisions.tiles;
         int h = tiles.length - 1;
         int x1 = (int)(x / 32);
         int y1 = h - (int)(y / 32);
 
-        int x2 = (int)((x + width) / 32);
-        int y2 = h - (int)((y + height) / 32);
+        int x2 = (int)((x + actor.getWidth()) / 32);
+        int y2 = h - (int)((y + actor.getHeight()) / 32);
         if (tiles[y1][x1] == 0 && tiles[y2][x2] == 0 &&
             tiles[y1][x2] == 0 && tiles[y2][x1] == 0) {
-            return false;
+            if (actor instanceof Player || actor instanceof Bullet) {
+                return false;
+            } else {
+                for (Fence fence : fences) {
+                    if (collidesWith(actor, fence)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
         } else {
             return true;
         }
@@ -317,14 +340,14 @@ public class GameScreen implements Screen {
         float by = bullet.getY();
         float bw = bullet.getWidth();
         float bh = bullet.getHeight();
-        for (ShooterActor enemy : enemies) {
+        for (Entity enemy : entities) {
             float ex = enemy.getX();
             float ey = enemy.getY();
             float ew = enemy.getWidth();
             float eh = enemy.getHeight();
             if (bx < ex+ew && bx+bw > ex &&
                 by < ey+eh && by+bh > ey) {
-                enemy.damage(bullet.getDamage());
+                enemy.takenDamage(bullet.getDamage());
                 return true;
             }
 
@@ -332,9 +355,9 @@ public class GameScreen implements Screen {
         return false;
     }
 
-    public boolean collidesWithEnemy(float newX, float newY, float width, float height, ShooterActor except) {
-        for (ShooterActor enemy : enemies) {
-            if (except != null && enemy == except) {
+    public boolean collidesWithEnemy(float newX, float newY, Entity actor) {
+        for (Entity enemy : entities) {
+            if (actor != null && enemy == actor) {
                 continue;
             }
 
@@ -342,14 +365,14 @@ public class GameScreen implements Screen {
             float ey = enemy.getY();
             float ew = enemy.getWidth();
             float eh = enemy.getHeight();
-            if (newX < ex+ew && newX+width > ex &&
-                newY < ey+eh && newY+height > ey) {
+            if (newX < ex+ew && newX+actor.getWidth() > ex &&
+                newY < ey+eh && newY+actor.getHeight() > ey) {
                 return true;
             }
         }
 
-        if (except != player) {
-            return collidesWith(except, player);
+        if (actor != player) {
+            return collidesWith(actor, player);
         }
 
         return false;

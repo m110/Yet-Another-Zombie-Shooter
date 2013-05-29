@@ -1,6 +1,6 @@
 package org.m110.shooter.weapons;
 
-import org.m110.shooter.actors.Bullet;
+import org.m110.shooter.entities.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.StandardMagazine;
 
@@ -9,8 +9,8 @@ import org.m110.shooter.weapons.magazines.StandardMagazine;
  */
 public class Pistol extends Weapon {
 
-    public Pistol(GameScreen game) {
-        super(game, 0, WeaponSlot.PISTOL, "pistol");
+    public Pistol() {
+        super(0, WeaponSlot.PISTOL, "pistol");
         setBulletsCount(1);
         setDefaultMagazineCapacity(12);
         setBulletVelocity(Bullet.BASE_VELOCITY);
@@ -19,7 +19,11 @@ public class Pistol extends Weapon {
         setOffsetFactor(2.5f);
         setDamage(15);
 
-        addMagazine(new StandardMagazine(defaultMagazineCapacity, defaultMagazineCapacity));
+        addMagazine(defaultMagazineCapacity);
     }
 
+    @Override
+    public boolean addMagazine(int bullets) {
+        return addMagazine(new StandardMagazine(defaultMagazineCapacity, bullets));
+    }
 }
