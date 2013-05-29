@@ -3,6 +3,7 @@ package org.m110.shooter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import org.m110.shooter.entities.Player;
 import org.m110.shooter.screens.GameOverScreen;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.screens.MenuScreen;
@@ -24,6 +25,8 @@ public class Shooter extends Game {
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
 
+    private Player player;
+
     private Shooter() {}
 
     public static Shooter getInstance() {
@@ -44,9 +47,11 @@ public class Shooter extends Game {
         largeFont = new BitmapFont(Gdx.files.internal("fonts/large.fnt"),
                                     Gdx.files.internal("fonts/large.png"), false);
 
+        player = new Player();
+
         menuScreen = new MenuScreen();
-        gameScreen = new GameScreen(1);
-        gameScreen.loadObjects();
+        gameScreen = new GameScreen(1, player);
+        gameScreen.loadLevel();
         gameOverScreen = new GameOverScreen();
 
         setScreen(gameScreen);
@@ -65,6 +70,10 @@ public class Shooter extends Game {
 
     public GameScreen getGame() {
         return gameScreen;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public BitmapFont getSmallFont() {

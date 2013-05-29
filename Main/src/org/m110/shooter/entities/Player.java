@@ -66,7 +66,7 @@ public class Player extends Entity {
     private float changeWeaponTime = 0.0f;
 
     private boolean sprintActive = false;
-    private float bonusVelocity = 5.0f;
+    private float bonusVelocity = 6.0f;
 
     // Weapons related stuff
     private final HashMap<WeaponSlot, Weapon> weapons;
@@ -85,8 +85,8 @@ public class Player extends Entity {
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
     }
 
-    public Player(float startX, float startY) {
-        super(texture, "player", startX, startY);
+    public Player() {
+        super(texture, "player", 0.0f, 0.0f);
 
         // Load step sounds
         stepSound = new Sound[3];
@@ -105,7 +105,11 @@ public class Player extends Entity {
         activeWeapon = null;
 
         // Stats
-        setVelocity(10.0f);
+        setVelocity(6.0f);
+    }
+
+    public void updateGame(GameScreen game) {
+        this.game = game;
     }
 
     /**
@@ -360,6 +364,11 @@ public class Player extends Entity {
      */
     public EnumSet<Movement> movement() {
         return movement;
+    }
+
+    public void setPosition(float x, float y) {
+        setX(x);
+        setY(y);
     }
 
     public int getStamina() {

@@ -44,10 +44,4 @@ public class Zombie extends Entity {
 
         ai = new BasicAI(this);
     }
-
-    @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-    }
 }

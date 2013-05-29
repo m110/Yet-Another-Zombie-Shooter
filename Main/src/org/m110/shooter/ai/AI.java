@@ -10,11 +10,11 @@ import org.m110.shooter.entities.Player;
 public abstract class AI {
     protected final Entity me;
     protected Player player;
-    protected float tauntRange = 400.0f;
+    protected float tauntRange = 350.0f;
 
     public AI(Entity me) {
         this.me = me;
-        player = Shooter.getInstance().getGame().getPlayer();
+        player = Shooter.getInstance().getPlayer();
     }
 
     public void act(float delta) {}
@@ -28,7 +28,6 @@ public abstract class AI {
     public void afterCollision() {}
 
     protected boolean updateVictim() {
-        player = Shooter.getInstance().getGame().getPlayer();
         if (player == null) {
             return false;
         }

@@ -25,7 +25,7 @@ public abstract class Entity extends Actor {
         ALIVE, DEAD
     }
 
-    protected final GameScreen game;
+    protected GameScreen game;
     protected final ShapeRenderer renderer;
 
     // Textures
@@ -102,6 +102,7 @@ public abstract class Entity extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+
         ai.act(delta);
 
         if (attackTime > 0) {
@@ -223,8 +224,8 @@ public abstract class Entity extends Actor {
      */
     public void lookAt(float x, float y) {
         // Player's coords
-        float px = getX() + getOriginX();
-        float py = getY() + getOriginY();
+        float px = getWorldX();
+        float py = getWorldY();
 
         // Calculate two angles
         double a1 = Math.atan2(py - y, px - x);

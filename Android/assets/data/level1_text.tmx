@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="200" orientation="orthogonal" tileheight="32" tilewidth="32" version="1.0" width="200"><properties><property name="blended tiles" value="6,12,18,22,23,24,28,29,30"/></properties>
  <tileset firstgid="1" name="Main" tileheight="32" tilewidth="32">
-  <image height="160" source="tileset.png" width="192"/>
+  <image height="64" source="tileset.png" width="160"/>
  </tileset>
  <layer height="200" name="background" width="200">
   <data compression="zlib" encoding="base64">
@@ -9,7 +9,7 @@
  </layer>
  <layer height="200" name="walls" width="200">
   <data compression="zlib" encoding="base64">
-   eJzt09uK20oUBFDD/P8/hzwEgpFbl5Z27R6vggXnjGW3pFT9vF6vHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACWID2S7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH20TnpHmAfnZPuAfbROekeYB+dk+4B9tE56R5gH52T7gH5faxyn4mke0Cud7PnfcNO0j0gu4+7fue3biTdA9bfx92/1SnpHmAfnZPuAX32MXO2ffAb93HXRuyDb9jH68PfRtePvrN60j0gv4/3887eY+U9VyfdAzL7mDkvtedE0j2gvm/v58ycaR/89n28/+3s+VX3nUi6B+T2sff52XupfIaqpHtA7T7OnjGzkd+QdA+o2ceRs+68r8pnezLpHvB8h+76zau/YR902MfTe5v9bfsgvY8nM/sMq23jb9I94J59zOzqjnP2nuHqs82+l9mke8D8Piq7c2UfV55t73eOfO+Od5LuAffsoypb97f3DGee7ewGtj7b+u+rSfeAuX1c2dPdOfIMe892x7N/+v+Z95PuAdf3cbVPW9+Z6dLRZ9j6+2yH3/cwur+rv08/R3L23zy9j9fb32d6++nsI9fN/D49HMlst65k6/6u7OOObVzJ2XPTPWCtfeyde2QfqW38fw9nrqWfI+m4jxVy9h3Tz5HM9PTImaO/rx77WNuRPH1m+h10eM/p++Pav9udqT5vlMr3Yx/rqkynffxLxbuwj3VVpuM+KmIf66qMfYyvoZ/K2Mf4GvqpjH2Mr6GfytjH+Br6qcwq+7j7XdnHuirTbR9n3ot9fKfKdNzHE9de+W66B9jHTOzjO1XGPsbX0E9l7GN8Df1Upts+ztzP7D72vp/uAfbxnjPvZfbe7WNNlem2j0954l3Zx5oqs8o+noh9rKky9jH+nH4qYx/jz+mnMvYx/px+KmMf48/ppzL2Mf6cfirzrfs48q7TPcA+UrGPdVXGPvavoZfKJM7skCPPnO4B+X28QmemYx/rqk7q3GTsY12J2Mf2NfSTSPLsROxjXamkz6+MfawrmfT5VbEPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgKX8Ak0VqYg==
+   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
   </data>
  </layer>
  <objectgroup height="200" name="actors" opacity="0.8" width="200">
@@ -96,10 +96,13 @@
   <object height="32" name="zombie" type="entity" width="32" x="2904" y="3092"/>
   <object height="32" name="zombie" type="entity" width="32" x="2993" y="3312"/>
   <object height="34" name="rifle" type="ammo" width="45" x="2736" y="3052"/>
-  <object height="32" name="start" type="node" width="32" x="3904" y="4000"/>
+  <object height="41" name="start" type="node" width="40" x="4032" y="4352"/>
   <object height="44" name="pistol" type="crate" width="45" x="2056" y="3437"/>
   <object height="43" name="pistol" type="ammo" width="40" x="2096" y="3380"/>
   <object height="38" name="charger" type="entity" width="47" x="4300" y="3785"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3392" y="3744"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3584" y="3872"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3680" y="3744"/>
   <object height="32" name="charger" type="entity" width="64" x="2816" y="4352"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4064"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4032"/>
@@ -113,20 +116,11 @@
   <object name="rifle" type="ammo" x="3808" y="4032"/>
   <object name="rifle" type="ammo" x="3840" y="4032"/>
   <object name="medpack" type="bonus" x="3968" y="3936"/>
-  <object name="adrenaline" type="bonus" x="4032" y="4064"/>
-  <object name="adrenaline" type="bonus" x="4032" y="4000"/>
+  <object name="adrenaline" type="bonus" x="3968" y="4096"/>
+  <object name="adrenaline" type="bonus" x="4032" y="4096"/>
+  <object name="adrenaline" type="bonus" x="4000" y="4064"/>
   <object name="medpack" type="bonus" x="4032" y="3936"/>
   <object name="medpack" type="bonus" x="4000" y="3968"/>
-  <object height="32" name="spawner" type="entity" width="64" x="2848" y="3840">
-   <properties>
-    <property name="entity" value="zombie"/>
-    <property name="interval" value="2"/>
-    <property name="max" value="10"/>
-   </properties>
-  </object>
-  <object name="pistol" type="crate" x="3904" y="3968"/>
-  <object name="pistol" type="ammo" x="3968" y="4096"/>
-  <object name="pistol" type="ammo" x="4032" y="4096"/>
-  <object name="pistol" type="ammo" x="4000" y="4032"/>
+  <object height="32" name="charger" type="entity" width="64" x="2848" y="3920"/>
  </objectgroup>
 </map>

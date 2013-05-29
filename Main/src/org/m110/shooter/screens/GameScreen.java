@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
      */
     private final World world;
 
-    private Player player;
+    private Player player = null;
     private PlayerInputListener inputListener;
 
     private final OrthographicCamera camera;
@@ -79,8 +79,9 @@ public class GameScreen implements Screen {
 
     private boolean running = true;
 
-    public GameScreen(int levelID) {
+    public GameScreen(int levelID, Player player) {
         this.levelID = levelID;
+        this.player = player;
 
         // Initialize camera
         camera = new OrthographicCamera();
@@ -120,22 +121,32 @@ public class GameScreen implements Screen {
         fences = new Array<>();
     }
 
-    public void loadObjects() {
+    public void loadLevel() {
+        // Update Player's GameScreen
+        player.updateGame(this);
+
         for (TiledObject object : map.objectGroups.get(0).objects) {
             final float objX = object.x;
-            final float objY = mapHeight - object.y - map.tileHeight;
+            final float objY = mapHeight - object.y;
             switch (object.type) {
                 case "node":
                     switch (object.name) {
                         case "start":
-                            player = new Player(objX, objY);
+                            player.setPosition(objX, objY);
+                            // Update rotation
+                            if (object.properties.containsKey("rotation")) {
+                                player.setRotation(Integer.parseInt(object.properties.get("rotation")));
+                            }
                             inputListener = new PlayerInputListener(player);
                             stage.addListener(inputListener);
+                            break;
+                        case "end":
+
                             break;
                     }
                     break;
                 case "entity":
-                    Entity enemy = spawnEntity(object.name, objX, objY);
+                    Entity enemy = spawnEntity(object, objX, objY);
                     // Update rotation
                     if (object.properties.containsKey("rotation")) {
                         enemy.setRotation(Integer.parseInt(object.properties.get("rotation")));
@@ -296,13 +307,10 @@ public class GameScreen implements Screen {
 
     /**
      * Spawns new entity.
-     * @param name
-     * @param x
-     * @param y
      * @return new created entity.
      */
-    public Entity spawnEntity(String name, float x, float y) {
-        Entity entity = EntityFactory.createEntity(name, x, y);
+    public Entity spawnEntity(TiledObject object, float x, float y) {
+        Entity entity = EntityFactory.createEntity(object, x, y);
         entities.add(entity);
         actorsGroup.addActor(entity);
         return entity;
