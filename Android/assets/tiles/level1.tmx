@@ -97,14 +97,14 @@
   <object name="zombie" type="entity" x="2904" y="3092" width="32" height="32"/>
   <object name="zombie" type="entity" x="2993" y="3312" width="32" height="32"/>
   <object name="rifle" type="ammo" x="2736" y="3052" width="45" height="34"/>
-  <object name="start" type="node" x="2054" y="3553" width="40" height="41"/>
+  <object name="start" type="node" x="4032" y="4352" width="40" height="41"/>
   <object name="pistol" type="crate" x="2056" y="3437" width="45" height="44"/>
   <object name="pistol" type="ammo" x="2096" y="3380" width="40" height="43"/>
-  <object name="entity" type="charger" x="4300" y="3785" width="47" height="38"/>
-  <object name="entity" type="boomer" x="3328" y="3808" width="50" height="41"/>
-  <object name="entity" type="boomer" x="3661" y="4390" width="50" height="41"/>
-  <object name="entity" type="boomer" x="4337" y="4254" width="50" height="41"/>
-  <object name="entity" type="charger" x="2881" y="4615" width="47" height="38"/>
+  <object name="charger" type="entity" x="4300" y="3785" width="47" height="38"/>
+  <object name="boomer" type="entity" x="3392" y="3744" width="50" height="41"/>
+  <object name="boomer" type="entity" x="3584" y="3872" width="50" height="41"/>
+  <object name="boomer" type="entity" x="3680" y="3744" width="50" height="41"/>
+  <object name="charger" type="entity" x="2816" y="4352" width="64" height="32"/>
   <object name="fence" type="terrain" gid="4" x="3712" y="4064"/>
   <object name="fence" type="terrain" gid="4" x="3712" y="4032"/>
   <object name="fence" type="terrain" gid="4" x="3712" y="4000"/>
@@ -122,5 +122,6 @@
   <object name="adrenaline" type="bonus" x="4000" y="4064"/>
   <object name="medpack" type="bonus" x="4032" y="3936"/>
   <object name="medpack" type="bonus" x="4000" y="3968"/>
+  <object name="charger" type="entity" x="2848" y="3920" width="64" height="32"/>
  </objectgroup>
 </map>

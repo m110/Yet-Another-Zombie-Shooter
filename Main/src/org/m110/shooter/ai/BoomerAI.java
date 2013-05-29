@@ -7,9 +7,8 @@ import org.m110.shooter.entities.Player;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class BasicAI extends AI {
-
-    public BasicAI(Entity me) {
+public class BoomerAI extends AI {
+    public BoomerAI(Entity me) {
         super(me);
     }
 
@@ -19,6 +18,11 @@ public class BasicAI extends AI {
             return;
         }
 
-        me.attackChase();
+        if (me.isInMeleeRange(me.getVictim())) {
+            me.dealDamage(me.getVictim());
+            me.die();
+        } else {
+            me.moveChase();
+        }
     }
 }

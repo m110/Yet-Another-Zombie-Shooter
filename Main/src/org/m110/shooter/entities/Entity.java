@@ -29,13 +29,13 @@ public abstract class Entity extends Actor {
     protected final ShapeRenderer renderer;
 
     // Textures
-    protected TextureRegion texture;
-    protected static final TextureRegion deadTexture;
+    private TextureRegion texture;
+    private static final TextureRegion deadTexture;
 
     // Sounds
-    protected Sound attackSound = null;
-    protected Sound damageSound = null;
-    protected Sound deathSound = null;
+    private Sound attackSound = null;
+    private Sound damageSound = null;
+    private Sound deathSound = null;
 
     // Sound misc.
     private IntervalTimer damageSoundTimer = new IntervalTimer(0.5f);
@@ -44,6 +44,7 @@ public abstract class Entity extends Actor {
     private int maxHealth = 100;
     private int health = maxHealth;
     private float velocity = 1.0f;
+    private float bonusVelocity = 0.0f;
 
     private final String name;
 
@@ -62,30 +63,25 @@ public abstract class Entity extends Actor {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("images/dead.png")));
     }
 
-    public Entity(String name, float startX, float startY) {
+    protected static Sound loadSound(String name) {
+        // Load sounds
+        FileHandle soundFile = Gdx.files.internal("audio/" + name + ".ogg");
+
+        if (soundFile.exists()) {
+            return Gdx.audio.newSound(soundFile);
+        } else {
+            return null;
+        }
+
+    }
+
+    public Entity(TextureRegion texture, String name, float startX, float startY) {
         this.game = Shooter.getInstance().getGame();
         this.name = name;
         renderer = new ShapeRenderer();
 
-        // Load sounds
-        FileHandle attackFile = Gdx.files.internal("audio/" + name + "_attack.ogg");
-        FileHandle damageFile = Gdx.files.internal("audio/" + name + "_damage.ogg");
-        FileHandle deathFile = Gdx.files.internal("audio/" + name + "_death.ogg");
-
-        if (attackFile.exists()) {
-            attackSound = Gdx.audio.newSound(attackFile);
-        }
-
-        if (damageFile.exists()) {
-            damageSound = Gdx.audio.newSound(damageFile);
-        }
-
-        if (deathFile.exists()) {
-            deathSound = Gdx.audio.newSound(deathFile);
-        }
-
         // Load texture and set metrics
-        texture = new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
+        this.texture = texture;
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
         setOrigin(getWidth() / 2, getHeight() / 2);
@@ -112,7 +108,6 @@ public abstract class Entity extends Actor {
             attackTime -= delta;
         }
 
-
         damageSoundTimer.update(delta);
     }
 
@@ -136,26 +131,34 @@ public abstract class Entity extends Actor {
         batch.begin();
     }
 
-    public void takenDamage(int damage) {
+    public void takenDamage(int damage, Entity attacker) {
         health -= damage;
         playDamageSound();
 
-        ai.afterHit();
+        ai.afterHit(attacker);
 
         if (health <= 0) {
-            health = 0;
-            state = State.DEAD;
-            playDeathSound();
-            setZIndex(0);
+            die();
         }
     }
 
     public void dealDamage(Entity victim) {
-        if (attackTime < 0) {
+        dealDamage(victim, attackDamage);
+    }
+
+    public void dealDamage(Entity victim, int damage) {
+        if (attackTime <= 0) {
             playAttackSound();
-            victim.takenDamage(attackDamage);
+            victim.takenDamage(damage, this);
             attackTime = attackInterval;
         }
+    }
+
+    public void die() {
+        health = 0;
+        state = State.DEAD;
+        playDeathSound();
+        setZIndex(0);
     }
 
     public void move(float newX, float newY) {
@@ -165,7 +168,7 @@ public abstract class Entity extends Actor {
             moveAction.setPosition(newX - getOriginX(), newY - getOriginY());
             addAction(moveAction);
         } else {
-            ai.hitWall();
+            ai.afterCollision();
 
             if (!checkCollisions(newX - getOriginX(), getY())) {
                 MoveToAction moveAction = new MoveToAction();
@@ -193,13 +196,24 @@ public abstract class Entity extends Actor {
         if (isInMeleeRange(victim)) {
             dealDamage(victim);
         } else {
-            lookAt(victim.getWorldX(), victim.getWorldY());
-
-            float newX = getWorldX() + (float) Math.cos(Math.toRadians(getRotation())) * velocity;
-            float newY = getWorldY() + (float) Math.sin(Math.toRadians(getRotation())) * velocity;
-
-            move(newX, newY);
+            moveChase();
         }
+    }
+
+    public void moveChase() {
+        moveChase(victim.getWorldX(), victim.getWorldY());
+    }
+
+    public void moveChase(float x, float y) {
+        lookAt(x, y);
+        moveForward();
+    }
+
+    public void moveForward() {
+        float newX = getWorldX() + (float) Math.cos(Math.toRadians(getRotation())) * (velocity+bonusVelocity);
+        float newY = getWorldY() + (float) Math.sin(Math.toRadians(getRotation())) * (velocity+bonusVelocity);
+
+        move(newX, newY);
     }
 
     /**
@@ -262,6 +276,14 @@ public abstract class Entity extends Actor {
         return velocity;
     }
 
+    public void setBonusVelocity(float bonusVelocity) {
+        this.bonusVelocity = bonusVelocity;
+    }
+
+    public float getBonusVelocity() {
+        return bonusVelocity;
+    }
+
     public Entity getVictim() {
         return victim;
     }
@@ -293,6 +315,18 @@ public abstract class Entity extends Actor {
         if (deathSound != null) {
             deathSound.play();
         }
+    }
+
+    public void setAttackSound(Sound attackSound) {
+        this.attackSound = attackSound;
+    }
+
+    public void setDamageSound(Sound damageSound) {
+        this.damageSound = damageSound;
+    }
+
+    public void setDeathSound(Sound deathSound) {
+        this.deathSound = deathSound;
     }
 
     public void addHealth(int health) {

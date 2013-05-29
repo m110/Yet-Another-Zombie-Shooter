@@ -25,7 +25,7 @@ public class Shotgun extends Weapon {
         setReloadCooldown(0.70f);
         setOffsetFactor(14.5f);
         setMaxMagazines(1);
-        setDamage(20);
+        setDamage(15);
 
         magazine = new ShotgunMagazine(defaultMagazineCapacity, defaultMagazineCapacity, 0);
         addMagazine(magazine);

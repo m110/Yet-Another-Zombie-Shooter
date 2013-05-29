@@ -54,7 +54,7 @@ public class Shooter extends Game {
 
     public void gameOver() {
         setScreen(gameOverScreen);
-        gameScreen = null;
+        gameScreen.dispose();
     }
 
     @Override

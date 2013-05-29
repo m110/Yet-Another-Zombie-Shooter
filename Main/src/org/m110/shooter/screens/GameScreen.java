@@ -49,6 +49,7 @@ public class GameScreen implements Screen {
     private final World world;
 
     private Player player;
+    private PlayerInputListener inputListener;
 
     private final OrthographicCamera camera;
 
@@ -75,6 +76,8 @@ public class GameScreen implements Screen {
     private final Array<Entity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
+
+    private boolean running = true;
 
     public GameScreen(int levelID) {
         this.levelID = levelID;
@@ -126,13 +129,13 @@ public class GameScreen implements Screen {
                     switch (object.name) {
                         case "start":
                             player = new Player(objX, objY);
-                            stage.addListener(new PlayerInputListener(player));
+                            inputListener = new PlayerInputListener(player);
+                            stage.addListener(inputListener);
                             break;
                     }
                     break;
                 case "entity":
                     Entity enemy = spawnEntity(object.name, objX, objY);
-
                     // Update rotation
                     if (object.properties.containsKey("rotation")) {
                         enemy.setRotation(Integer.parseInt(object.properties.get("rotation")));
@@ -159,12 +162,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (!running) {
+            return;
+        }
+
         Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
         // Is player dead? (Game Over)
         if (player.isDead()) {
             Shooter.getInstance().gameOver();
+            running = false;
+            return;
         }
 
         // Check collision with pickups
@@ -347,7 +356,7 @@ public class GameScreen implements Screen {
             float eh = enemy.getHeight();
             if (bx < ex+ew && bx+bw > ex &&
                 by < ey+eh && by+bh > ey) {
-                enemy.takenDamage(bullet.getDamage());
+                enemy.takenDamage(bullet.getDamage(), player);
                 return true;
             }
 
@@ -410,6 +419,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.clear();
+        stage.removeListener(inputListener);
         stage.dispose();
         tileMapRenderer.dispose();
         atlas.dispose();
@@ -418,6 +429,11 @@ public class GameScreen implements Screen {
         crosshair.dispose();
         leftHUD.dispose();
         rightHUD.dispose();
+
+        entities.clear();
+        actorsGroup.clear();
+        pickups.clear();
+        fences.clear();
     }
 
     public Player getPlayer() {

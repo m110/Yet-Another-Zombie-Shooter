@@ -22,6 +22,8 @@ import java.util.Iterator;
  */
 public class Player extends Entity {
 
+    private static final TextureRegion texture;
+
     /**
      * Time in seconds between steps sound.
      */
@@ -79,8 +81,12 @@ public class Player extends Entity {
     private boolean medpackActive = false;
     private boolean adrenalineActive = false;
 
+    static {
+        texture = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
+    }
+
     public Player(float startX, float startY) {
-        super("player", startX, startY);
+        super(texture, "player", startX, startY);
 
         // Load step sounds
         stepSound = new Sound[3];

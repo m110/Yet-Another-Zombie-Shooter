@@ -17,7 +17,7 @@ public class Pistol extends Weapon {
         setCooldown(0.6f);
         setReloadCooldown(0.50f);
         setOffsetFactor(2.5f);
-        setDamage(15);
+        setDamage(10);
 
         addMagazine(defaultMagazineCapacity);
     }

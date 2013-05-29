@@ -96,14 +96,14 @@
   <object height="32" name="zombie" type="entity" width="32" x="2904" y="3092"/>
   <object height="32" name="zombie" type="entity" width="32" x="2993" y="3312"/>
   <object height="34" name="rifle" type="ammo" width="45" x="2736" y="3052"/>
-  <object height="41" name="start" type="node" width="40" x="2054" y="3553"/>
+  <object height="41" name="start" type="node" width="40" x="4032" y="4352"/>
   <object height="44" name="pistol" type="crate" width="45" x="2056" y="3437"/>
   <object height="43" name="pistol" type="ammo" width="40" x="2096" y="3380"/>
-  <object height="38" name="entity" type="charger" width="47" x="4300" y="3785"/>
-  <object height="41" name="entity" type="boomer" width="50" x="3328" y="3808"/>
-  <object height="41" name="entity" type="boomer" width="50" x="3661" y="4390"/>
-  <object height="41" name="entity" type="boomer" width="50" x="4337" y="4254"/>
-  <object height="38" name="entity" type="charger" width="47" x="2881" y="4615"/>
+  <object height="38" name="charger" type="entity" width="47" x="4300" y="3785"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3392" y="3744"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3584" y="3872"/>
+  <object height="41" name="boomer" type="entity" width="50" x="3680" y="3744"/>
+  <object height="32" name="charger" type="entity" width="64" x="2816" y="4352"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4064"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4032"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4000"/>
@@ -118,8 +118,9 @@
   <object name="medpack" type="bonus" x="3968" y="3936"/>
   <object name="adrenaline" type="bonus" x="3968" y="4096"/>
   <object name="adrenaline" type="bonus" x="4032" y="4096"/>
-  <object name="adrenaline" type="bonus" x="4032" y="4032"/>
+  <object name="adrenaline" type="bonus" x="4000" y="4064"/>
   <object name="medpack" type="bonus" x="4032" y="3936"/>
-  <object name="medpack" type="bonus" x="4032" y="4000"/>
+  <object name="medpack" type="bonus" x="4000" y="3968"/>
+  <object height="32" name="charger" type="entity" width="64" x="2848" y="3920"/>
  </objectgroup>
 </map>
