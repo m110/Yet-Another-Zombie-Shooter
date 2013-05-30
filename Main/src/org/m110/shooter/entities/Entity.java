@@ -75,6 +75,14 @@ public abstract class Entity extends Actor {
 
     }
 
+    protected static Sound loadAttackSound(String name) { return loadSound(name + "_attack"); }
+    protected static Sound loadDamageSound(String name) { return loadSound(name + "_damage"); }
+    protected static Sound loadDeathSound(String name) { return loadSound(name + "_death"); }
+
+    protected static TextureRegion loadTexture(String name) {
+        return new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
+    }
+
     public Entity(TextureRegion texture, String name, float startX, float startY) {
         this.game = Shooter.getInstance().getGame();
         this.name = name;
@@ -102,6 +110,12 @@ public abstract class Entity extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        if (inCombat()) {
+            if (victim.isDead()) {
+                stopCombat();
+            }
+        }
 
         ai.act(delta);
 
@@ -291,6 +305,10 @@ public abstract class Entity extends Actor {
 
     public void startCombat(Entity victim) {
         this.victim = victim;
+    }
+
+    public void stopCombat() {
+        victim = null;
     }
 
     public boolean inCombat() {

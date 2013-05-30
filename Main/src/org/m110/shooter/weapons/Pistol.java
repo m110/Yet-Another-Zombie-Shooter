@@ -1,7 +1,6 @@
 package org.m110.shooter.weapons;
 
-import org.m110.shooter.entities.Bullet;
-import org.m110.shooter.screens.GameScreen;
+import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.weapons.magazines.StandardMagazine;
 
 /**

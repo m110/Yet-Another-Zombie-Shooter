@@ -12,7 +12,7 @@ import org.m110.shooter.screens.GameScreen;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Zombie extends Entity {
+public class Zombie extends HostileEntity {
 
     private static final String name;
     private static final TextureRegion texture;
@@ -22,10 +22,10 @@ public class Zombie extends Entity {
 
     static {
         name = "zombie";
-        texture = new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
-        attackSound = Entity.loadSound(name +"_attack");
-        damageSound = Entity.loadSound(name + "_damage");
-        deathSound = Entity.loadSound(name + "_death");
+        texture = Entity.loadTexture(name);
+        attackSound = Entity.loadAttackSound(name);
+        damageSound = Entity.loadDamageSound(name);
+        deathSound = Entity.loadDeathSound(name);
     }
 
     public Zombie(float startX, float startY) {

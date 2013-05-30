@@ -13,16 +13,19 @@ public class IntervalTimer extends Timer {
         time = interval;
     }
 
-    public void reset() {
-        time = interval;
-    }
-
+    @Override
     public void update(float delta) {
         if (time > 0) {
             time -= delta;
         }
     }
 
+    @Override
+    public void reset() {
+        time = interval;
+    }
+
+    @Override
     public boolean ready() {
         return time <= 0;
     }

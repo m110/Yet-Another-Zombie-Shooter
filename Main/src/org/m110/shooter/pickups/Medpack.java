@@ -14,7 +14,7 @@ public class Medpack extends Pickup {
     @Override
     public boolean pickUp(Player player) {
         if (player.getHealthPercent() < 1.0f) {
-            player.useMedpack();
+            player.useMedpack(50);
             return true;
         } else {
             return false;

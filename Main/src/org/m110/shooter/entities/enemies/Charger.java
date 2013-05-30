@@ -10,7 +10,7 @@ import org.m110.shooter.entities.Entity;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Charger extends Entity {
+public class Charger extends HostileEntity {
 
     private static final String name;
     private static final TextureRegion texture;
@@ -20,10 +20,10 @@ public class Charger extends Entity {
 
     static {
         name = "charger";
-        texture = new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
-        attackSound = Entity.loadSound(name +"_attack");
-        damageSound = Entity.loadSound(name + "_damage");
-        deathSound = Entity.loadSound(name + "_death");
+        texture = Entity.loadTexture(name);
+        attackSound = Entity.loadAttackSound(name);
+        damageSound = Entity.loadDamageSound(name);
+        deathSound = Entity.loadDeathSound(name);
     }
 
     public Charger(float startX, float startY) {

@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
+import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.*;
 
@@ -73,9 +73,11 @@ public class Player extends Entity {
     private Weapon activeWeapon;
 
     // This should be replaced with proper buff system
-    private float medpackInterval = 1.5f;
+    private float medpackInterval = 0.5f;
     private float medpackTimer = 0.0f;
-    private int medpackCount = 0;
+    private int medpackMaxCount = 10;
+    private int medpackCount = 5;
+    private int medpackBonus = 1;
     private float adrenalineInterval = 5.0f;
     private float adrenalineTimer = 0.0f;
     private boolean medpackActive = false;
@@ -147,12 +149,13 @@ public class Player extends Entity {
             adrenalineTimer -= delta;
         }
 
+        // Medpack health regeneration
         if (medpackActive) {
-            if (medpackCount >= 5) {
+            if (medpackCount >= medpackMaxCount) {
                 medpackActive = false;
             } else {
                 if (medpackTimer < 0) {
-                    addHealth(10);
+                    addHealth(medpackBonus);
                     medpackCount++;
                     medpackTimer = medpackInterval;
                 } else medpackTimer -= delta;
@@ -219,8 +222,8 @@ public class Player extends Entity {
             move(newX, newY);
 
             // Update the "look at"
-            lookAt(getStage().getCamera().position.x + Gdx.input.getX() - Shooter.GAME_WIDTH / 2,
-                   getStage().getCamera().position.y - Gdx.input.getY() + Shooter.GAME_HEIGHT / 2);
+            lookAt(getStage().getCamera().position.x + Gdx.input.getX() - Gdx.graphics.getWidth() / 2.0f,
+                   getStage().getCamera().position.y - Gdx.input.getY() + Gdx.graphics.getHeight() / 2.0f);
         }
 
         Iterator<Bullet> it = bullets.iterator();
@@ -391,8 +394,9 @@ public class Player extends Entity {
         this.sprintActive = sprintActive;
     }
 
-    public void useMedpack() {
+    public void useMedpack(int bonus) {
         medpackActive = true;
+        medpackBonus = bonus / medpackMaxCount;
         medpackTimer = medpackInterval;
         medpackCount = 0;
     }

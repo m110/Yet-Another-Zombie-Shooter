@@ -129,5 +129,8 @@
   <object name="pistol" type="ammo" x="3968" y="4096"/>
   <object name="pistol" type="ammo" x="4032" y="4096"/>
   <object name="pistol" type="ammo" x="4000" y="4032"/>
+  <object name="boomer" type="entity" gid="9" x="3552" y="3872"/>
+  <object name="boomer" type="entity" gid="9" x="3360" y="3840"/>
+  <object name="boomer" type="entity" gid="9" x="3200" y="4096"/>
  </objectgroup>
 </map>

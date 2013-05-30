@@ -15,7 +15,7 @@ import java.util.Iterator;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Spawner extends Entity {
+public class Spawner extends HostileEntity {
 
     private static final String name;
     private static final TextureRegion texture;
@@ -28,7 +28,7 @@ public class Spawner extends Entity {
 
     static {
         name = "spawner";
-        texture = new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
+        texture = Entity.loadTexture(name);
     }
 
     public Spawner(float startX, float startY, String entity, float interval, int maxEntities) {

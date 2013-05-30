@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.entities.Bullet;
-import org.m110.shooter.screens.GameScreen;
+import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.weapons.magazines.ShotgunMagazine;
 
 /**

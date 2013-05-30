@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,19 +17,19 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.entities.Bullet;
+import org.m110.shooter.input.GameInput;
+import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityFactory;
 import org.m110.shooter.entities.Player;
-import org.m110.shooter.core.PlayerInputListener;
 import org.m110.shooter.entities.terrain.Fence;
-import org.m110.shooter.pickups.Ammo;
-import org.m110.shooter.pickups.Crate;
+import org.m110.shooter.input.GameOverInput;
 import org.m110.shooter.pickups.Pickup;
 import org.m110.shooter.pickups.PickupFactory;
+import org.m110.shooter.screens.menu.Menu;
+import org.m110.shooter.screens.menu.MenuItem;
 import org.m110.shooter.weapons.Weapon;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -36,7 +37,7 @@ import java.util.Iterator;
  */
 public class GameScreen implements Screen {
 
-    private final int levelID;
+    private final String levelID;
 
     /**
      * Scene2D Stage, handles entities.
@@ -49,7 +50,7 @@ public class GameScreen implements Screen {
     private final World world;
 
     private Player player = null;
-    private PlayerInputListener inputListener;
+    private GameInput inputListener;
 
     private final OrthographicCamera camera;
 
@@ -65,6 +66,10 @@ public class GameScreen implements Screen {
     private final ShapeRenderer renderer;
     private final SpriteBatch batch;
 
+    // Pause
+    private boolean paused = false;
+    private final Menu pauseMenu;
+
     private Texture crosshair;
     private final Texture leftHUD;
     private final Texture rightHUD;
@@ -79,13 +84,23 @@ public class GameScreen implements Screen {
 
     private boolean running = true;
 
-    public GameScreen(int levelID, Player player) {
+    private static final BitmapFont smallFont;
+    private static final BitmapFont mediumFont;
+    private static final BitmapFont largeFont;
+
+    static {
+        smallFont = Shooter.getInstance().getSmallFont();
+        mediumFont = Shooter.getInstance().getMediumFont();
+        largeFont = Shooter.getInstance().getLargeFont();
+    }
+
+    public GameScreen(String levelID, Player player) {
         this.levelID = levelID;
         this.player = player;
 
         // Initialize camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Shooter.GAME_WIDTH, Shooter.GAME_HEIGHT);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Initialize world
         world = new World(new Vector2(0.0f, 0.0f), true);
@@ -93,6 +108,29 @@ public class GameScreen implements Screen {
         // Rendering objects
         batch = new SpriteBatch();
         renderer = new ShapeRenderer();
+
+        // Pause menu
+        pauseMenu = new Menu(Gdx.graphics.getWidth() / 2.0f - 100.0f, Gdx.graphics.getHeight() / 2.0f + 100.0f);
+        pauseMenu.addMenuItem(new MenuItem("Resume") {
+            @Override
+            public void action() {
+                setPaused(false);
+                Gdx.input.setCursorCatched(true);
+            }
+        });
+        pauseMenu.addMenuItem(new MenuItem("How to play") {
+            @Override
+            public void action() {
+                Shooter.getInstance().showHowToPlay();
+            }
+        });
+        pauseMenu.addMenuItem(new MenuItem("Quit") {
+            @Override
+            public void action() {
+                Shooter.getInstance().showMainMenu();
+            }
+        });
+        pauseMenu.alignToCenter();
 
         // Textures
         crosshair = new Texture(Gdx.files.internal("images/crosshair.png"));
@@ -110,9 +148,6 @@ public class GameScreen implements Screen {
 
         stage = new Stage();
         stage.setCamera(camera);
-
-        Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCursorCatched(true);
 
         actorsGroup = new Group();
         stage.addActor(actorsGroup);
@@ -137,7 +172,7 @@ public class GameScreen implements Screen {
                             if (object.properties.containsKey("rotation")) {
                                 player.setRotation(Integer.parseInt(object.properties.get("rotation")));
                             }
-                            inputListener = new PlayerInputListener(player);
+                            inputListener = new GameInput();
                             stage.addListener(inputListener);
                             break;
                         case "end":
@@ -173,17 +208,129 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (!running) {
-            return;
-        }
-
         Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+        // Update game logic
+        update(delta);
+
+        centerCamera();
+        tileMapRenderer.render(camera);
+        stage.draw();
+
+        // Check dead entities
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity enemy = it.next();
+            if (enemy.isDead()) {
+                it.remove();
+            }
+        }
+
+        // Draw HUD
+        batch.begin();
+        float leftX = 20;
+        float leftY = 10;
+        batch.draw(leftHUD, leftX, leftY);
+
+        // Health and stamina
+        mediumFont.draw(batch, "" + player.getHealth(), leftX + 210, leftY + 62);
+        mediumFont.draw(batch, "" + player.getStamina(), leftX + 210, leftY + 32);
+
+        // Health and stamina bars
+        batch.end();
+        renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+        renderer.setColor(Color.RED);
+        renderer.filledRect(leftX+41, leftY+46, player.getHealthPercent() * 158, 9);
+        renderer.setColor(Color.YELLOW);
+        renderer.filledRect(leftX+41, leftY+16, (float)player.getStamina()/100 * 158, 9);
+        renderer.end();
+        batch.begin();
+
+        float rightX = Gdx.graphics.getWidth() - 260;
+        float rightY = 10;
+        batch.draw(rightHUD, rightX, rightY);
+
+        Weapon weapon = player.getActiveWeapon();
+        if (weapon != null) {
+            batch.draw(weapon.getTexture(), rightX + 15, rightY + 15);
+            batch.end();
+
+            // Draw magazines
+            weapon.drawMagazines(rightX + 80, rightY + 13, renderer, batch);
+
+            batch.begin();
+        }
+        batch.end();
+
+        // Game Over?
+        if (player.isDead()) {
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            renderer.setColor(new Color(0.2f, 0.2f, 0.2f, 0.6f));
+            renderer.filledRect(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            renderer.end();
+            Gdx.gl.glDisable(GL10.GL_BLEND);
+
+            batch.begin();
+            largeFont.draw(batch, "GAME OVER", 315, 400);
+            mediumFont.draw(batch, "Press ENTER to continue...", 280, 370);
+            batch.end();
+        }
+
+        if (paused) {
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            renderer.setColor(new Color(0.2f, 0.2f, 0.2f, 0.6f));
+            renderer.filledRect(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            renderer.end();
+            Gdx.gl.glDisable(GL10.GL_BLEND);
+
+            pauseMenu.draw(batch, delta);
+        }
+
+        // Check crossahair's position
+        float crossX = Gdx.input.getX();
+        float crossY = Gdx.input.getY();
+        int newCrossX = (int) crossX;
+        int newCrossY = Gdx.graphics.getHeight() - (int) crossY;
+
+        if (crossX > Gdx.graphics.getWidth()) {
+            newCrossX = Gdx.graphics.getWidth();
+        }
+        if (crossX < 0) {
+            newCrossX = 0;
+        }
+        if (crossY > Gdx.graphics.getHeight()) {
+            newCrossY = 0;
+        }
+        if (crossY < 0) {
+            newCrossY = Gdx.graphics.getHeight();
+        }
+
+        if (crossX != newCrossX || Gdx.graphics.getHeight() - (int)crossY != newCrossY) {
+            Gdx.input.setCursorPosition(newCrossX, newCrossY);
+        }
+
+        // Draw crosshair
+        batch.begin();
+        batch.draw(crosshair, Gdx.input.getX() - crosshair.getWidth() / 2,
+                   Gdx.graphics.getHeight() - Gdx.input.getY() - crosshair.getHeight() / 2);
+        batch.end();
+    }
+
+    protected void update(float delta) {
+        if (!running || paused) {
+            return;
+        }
+
         // Is player dead? (Game Over)
         if (player.isDead()) {
-            Shooter.getInstance().gameOver();
             running = false;
+            stage.removeListener(inputListener); // seems bugged?
+            stage.addListener(new GameOverInput());
             return;
         }
 
@@ -201,92 +348,15 @@ public class GameScreen implements Screen {
             }
         }
 
-        centerCamera();
-        tileMapRenderer.render(camera);
-
         stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-
-        // Check dead entities
-        Iterator<Entity> it = entities.iterator();
-        while (it.hasNext()) {
-            Entity enemy = it.next();
-            if (enemy.isDead()) {
-                it.remove();
-            }
-        }
-        // Draw HUD
-        batch.begin();
-        float leftX = 20;
-        float leftY = 10;
-        batch.draw(leftHUD, leftX, leftY);
-
-        // Health and stamina
-        Shooter.getInstance().getMediumFont().draw(batch, "" + player.getHealth(), leftX + 210, leftY + 62);
-        Shooter.getInstance().getMediumFont().draw(batch, "" + player.getStamina(), leftX + 210, leftY + 32);
-
-        // Health and stamina bars
-        batch.end();
-        renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        renderer.setColor(Color.RED);
-        renderer.filledRect(leftX+41, leftY+46, player.getHealthPercent() * 158, 9);
-        renderer.setColor(Color.YELLOW);
-        renderer.filledRect(leftX+41, leftY+16, (float)player.getStamina()/100 * 158, 9);
-        renderer.end();
-        batch.begin();
-
-        float rightX = Shooter.GAME_WIDTH - 260;
-        float rightY = 10;
-        batch.draw(rightHUD, rightX, rightY);
-
-        Weapon weapon = player.getActiveWeapon();
-        if (weapon != null) {
-            batch.draw(weapon.getTexture(), rightX + 15, rightY + 15);
-            batch.end();
-
-            // Draw magazines
-            weapon.drawMagazines(rightX + 80, rightY + 13, renderer, batch);
-
-            batch.begin();
-        }
-        batch.end();
-
-        // Check crossahair's position
-        float crossX = Gdx.input.getX();
-        float crossY = Gdx.input.getY();
-        int newCrossX = (int) crossX;
-        int newCrossY = Shooter.GAME_HEIGHT - (int) crossY;
-
-        if (crossX > Shooter.GAME_WIDTH) {
-            newCrossX = Shooter.GAME_WIDTH;
-        }
-        if (crossX < 0) {
-            newCrossX = 0;
-        }
-        if (crossY > Shooter.GAME_HEIGHT) {
-            newCrossY = 0;
-        }
-        if (crossY < 0) {
-            newCrossY = Shooter.GAME_HEIGHT;
-        }
-
-        if (crossX != newCrossX || Shooter.GAME_HEIGHT - (int)crossY != newCrossY) {
-            Gdx.input.setCursorPosition(newCrossX, newCrossY);
-        }
-
-        // Draw crosshair
-        batch.begin();
-        batch.draw(crosshair, Gdx.input.getX() - crosshair.getWidth() / 2,
-                   Shooter.GAME_HEIGHT - Gdx.input.getY() - crosshair.getHeight() / 2);
-        batch.end();
     }
 
     protected void centerCamera() {
         float x = player.getX();
         float y = player.getY();
 
-        float halfW = Shooter.GAME_WIDTH / 2;
-        float halfH = Shooter.GAME_HEIGHT / 2;
+        float halfW = Gdx.graphics.getWidth() / 2.0f;
+        float halfH = Gdx.graphics.getHeight() / 2.0f;
         float mapW = tileMapRenderer.getMapWidthUnits();
         float mapH = tileMapRenderer.getMapHeightUnits();
 
@@ -411,10 +481,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        if (paused) {
+            Shooter.getInstance().addInput(pauseMenu);
+        } else {
+            Shooter.getInstance().addInput(stage);
+        }
     }
 
     @Override
     public void hide() {
+        if (paused) {
+            Shooter.getInstance().removeInput(pauseMenu);
+        } else {
+            Shooter.getInstance().removeInput(stage);
+        }
     }
 
     @Override
@@ -428,7 +508,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         stage.clear();
-        stage.removeListener(inputListener);
         stage.dispose();
         tileMapRenderer.dispose();
         atlas.dispose();
@@ -442,6 +521,21 @@ public class GameScreen implements Screen {
         actorsGroup.clear();
         pickups.clear();
         fences.clear();
+    }
+
+    public void setPaused(boolean paused) {
+        if (this.paused == paused) {
+            return;
+        }
+
+        this.paused = paused;
+        if (paused) {
+            Shooter.getInstance().removeInput(stage);
+            Shooter.getInstance().addInput(pauseMenu);
+        } else {
+            Shooter.getInstance().removeInput(pauseMenu);
+            Shooter.getInstance().addInput(stage);
+        }
     }
 
     public Player getPlayer() {
