@@ -1,10 +1,8 @@
 package org.m110.shooter.entities.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.m110.shooter.ai.BoomerAI;
+import org.m110.shooter.ai.entity.BoomerAI;
 import org.m110.shooter.entities.Entity;
 
 /**

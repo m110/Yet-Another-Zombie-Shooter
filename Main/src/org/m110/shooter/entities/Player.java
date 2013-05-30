@@ -186,6 +186,20 @@ public class Player extends Entity {
                 totalVelocity += bonusVelocity;
             }
 
+            if (movement.contains(Movement.UP)) {
+                newY += totalVelocity;
+            }
+            if (movement.contains(Movement.DOWN)) {
+                newY -= totalVelocity;
+            }
+            if (movement.contains(Movement.LEFT)) {
+                newX -= totalVelocity;
+            }
+            if (movement.contains(Movement.RIGHT)) {
+                newX += totalVelocity;
+            }
+
+/*
             double finalAngle = getRotation();
 
             if (movement.contains(Movement.UP)) {
@@ -209,6 +223,7 @@ public class Player extends Entity {
 
             newX += (float) Math.cos(Math.toRadians(finalAngle)) * totalVelocity;
             newY += (float) Math.sin(Math.toRadians(finalAngle)) * totalVelocity;
+*/
 
             // Play step sound
             if (stepSoundTimer < delta) {

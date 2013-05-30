@@ -2,6 +2,7 @@ package org.m110.shooter.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,12 +12,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.ai.game.GameAI;
+import org.m110.shooter.ai.game.NoneAI;
+import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.input.GameInput;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.entities.Entity;
@@ -30,6 +34,7 @@ import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuItem;
 import org.m110.shooter.weapons.Weapon;
 
+import java.security.PublicKey;
 import java.util.Iterator;
 
 /**
@@ -42,13 +47,8 @@ public class GameScreen implements Screen {
     /**
      * Scene2D Stage, handles entities.
      */
+
     private final Stage stage;
-
-    /**
-     * Box2d World, handles basic physics.
-     */
-    private final World world;
-
     private Player player = null;
     private GameInput inputListener;
 
@@ -69,6 +69,7 @@ public class GameScreen implements Screen {
     // Pause
     private boolean paused = false;
     private final Menu pauseMenu;
+    private Sound pauseSound;
 
     private Texture crosshair;
     private final Texture leftHUD;
@@ -81,8 +82,13 @@ public class GameScreen implements Screen {
     private final Array<Entity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
+    private final Array<Dummy> dummies;
+
+    private GameAI ai = NoneAI.getInstance();
 
     private boolean running = true;
+
+    private float aggroRange = 350.0f;
 
     private static final BitmapFont smallFont;
     private static final BitmapFont mediumFont;
@@ -101,9 +107,6 @@ public class GameScreen implements Screen {
         // Initialize camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        // Initialize world
-        world = new World(new Vector2(0.0f, 0.0f), true);
 
         // Rendering objects
         batch = new SpriteBatch();
@@ -131,6 +134,7 @@ public class GameScreen implements Screen {
             }
         });
         pauseMenu.alignToCenter();
+        pauseSound = Gdx.audio.newSound(Gdx.files.internal("audio/pause.ogg"));
 
         // Textures
         crosshair = new Texture(Gdx.files.internal("images/crosshair.png"));
@@ -154,12 +158,23 @@ public class GameScreen implements Screen {
         entities = new Array<>();
         pickups = new Array<>();
         fences = new Array<>();
+        dummies = new Array<>();
     }
 
     public void loadLevel() {
         // Update Player's GameScreen
         player.updateGame(this);
 
+        // Check AI
+        if (map.properties.containsKey("ai")) {
+            switch (map.properties.get("ai")) {
+                case "survival":
+                    ai = new SurvivalAI();
+                    break;
+            }
+        }
+
+        // Load map objects
         for (TiledObject object : map.objectGroups.get(0).objects) {
             final float objX = object.x;
             final float objY = mapHeight - object.y;
@@ -197,6 +212,9 @@ public class GameScreen implements Screen {
                         case "fence":
                             fences.add(new Fence(objX, objY));
                             break;
+                        case "dummy":
+                            dummies.add(new Dummy(objX, objY));
+                            break;
                     }
                     break;
             }
@@ -204,6 +222,9 @@ public class GameScreen implements Screen {
 
         // To ensure player will appear on top...
         actorsGroup.addActor(player);
+
+        // Call AI's start
+        ai.start();
     }
 
     @Override
@@ -348,7 +369,8 @@ public class GameScreen implements Screen {
             }
         }
 
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(delta);
+        ai.act(delta);
     }
 
     protected void centerCamera() {
@@ -391,6 +413,30 @@ public class GameScreen implements Screen {
         pickups.add(pickup);
         actorsGroup.addActor(pickup);
         return pickup;
+    }
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+        actorsGroup.addActor(entity);
+    }
+
+    public Entity spawnRandomEntity(float x, float y) {
+        Entity entity = EntityFactory.createRandomEntity(x, y);
+        entities.add(entity);
+        actorsGroup.addActor(entity);
+        return entity;
+    }
+
+    public Pickup spawnRandomPickup(float x, float y) {
+        Pickup pickup = PickupFactory.createRandomPickup(x, y);
+        pickups.add(pickup);
+        actorsGroup.addActor(pickup);
+        return pickup;
+    }
+
+    public void addPickup(Pickup pickup) {
+        pickups.add(pickup);
+        actorsGroup.addActor(pickup);
     }
 
     /**
@@ -528,6 +574,7 @@ public class GameScreen implements Screen {
             return;
         }
 
+        pauseSound.play();
         this.paused = paused;
         if (paused) {
             Shooter.getInstance().removeInput(stage);
@@ -538,16 +585,8 @@ public class GameScreen implements Screen {
         }
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public ShapeRenderer getRenderer() {
-        return renderer;
+    public Array<Dummy> getDummies() {
+        return dummies;
     }
 
     public float getMapWidth() {
@@ -556,5 +595,13 @@ public class GameScreen implements Screen {
 
     public float getMapHeight() {
         return mapHeight;
+    }
+
+    public float getAggroRange() {
+        return aggroRange;
+    }
+
+    public void setAggroRange(float aggroRange) {
+        this.aggroRange = aggroRange;
     }
 }

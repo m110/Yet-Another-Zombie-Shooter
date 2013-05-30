@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.entities.bullets.Bullet;
+import org.m110.shooter.entities.bullets.BulletType;
 import org.m110.shooter.weapons.magazines.ShotgunMagazine;
 
 /**
@@ -16,15 +17,15 @@ public class Shotgun extends Weapon {
     private ShotgunMagazine magazine;
 
     public Shotgun() {
-        super(1, WeaponSlot.SHOTGUN, "shotgun");
-        setBulletsCount(6);
-        setDefaultMagazineCapacity(8);
+        super(1, WeaponSlot.SHOTGUN, "shotgun", BulletType.BOLD);
+        setBulletsCount(8);
+        setDefaultMagazineCapacity(WeaponType.SHOTGUN.getMagazineCapacity());
         setBulletVelocity(Bullet.BASE_VELOCITY + 1.0f);
         setCooldown(0.75f);
         setReloadCooldown(0.70f);
-        setOffsetFactor(14.5f);
+        setOffsetFactor(16.0f);
         setMaxMagazines(1);
-        setDamage(15);
+        setDamage(10);
 
         magazine = new ShotgunMagazine(defaultMagazineCapacity, defaultMagazineCapacity, 0);
         addMagazine(magazine);

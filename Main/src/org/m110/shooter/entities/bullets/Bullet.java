@@ -37,6 +37,10 @@ public class Bullet extends Actor {
      */
     private boolean moving;
 
+    protected static TextureRegion loadTexture(String name) {
+        return new TextureRegion(new Texture("images/bullet_" + name + ".png"));
+    }
+
     public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int damage) {
         this.game = Shooter.getInstance().getGame();
 

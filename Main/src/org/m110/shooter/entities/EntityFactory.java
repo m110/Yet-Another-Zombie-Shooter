@@ -1,10 +1,7 @@
 package org.m110.shooter.entities;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
-import org.m110.shooter.entities.enemies.Boomer;
-import org.m110.shooter.entities.enemies.Charger;
-import org.m110.shooter.entities.enemies.Spawner;
-import org.m110.shooter.entities.enemies.Zombie;
+import org.m110.shooter.entities.enemies.*;
 import org.m110.shooter.screens.GameScreen;
 
 /**
@@ -25,6 +22,19 @@ public class EntityFactory {
                 return new Spawner(x, y, entity, interval, maxEntities);
             default:
                 throw new IllegalArgumentException("No such Entity: " + object.name);
+        }
+    }
+
+    public static Entity createRandomEntity(float x, float y) {
+        HostileType type = HostileType.getRandom();
+        switch (type) {
+            case ZOMBIE:
+            case SPAWNER: // Just to increase chances...
+                return new Zombie(x ,y);
+            case BOOMER: return new Boomer(x, y);
+            case CHARGER: return new Charger(x, y);
+            default:
+                return null;
         }
     }
 }

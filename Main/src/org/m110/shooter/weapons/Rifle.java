@@ -1,6 +1,7 @@
 package org.m110.shooter.weapons;
 
 import org.m110.shooter.entities.bullets.Bullet;
+import org.m110.shooter.entities.bullets.BulletType;
 import org.m110.shooter.weapons.magazines.StandardMagazine;
 
 /**
@@ -9,13 +10,13 @@ import org.m110.shooter.weapons.magazines.StandardMagazine;
 public class Rifle extends Weapon {
 
     public Rifle() {
-        super(2, WeaponSlot.RIFLE, "rifle");
+        super(2, WeaponSlot.RIFLE, "rifle", BulletType.STANDARD);
         setBulletsCount(1);
-        setDefaultMagazineCapacity(30);
+        setDefaultMagazineCapacity(WeaponType.RIFLE.getMagazineCapacity());
         setBulletVelocity(Bullet.BASE_VELOCITY + 5.0f);
         setCooldown(0.1f);
         setReloadCooldown(0.80f);
-        setOffsetFactor(3.5f);
+        setOffsetFactor(4.5f);
         setDamage(20);
 
         addMagazine(defaultMagazineCapacity);

@@ -1,13 +1,9 @@
 package org.m110.shooter.entities.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.m110.shooter.ai.BasicAI;
+import org.m110.shooter.ai.entity.BasicAI;
 import org.m110.shooter.entities.Entity;
-import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>

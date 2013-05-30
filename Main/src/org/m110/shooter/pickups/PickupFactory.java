@@ -1,6 +1,9 @@
 package org.m110.shooter.pickups;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
+import com.badlogic.gdx.math.MathUtils;
+import org.m110.shooter.weapons.WeaponSlot;
+import org.m110.shooter.weapons.WeaponType;
 
 import java.util.HashMap;
 
@@ -27,6 +30,26 @@ public class PickupFactory {
                 }
             default:
                 throw new IllegalArgumentException("No such Pickup type: " + object.type);
+        }
+    }
+
+    public static Pickup createRandomPickup(float x, float y) {
+        PickupType type = PickupType.getRandom();
+        switch (type) {
+            case AMMO:
+                WeaponType weaponType = WeaponType.getRandom();
+                int ammo =  MathUtils.random(1, weaponType.getMagazineCapacity());
+                return new Ammo(weaponType.toString().toLowerCase(), x, y, ammo);
+            case CRATE:
+                weaponType = WeaponType.getRandom();
+                ammo =  MathUtils.random(1, weaponType.getMagazineCapacity());
+                return new Ammo(weaponType.toString().toLowerCase(), x, y, ammo);
+            case MEDPACK:
+                return new Medpack(x, y);
+            case ADRENALINE:
+                return new Adrenaline(x, y);
+            default:
+                throw new IllegalArgumentException("No such PickupType: " + type);
         }
     }
 

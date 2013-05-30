@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="ai" value="survival"/>
+ </properties>
+ <tileset firstgid="1" name="main" tilewidth="32" tileheight="32">
+  <image source="tileset.png" width="192" height="160"/>
+ </tileset>
+ <layer name="background" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKH7/qUHy6Hgqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv8AX0MnEQ==
+  </data>
+ </layer>
+ <layer name="walls" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0TEKw1AQxFBD7n/n1NO4CB9kkzegdhekz3VdHwAAAAAAAAAAAADAq/nX1d712NXe9djV3vXY1d712NXe9djV3vXY1d712NXe9djV3vXY1d712NXe9djV3vXY1d712NXeT/cou574XXvX4/7GU/h1euhx8nft/XSPt6/2rseu9q7Hrvaux672rseu9q7Hrvaux672rseu9q7Hrvaux672rseu9q7Hrvaux672rseu9q7Hrvaux672rseu9q7Hrvaux672rseu9q7Hrvaux672frpH2fXE79q7Hvc3nsKv00OPk79r76d7vH21dz12tXc9drV3PXa1dz12tXc9drV3PXa1dz12tXc9drV3PXa1dz12tXc9drV3AAAAAAAAAAAAAAAAAACexhdS901B
+  </data>
+ </layer>
+ <objectgroup name="actors" width="100" height="100">
+  <object name="start" type="node" gid="5" x="1600" y="1536"/>
+  <object name="dummy" type="terrain" gid="10" x="768" y="768"/>
+  <object name="dummy" type="terrain" gid="10" x="2432" y="800"/>
+  <object name="dummy" type="terrain" gid="10" x="2496" y="2336"/>
+  <object name="dummy" type="terrain" gid="10" x="736" y="2304"/>
+  <object name="dummy" type="terrain" gid="10" x="736" y="1504"/>
+  <object name="dummy" type="terrain" gid="10" x="1568" y="768"/>
+  <object name="dummy" type="terrain" gid="10" x="2432" y="1536"/>
+  <object name="dummy" type="terrain" gid="10" x="1600" y="2336"/>
+  <object name="dummy" type="terrain" gid="10" x="1600" y="1152"/>
+  <object name="dummy" type="terrain" gid="10" x="2112" y="1536"/>
+  <object name="dummy" type="terrain" gid="10" x="1600" y="1984"/>
+  <object name="dummy" type="terrain" gid="10" x="1120" y="1504"/>
+ </objectgroup>
+</map>

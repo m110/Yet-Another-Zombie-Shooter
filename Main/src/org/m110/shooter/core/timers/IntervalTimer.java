@@ -5,8 +5,8 @@ package org.m110.shooter.core.timers;
  */
 public class IntervalTimer extends Timer {
 
-    private final float interval;
-    private float time;
+    protected final float interval;
+    protected float time;
 
     public IntervalTimer(float interval) {
         this.interval = interval;

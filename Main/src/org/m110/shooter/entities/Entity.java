@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.ai.AI;
-import org.m110.shooter.ai.NoneAI;
+import org.m110.shooter.ai.entity.AI;
+import org.m110.shooter.ai.entity.NoneAI;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.screens.GameScreen;
 

@@ -5,15 +5,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class StandardBullet extends Bullet{
+public class BoldBullet extends Bullet {
 
     private static final TextureRegion texture;
 
     static {
-        texture = Bullet.loadTexture("standard");
+        texture = Bullet.loadTexture("bold");
     }
 
-    public StandardBullet(float x, float y, float angle, float velocity, int damage) {
+    public BoldBullet(float x, float y, float angle, float velocity, int damage) {
         super(texture, x, y, angle, velocity, damage);
     }
 }

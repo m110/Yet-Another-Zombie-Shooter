@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.entities.bullets.Bullet;
+import org.m110.shooter.entities.bullets.BulletFactory;
+import org.m110.shooter.entities.bullets.BulletType;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.Magazine;
 
@@ -24,6 +26,7 @@ public abstract class Weapon {
 
     private final TextureRegion texture;
     private final WeaponSlot slot;
+    private final BulletType bulletType;
 
     protected final Sound readySound;
     protected final Sound reloadSound;
@@ -45,12 +48,13 @@ public abstract class Weapon {
     private Array<Magazine> magazines;
     protected Magazine activeMagazine;
 
-    public Weapon(int textureNumber, WeaponSlot slot, String name) {
+    public Weapon(int textureNumber, WeaponSlot slot, String name, BulletType bulletType) {
         this.game = Shooter.getInstance().getGame();
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("images/weapons.png")),
                                     textureNumber*48, 0, 48, 48);
         this.slot = slot;
+        this.bulletType = bulletType;
 
         readySound = Gdx.audio.newSound(Gdx.files.internal("audio/"+name+"_ready.ogg"));
         reloadSound = Gdx.audio.newSound(Gdx.files.internal("audio/"+name+"_ready.ogg"));
@@ -85,13 +89,24 @@ public abstract class Weapon {
 
         fireSound.play();
 
-        for (int i = 0; i < bulletsCount; i++) {
+        if (bulletsCount == 1) {
             // Angle = player's rotation + random factor
             float angle = rotation + MathUtils.random(-offsetFactor, offsetFactor);
-
-            // Create and store new bullet
-            Bullet bullet = new Bullet(x, y, angle, bulletVelocity, damage);
+            Bullet bullet = BulletFactory.createBullet(bulletType, x, y, angle, bulletVelocity, damage);
             bullets.add(bullet);
+        } else {
+            // Angle = player's rotation - factor
+            float angle = rotation - offsetFactor;
+            float increase = 2.0f * offsetFactor / bulletsCount;
+
+            for (int i = 0; i < bulletsCount; i++) {
+                // Add some additional random offset for each bullet
+                float totalAngle = angle + MathUtils.random(-offsetFactor, offsetFactor) / 10.0f;
+
+                Bullet bullet = BulletFactory.createBullet(bulletType, x, y, totalAngle, bulletVelocity, damage);
+                bullets.add(bullet);
+                angle += increase;
+            }
         }
 
         cooldownLeft = cooldown;

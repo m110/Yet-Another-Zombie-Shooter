@@ -1,6 +1,7 @@
 package org.m110.shooter.weapons;
 
 import org.m110.shooter.entities.bullets.Bullet;
+import org.m110.shooter.entities.bullets.BulletType;
 import org.m110.shooter.weapons.magazines.StandardMagazine;
 
 /**
@@ -9,9 +10,9 @@ import org.m110.shooter.weapons.magazines.StandardMagazine;
 public class Pistol extends Weapon {
 
     public Pistol() {
-        super(0, WeaponSlot.PISTOL, "pistol");
+        super(0, WeaponSlot.PISTOL, "pistol", BulletType.STANDARD);
         setBulletsCount(1);
-        setDefaultMagazineCapacity(12);
+        setDefaultMagazineCapacity(WeaponType.PISTOL.getMagazineCapacity());
         setBulletVelocity(Bullet.BASE_VELOCITY);
         setCooldown(0.6f);
         setReloadCooldown(0.50f);

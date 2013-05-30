@@ -1,5 +1,11 @@
 package org.m110.shooter.weapons;
 
+import com.badlogic.gdx.math.MathUtils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
