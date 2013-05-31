@@ -19,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.enemies.HostileEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.input.GameInput;
@@ -90,6 +91,7 @@ public class GameScreen implements Screen {
     private float gameTime = 0.0f;
     private int score = 0;
     private boolean running = true;
+    private final IntervalTimer bloodScreenTimer;
 
     private float aggroRange = 350.0f;
 
@@ -163,6 +165,9 @@ public class GameScreen implements Screen {
         pickups = new Array<>();
         fences = new Array<>();
         dummies = new Array<>();
+
+        bloodScreenTimer = new IntervalTimer(0.5f);
+        bloodScreenTimer.disable();
     }
 
     public void loadLevel() {
@@ -288,6 +293,16 @@ public class GameScreen implements Screen {
         }
         batch.end();
 
+        if (!bloodScreenTimer.ready()) {
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            renderer.setColor(new Color(1.0f, 0.0f, 0.0f, 0.2f * bloodScreenTimer.getTimeLeft()));
+            renderer.filledRect(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            renderer.end();
+            Gdx.gl.glDisable(GL10.GL_BLEND);
+        }
+
         // Game Over?
         if (player.isDead()) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
@@ -390,6 +405,8 @@ public class GameScreen implements Screen {
 
         stage.act(delta);
         ai.act(delta);
+
+        bloodScreenTimer.update(delta);
     }
 
     protected void centerCamera() {
@@ -598,6 +615,10 @@ public class GameScreen implements Screen {
             Shooter.getInstance().removeInput(pauseMenu);
             Shooter.getInstance().addInput(stage);
         }
+    }
+
+    public void afterPlayerDamage() {
+        bloodScreenTimer.reset();
     }
 
     public Array<Dummy> getDummies() {

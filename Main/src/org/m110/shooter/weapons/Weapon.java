@@ -33,6 +33,7 @@ public class Weapon {
     protected final Sound reloadSound;
     protected final Sound fireSound;
     protected static final Sound emptySound;
+    protected static final Sound dropMagazineSound;
 
     // Cooldowns
     protected final IntervalTimer cooldownTimer;
@@ -47,6 +48,7 @@ public class Weapon {
     static {
         mainTexture = new Texture("images/weapons.png");
         emptySound = Gdx.audio.newSound(Gdx.files.internal("audio/empty.ogg"));
+        dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal("audio/drop_magazine.ogg"));
     }
 
     /**
@@ -269,7 +271,12 @@ public class Weapon {
     }
 
     public void dropMagazine() {
+        if (magazines.size == 0) {
+            return;
+        }
+
         magazines.removeValue(activeMagazine, true);
+        dropMagazineSound.play();
         if (magazines.size > 0) {
             activeMagazine = magazines.first();
         } else {

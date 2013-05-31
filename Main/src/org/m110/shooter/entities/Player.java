@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;
@@ -299,6 +300,12 @@ public class Player extends Entity {
         for (Bullet bullet : firedBullets) {
             getStage().addActor(bullet);
         }
+    }
+
+    @Override
+    public void takenDamage(int damage, Entity attacker) {
+        super.takenDamage(damage, attacker);
+        game.afterPlayerDamage();
     }
 
     public boolean addWeapon(Weapon weapon) {

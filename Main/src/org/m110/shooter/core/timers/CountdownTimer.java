@@ -7,9 +7,8 @@ import com.badlogic.gdx.Gdx;
  */
 public class CountdownTimer extends Timer {
 
-    private final float countdown;
-    private float time;
-    private boolean done;
+    protected final float countdown;
+    protected boolean done;
 
     public CountdownTimer(float countdown) {
         this.countdown = countdown;
@@ -23,7 +22,7 @@ public class CountdownTimer extends Timer {
             return;
         }
 
-        if (time > 0) {
+        if (time > 0.0f) {
             time -= delta;
         } else {
             action();
@@ -42,5 +41,10 @@ public class CountdownTimer extends Timer {
     @Override
     public boolean ready() {
         return done;
+    }
+
+    @Override
+    public void disable() {
+        done = true;
     }
 }

@@ -41,12 +41,13 @@ public class HowToPlayScreen implements Screen {
         batch.begin();
         font.setColor(Color.WHITE);
         font.draw(batch, "WSAD - control character", 100, Gdx.graphics.getHeight() * 0.9f);
-        font.draw(batch, "R - reload", 100, Gdx.graphics.getHeight() * 0.8f);
-        font.draw(batch, "Mouse - point the gun / fire", 100, Gdx.graphics.getHeight() * 0.7f);
-        font.draw(batch, "Shift - sprint", 100, Gdx.graphics.getHeight() * 0.6f);
-        font.draw(batch, "1, 2, 3, 4, ... - weapons", 100, Gdx.graphics.getHeight() * 0.5f);
-        font.draw(batch, "Mouse scroll - next / previous weapon", 100, Gdx.graphics.getHeight() * 0.4f);
-        font.draw(batch, "Escape - unfocus, pause", 100, Gdx.graphics.getHeight() * 0.3f);
+        font.draw(batch, "Shift - sprint", 100, Gdx.graphics.getHeight() * 0.85f);
+        font.draw(batch, "1, 2, 3, 4, ... - pick weapon", 100, Gdx.graphics.getHeight() * 0.75f);
+        font.draw(batch, "R - reload", 100, Gdx.graphics.getHeight() * 0.70f);
+        font.draw(batch, "G - drop current magazine", 100, Gdx.graphics.getHeight() * 0.65f);
+        font.draw(batch, "Mouse - point the gun / fire", 100, Gdx.graphics.getHeight() * 0.55f);
+        font.draw(batch, "Mouse scroll - next / previous weapon", 100, Gdx.graphics.getHeight() * 0.5f);
+        font.draw(batch, "Escape - unfocus, pause game", 100, Gdx.graphics.getHeight() * 0.4f);
         Shooter.getInstance().getMediumFont().draw(batch, "Press ENTER to continue...", 300, Gdx.graphics.getHeight() * 0.1f);
         batch.end();
     }

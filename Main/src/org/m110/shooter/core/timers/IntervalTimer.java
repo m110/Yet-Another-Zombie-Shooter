@@ -6,7 +6,6 @@ package org.m110.shooter.core.timers;
 public class IntervalTimer extends Timer {
 
     protected final float interval;
-    protected float time;
 
     public IntervalTimer(float interval) {
         this.interval = interval;
@@ -15,7 +14,7 @@ public class IntervalTimer extends Timer {
 
     @Override
     public void update(float delta) {
-        if (time > 0) {
+        if (time > 0.0f) {
             time -= delta;
         }
     }
@@ -27,6 +26,11 @@ public class IntervalTimer extends Timer {
 
     @Override
     public boolean ready() {
-        return time <= 0;
+        return time <= 0.0f;
+    }
+
+    @Override
+    public void disable() {
+        time = 0.0f;
     }
 }
