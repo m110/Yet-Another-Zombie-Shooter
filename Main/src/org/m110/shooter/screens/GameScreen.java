@@ -439,40 +439,38 @@ public class GameScreen implements Screen {
      */
     public Entity spawnEntity(TiledObject object, float x, float y) {
         HostileEntity entity = EntityFactory.createEntity(object, x, y);
-        entities.add(entity);
-        actorsGroup.addActor(entity);
+        addEntity(entity);
         return entity;
     }
 
     public Pickup spawnPickup(TiledObject object, float x, float y) {
         Pickup pickup = PickupFactory.createPickup(object, x, y);
-        pickups.add(pickup);
-        actorsGroup.addActor(pickup);
+        addPickup(pickup);
         return pickup;
     }
 
     public void addEntity(HostileEntity entity) {
         entities.add(entity);
         actorsGroup.addActor(entity);
+        entity.setZIndex(0);
     }
 
     public Entity spawnRandomEntity(float x, float y) {
         HostileEntity entity = EntityFactory.createRandomEntity(x, y);
-        entities.add(entity);
-        actorsGroup.addActor(entity);
+        addEntity(entity);
         return entity;
     }
 
     public Pickup spawnRandomPickup(float x, float y) {
         Pickup pickup = PickupFactory.createRandomPickup(x, y);
-        pickups.add(pickup);
-        actorsGroup.addActor(pickup);
+        addPickup(pickup);
         return pickup;
     }
 
     public void addPickup(Pickup pickup) {
         pickups.add(pickup);
         actorsGroup.addActor(pickup);
+        pickup.setZIndex(0);
     }
 
     /**

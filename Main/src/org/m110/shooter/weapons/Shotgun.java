@@ -63,7 +63,8 @@ public class Shotgun extends Weapon {
     }
 
     @Override
-    public void dropMagazine() {
+    public Magazine dropMagazine() {
         // No action for shotgun
+        return null;
     }
 }

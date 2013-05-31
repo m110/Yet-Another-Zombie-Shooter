@@ -12,7 +12,7 @@ public class GameOverInput extends InputListener {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
         if (keycode == Input.Keys.ENTER) {
-            Shooter.getInstance().gameOver();
+            Shooter.getInstance().showMainMenu();
         }
         return true;
     }

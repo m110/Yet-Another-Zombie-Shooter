@@ -107,6 +107,7 @@ public class Shooter extends Game {
         if (gameScreen != null) {
             gameScreen.dispose();
             gameScreen = null;
+            player = new Player();
         }
     }
 
@@ -124,11 +125,6 @@ public class Shooter extends Game {
         } else {
             setScreen(menuScreen);
         }
-    }
-
-    public void gameOver() {
-        player = new Player();
-        showMainMenu();
     }
 
     public void exitWithDelay(float delay) {
