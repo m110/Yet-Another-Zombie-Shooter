@@ -2,10 +2,7 @@ package org.m110.shooter.pickups;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.math.MathUtils;
-import org.m110.shooter.weapons.WeaponSlot;
-import org.m110.shooter.weapons.WeaponType;
-
-import java.util.HashMap;
+import org.m110.shooter.weapons.WeaponProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -37,13 +34,13 @@ public class PickupFactory {
         PickupType type = PickupType.getRandom();
         switch (type) {
             case AMMO:
-                WeaponType weaponType = WeaponType.getRandom();
-                int ammo =  MathUtils.random(1, weaponType.getMagazineCapacity());
-                return new Ammo(weaponType.toString().toLowerCase(), x, y, ammo);
+                WeaponProto weaponProto = WeaponProto.getRandom();
+                int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+                return new Ammo(weaponProto.name, x, y, ammo);
             case CRATE:
-                weaponType = WeaponType.getRandom();
-                ammo =  MathUtils.random(1, weaponType.getMagazineCapacity());
-                return new Ammo(weaponType.toString().toLowerCase(), x, y, ammo);
+                weaponProto = WeaponProto.getRandom();
+                ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+                return new Ammo(weaponProto.name, x, y, ammo);
             case MEDPACK:
                 return new Medpack(x, y);
             case ADRENALINE:

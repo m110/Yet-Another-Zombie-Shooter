@@ -123,7 +123,7 @@ public class Player extends Entity {
         super.act(delta);
 
         if (activeWeapon != null) {
-            activeWeapon.updateCooldown(delta);
+            activeWeapon.updateCooldowns(delta);
         }
 
         // Stamina regeneration
@@ -294,21 +294,25 @@ public class Player extends Entity {
         Array<Bullet> firedBullets = activeWeapon.fire(
                getWorldX() + (float)Math.cos(Math.toRadians(getRotation()))*(getWidth()/2),
                getWorldY() + (float)Math.sin(Math.toRadians(getRotation()))*(getHeight()/2), getRotation());
-        if (firedBullets != null) {
-            bullets.addAll(firedBullets);
-            for (Bullet bullet : firedBullets) {
-                getStage().addActor(bullet);
-            }
+
+        bullets.addAll(firedBullets);
+        for (Bullet bullet : firedBullets) {
+            getStage().addActor(bullet);
         }
     }
 
     public boolean addWeapon(Weapon weapon) {
-        if (weapons.containsKey(weapon.getSlot())) {
-            weapons.get(weapon.getSlot()).setActiveMagazineAmmo(weapon.getActiveMagazine().getBullets());
-            weapon.playReloadSound();
-            return true;
+        if (weapons.containsKey(weapon.getProto().slot)) {
+            if (weapon.getProto() == weapons.get(weapon.getProto().slot).getProto()) {
+                weapons.get(weapon.getProto().slot).setActiveMagazineAmmo(weapon.getActiveMagazine().getBullets());
+                weapon.playReloadSound();
+                return true;
+            } else {
+                // Don't add the weapon, because different one occupies the slot.
+                return false;
+            }
         } else {
-            weapons.put(weapon.getSlot(), weapon);
+            weapons.put(weapon.getProto().slot, weapon);
             if (activeWeapon == null) {
                 activeWeapon = weapon;
             }
@@ -325,7 +329,7 @@ public class Player extends Entity {
         // Chech if player has any weapon of this slot
         if (weapons.containsKey(slot)) {
             // Change only if current weapon is in another slot
-            if (activeWeapon.getSlot() != slot) {
+            if (activeWeapon.getProto().slot != slot) {
                 activeWeapon = weapons.get(slot);
                 activeWeapon.setActive();
                 changeWeaponTime = changeWeaponBaseTime;
@@ -340,7 +344,7 @@ public class Player extends Entity {
 
     public boolean nextWeapon() {
         if (weapons.size() > 1) {
-            WeaponSlot slot = activeWeapon.getSlot().getNext();
+            WeaponSlot slot = activeWeapon.getProto().slot.getNext();
             while (!weapons.containsKey(slot)) {
                 slot = slot.getNext();
             }
@@ -352,7 +356,7 @@ public class Player extends Entity {
 
     public boolean previousWeapon() {
         if (weapons.size() > 1) {
-            WeaponSlot slot = activeWeapon.getSlot().getPrevious();
+            WeaponSlot slot = activeWeapon.getProto().slot.getPrevious();
             while (!weapons.containsKey(slot)) {
                 slot = slot.getPrevious();
             }
@@ -362,6 +366,9 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Reload active weapon.
+     */
     public void reload() {
         if (activeWeapon != null) {
             activeWeapon.reload();

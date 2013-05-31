@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.screens.GameScreen;
+import org.m110.shooter.weapons.WeaponProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -41,21 +42,20 @@ public class Bullet extends Actor {
         return new TextureRegion(new Texture("images/bullet_" + name + ".png"));
     }
 
-    public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int damage) {
+    public Bullet(TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
         this.game = Shooter.getInstance().getGame();
 
         this.texture = texture;
+        this.angle = angle;
+        this.velocity = BASE_VELOCITY + proto.bulletVelocity;
+        this.damage = proto.damage;
+        moving = true;
+
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
         setOrigin(getWidth() / 2.0f, getHeight() / 2.0f);
         setX(x);
         setY(y);
-
-        this.angle = angle;
-        this.velocity = velocity;
-        this.damage = damage;
-        moving = true;
-
         setRotation(angle);
     }
 

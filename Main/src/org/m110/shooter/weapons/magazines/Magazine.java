@@ -3,17 +3,15 @@ package org.m110.shooter.weapons.magazines;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public abstract class Magazine {
+public class Magazine {
 
-    private final MagazineSlot slot;
     private final int maxBullets;
     private int bullets;
 
-    public Magazine(MagazineSlot slot, int maxBullets, int bullets) {
-        this.slot = slot;
+    public Magazine(int maxBullets, int bullets) {
         this.maxBullets = maxBullets;
 
-        if (bullets > maxBullets || bullets == 0) {
+        if (bullets > maxBullets) {
             this.bullets = maxBullets;
         } else {
             this.bullets = bullets;
@@ -26,10 +24,6 @@ public abstract class Magazine {
 
     public int getBullets() {
         return bullets;
-    }
-
-    public MagazineSlot  getSlot() {
-        return slot;
     }
 
     public boolean isEmpty() {
@@ -46,9 +40,16 @@ public abstract class Magazine {
         }
     }
 
-    public void addBullet() {
-        if (bullets < maxBullets) {
-            bullets++;
+    public boolean addBullets(int amount) {
+        if (bullets == maxBullets) {
+            return false;
+        } else {
+            if (bullets + amount < maxBullets) {
+                bullets += amount;
+            } else {
+                bullets = maxBullets;
+            }
+            return true;
         }
     }
 

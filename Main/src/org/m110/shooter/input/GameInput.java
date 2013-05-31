@@ -1,12 +1,12 @@
 package org.m110.shooter.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.Player;
+import org.m110.shooter.weapons.WeaponProto;
 import org.m110.shooter.weapons.WeaponSlot;
 
 /**
@@ -54,10 +54,10 @@ public class GameInput extends InputListener {
                 player.setSprintActive(true);
                 break;
             case Input.Keys.NUM_1:
-                player.changeWeapon(WeaponSlot.MELEE);
+                player.changeWeapon(WeaponSlot.HANDGUN);
                 break;
             case Input.Keys.NUM_2:
-                player.changeWeapon(WeaponSlot.PISTOL);
+                player.changeWeapon(WeaponSlot.SMG);
                 break;
             case Input.Keys.NUM_3:
                 player.changeWeapon(WeaponSlot.SHOTGUN);
