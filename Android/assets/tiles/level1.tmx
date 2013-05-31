@@ -41,7 +41,6 @@
     <property name="rotation" value="180"/>
    </properties>
   </object>
-  <object name="start" type="node" x="1280" y="3441" width="32" height="32"/>
   <object name="pistol" type="crate" x="1260" y="3350" width="35" height="31"/>
   <object name="rifle" type="crate" x="3961" y="3444" width="45" height="34"/>
   <object name="zombie" type="entity" x="3287" y="3345" width="32" height="32">

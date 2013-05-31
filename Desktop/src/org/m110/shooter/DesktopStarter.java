@@ -11,8 +11,8 @@ public class DesktopStarter {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Shooter";
         cfg.useGL20 = true;
-        cfg.width = Shooter.GAME_WIDTH;
-        cfg.height = Shooter.GAME_HEIGHT;
+        cfg.width = 800;
+        cfg.height = 600;
         new LwjglApplication(Shooter.getInstance(), cfg);
     }
 }

@@ -17,8 +17,8 @@
     <file path="/HappyBalls.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1368731356486" ignored="false" />
     <file path="/Ball.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1368731440885" ignored="false" />
     <file path="/BallThread.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1368651306553" ignored="false" />
-    <file path="/Shooter.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369929720800" ignored="false" />
-    <file path="/Player.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370000464831" ignored="false" />
+    <file path="/Shooter.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370022730655" ignored="false" />
+    <file path="/Player.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370022512014" ignored="false" />
     <file path="/PlayerInputListener.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369749604442" ignored="false" />
     <file path="$PROJECT_DIR$/Android/gen/org/m110/shooter/R.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369492072139" ignored="false" />
     <file path="$PROJECT_DIR$/Android/gen/org/m110/shooter/BuildConfig.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369492077028" ignored="false" />
@@ -31,9 +31,9 @@
     <file path="$PROJECT_DIR$/Android/assets/tiles/level01.tmx" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369641338707" ignored="false" />
     <file path="$PROJECT_DIR$/Android/assets/data/level01.tmx" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369641338707" ignored="false" />
     <file path="/WeaponSlot.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369996009666" ignored="false" />
-    <file path="/Weapon.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370001686186" ignored="false" />
+    <file path="/Weapon.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370022494909" ignored="false" />
     <file path="/Pistol.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369941345169" ignored="false" />
-    <file path="/Shotgun.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370001861900" ignored="false" />
+    <file path="/Shotgun.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370021886140" ignored="false" />
     <file path="/Rifle.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369941356217" ignored="false" />
     <file path="/Magazine.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370001520597" ignored="false" />
     <file path="/MagazineSlot.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369657867303" ignored="false" />
@@ -41,10 +41,10 @@
     <file path="/ShotgunMagazine.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369823601777" ignored="false" />
     <file path="/AppletStarter.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369668196674" ignored="false" />
     <file path="/ShooterActor.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369772145244" ignored="false" />
-    <file path="/MenuScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369929031475" ignored="false" />
-    <file path="/GameScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369943316564" ignored="false" />
+    <file path="/MenuScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370019942901" ignored="false" />
+    <file path="/GameScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370023063958" ignored="false" />
     <file path="/Level.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369730365434" ignored="false" />
-    <file path="/Zombie.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369932031930" ignored="false" />
+    <file path="/Zombie.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370012025608" ignored="false" />
     <file path="/AI.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369942668369" ignored="false" />
     <file path="/BasicAI.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369867639813" ignored="false" />
     <file path="/NoneAI.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369936366861" ignored="false" />
@@ -52,32 +52,32 @@
     <file path="/Pickup.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369822710936" ignored="false" />
     <file path="/CratePickup.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369757377784" ignored="false" />
     <file path="/AmmoPickup.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369759212842" ignored="false" />
-    <file path="/Entity.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369931872876" ignored="false" />
-    <file path="/EntityFactory.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369942886253" ignored="false" />
+    <file path="/Entity.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370011764421" ignored="false" />
+    <file path="/EntityFactory.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370020327040" ignored="false" />
     <file path="/Fence.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369819176737" ignored="false" />
     <file path="/PikcupFactory.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369822359420" ignored="false" />
     <file path="/Medpack.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369824379533" ignored="false" />
-    <file path="/Crate.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369999926654" ignored="false" />
+    <file path="/Crate.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370022116965" ignored="false" />
     <file path="/Ammo.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370001662934" ignored="false" />
     <file path="/Adrenaline.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369824491821" ignored="false" />
     <file path="/PickupFactory.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370000060046" ignored="false" />
     <file path="/Timer.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369829082449" ignored="false" />
     <file path="/IntervalTimer.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369938454959" ignored="false" />
-    <file path="/Boomer.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369932042346" ignored="false" />
-    <file path="/Charger.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369932048470" ignored="false" />
+    <file path="/Boomer.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370012045668" ignored="false" />
+    <file path="/Charger.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370012112531" ignored="false" />
     <file path="/BoomerAI.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369836216169" ignored="false" />
     <file path="/ChargerAI.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369855845806" ignored="false" />
-    <file path="/Spawner.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369932021347" ignored="false" />
+    <file path="/Spawner.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370012078607" ignored="false" />
     <file path="/Menu.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369928101605" ignored="false" />
     <file path="/MenuItem.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369901795118" ignored="false" />
     <file path="/GameOverListener.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369912175338" ignored="false" />
     <file path="/MainInput.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369924964222" ignored="false" />
-    <file path="/GameInput.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370000100989" ignored="false" />
+    <file path="/GameInput.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370022383041" ignored="false" />
     <file path="/GameOverInput.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369915238228" ignored="false" />
     <file path="/CountdownTimer.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369920196312" ignored="false" />
     <file path="/OptionsScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369930260533" ignored="false" />
     <file path="/HowToPlayScreen.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369930285505" ignored="false" />
-    <file path="/HostileEntity.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369931717757" ignored="false" />
+    <file path="/HostileEntity.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370012258543" ignored="false" />
     <file path="/StandardBullet.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369997123650" ignored="false" />
     <file path="/BoldBullet.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369997102968" ignored="false" />
     <file path="/BulletType.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369934059615" ignored="false" />
@@ -92,6 +92,7 @@
     <file path="/HostileType.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369943281118" ignored="false" />
     <file path="/CoreUtils.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1369989357983" ignored="false" />
     <file path="/WeaponProto.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370001641558" ignored="false" />
+    <file path="/EntityProto.java" changelist="7990504d-507f-4b2b-a00f-f2bfe2c5f7bd" time="1370011625737" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,93 +153,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Player.java">
+      <file leaf-file-name="GameScreen.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/screens/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="299" column="32" selection-start="9311" selection-end="9311" vertical-scroll-proportion="0.0">
+            <state line="321" column="51" selection-start="11204" selection-end="11204" vertical-scroll-proportion="0.425">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WeaponProto.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponProto.java">
+      <file leaf-file-name="Shooter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/Shooter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="44" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ammo.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Ammo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="12" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
+            <state line="94" column="0" selection-start="2748" selection-end="2748" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shotgun.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Shotgun.java">
+      <file leaf-file-name="HostileEntity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/HostileEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="29" selection-start="806" selection-end="806" vertical-scroll-proportion="0.0">
+            <state line="32" column="22" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Magazine.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/magazines/Magazine.java">
+      <file leaf-file-name="EntityFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/EntityFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="4" selection-start="404" selection-end="404" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Weapon.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Weapon.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="0" selection-start="3074" selection-end="3074" vertical-scroll-proportion="0.9671848">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Crate.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Crate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="64" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SurvivalAI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/ai/game/SurvivalAI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="8" selection-start="1225" selection-end="1225" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PickupFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/PickupFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="47" selection-start="1625" selection-end="1625" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameInput.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/input/GameInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="51" selection-start="1993" selection-end="1993" vertical-scroll-proportion="0.0">
+            <state line="26" column="24" selection-start="996" selection-end="996" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -254,22 +199,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponSlot.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/Bullet.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/BoldBullet.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/StandardBullet.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/BulletFactory.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Rifle.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/magazines/ShotgunMagazine.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Crate.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/PickupFactory.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/input/GameInput.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Player.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/magazines/Magazine.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Ammo.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Entity.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Zombie.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Boomer.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Spawner.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Charger.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/HostileEntity.java" />
+        <option value="$PROJECT_DIR$/Desktop/src/org/m110/shooter/DesktopStarter.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/screens/MenuScreen.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/EntityFactory.java" />
         <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Shotgun.java" />
-        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponProto.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Crate.java" />
         <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Weapon.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Player.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/Shooter.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/input/GameInput.java" />
+        <option value="$PROJECT_DIR$/Main/src/org/m110/shooter/screens/GameScreen.java" />
       </list>
     </option>
   </component>
@@ -743,6 +688,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shooter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shooter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Shooter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope">
@@ -1065,120 +1042,116 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/Bullet.java">
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Boomer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="6" selection-start="664" selection-end="664" vertical-scroll-proportion="0.38860103">
+        <state line="15" column="33" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/BoldBullet.java">
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/Zombie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="29" selection-start="444" selection-end="444" vertical-scroll-proportion="0.44041452">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/StandardBullet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="40" selection-start="466" selection-end="466" vertical-scroll-proportion="0.44041452">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/bullets/BulletFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="55" selection-start="487" selection-end="487" vertical-scroll-proportion="0.38860103">
+        <state line="28" column="29" selection-start="947" selection-end="947" vertical-scroll-proportion="0.625">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/core/timers/IntervalTimer.java">
+    <entry file="file://$PROJECT_DIR$/Desktop/src/org/m110/shooter/DesktopStarter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="94" selection-end="94" vertical-scroll-proportion="0.12953368">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponSlot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="22" selection-start="193" selection-end="193" vertical-scroll-proportion="0.225">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/ai/game/SurvivalAI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="8" selection-start="1225" selection-end="1225" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Crate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="64" selection-start="503" selection-end="503" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/PickupFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="47" selection-start="1625" selection-end="1625" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/input/GameInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="51" selection-start="1993" selection-end="1993" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Ammo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/magazines/Magazine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="4" selection-start="404" selection-end="404" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Shotgun.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="29" selection-start="806" selection-end="806" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="299" column="32" selection-start="9311" selection-end="9311" vertical-scroll-proportion="0.0">
+        <state line="14" column="23" selection-start="460" selection-end="460" vertical-scroll-proportion="0.325">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponProto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="44" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0">
+        <state line="15" column="42" selection-start="481" selection-end="481" vertical-scroll-proportion="0.375">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/WeaponSlot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="12" selection-start="89" selection-end="89" vertical-scroll-proportion="0.125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Main/libs/gdx-sources.jar!/com/badlogic/gdx/utils/Array.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="272" column="13" selection-start="8855" selection-end="8855" vertical-scroll-proportion="0.3321976">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/pickups/Crate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="41" selection-start="570" selection-end="570" vertical-scroll-proportion="0.49222797">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Weapon.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="0" selection-start="3074" selection-end="3074" vertical-scroll-proportion="0.9671848">
+        <state line="86" column="17" selection-start="2800" selection-end="2800" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="369" column="0" selection-start="11472" selection-end="11472" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/screens/MenuScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="21" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/EntityFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="24" selection-start="996" selection-end="996" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/entities/enemies/HostileEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="22" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/weapons/Shotgun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="0" selection-start="1718" selection-end="1718" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/Shooter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="0" selection-start="2748" selection-end="2748" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/input/GameInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="1343" selection-end="1343" vertical-scroll-proportion="0.975">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/org/m110/shooter/screens/GameScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="321" column="51" selection-start="11204" selection-end="11204" vertical-scroll-proportion="0.425">
           <folding />
         </state>
       </provider>

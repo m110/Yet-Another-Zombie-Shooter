@@ -25,19 +25,7 @@ public class Zombie extends HostileEntity {
     }
 
     public Zombie(float startX, float startY) {
-        super(texture, name, startX, startY);
-
-        // Stats
-        setVelocity(4.0f);
-        setBaseHealth(40);
-        setAttackInterval(0.8f);
-        setAttackDamage(10);
-
-        // Sounds
-        setAttackSound(attackSound);
-        setDamageSound(damageSound);
-        setDeathSound(deathSound);
-
-        ai = new BasicAI(this);
+        super(EntityProto.ZOMBIE, texture, name, startX, startY, attackSound, damageSound, deathSound);
+        setAI(new BasicAI(this));
     }
 }

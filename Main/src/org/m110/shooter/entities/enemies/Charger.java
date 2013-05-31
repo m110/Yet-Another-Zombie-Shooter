@@ -25,19 +25,7 @@ public class Charger extends HostileEntity {
     }
 
     public Charger(float startX, float startY) {
-        super(texture, name, startX, startY);
-
-        // Stats
-        setVelocity(1.0f);
-        setBaseHealth(150);
-        setAttackDamage(40);
-        setAttackInterval(2.0f);
-
-        // Sounds
-        setAttackSound(attackSound);
-        setDamageSound(damageSound);
-        setDeathSound(deathSound);
-
-        ai = new ChargerAI(this);
+        super(EntityProto.CHARGER, texture, name, startX, startY, attackSound, damageSound, deathSound);
+        setAI(new ChargerAI(this));
     }
 }

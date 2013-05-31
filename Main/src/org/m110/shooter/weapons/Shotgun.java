@@ -61,4 +61,9 @@ public class Shotgun extends Weapon {
         font.draw(batch, activeMagazine.getBullets() + " / " + mainMagazine.getBullets(), x, y + 40);
         batch.end();
     }
+
+    @Override
+    public void dropMagazine() {
+        // No action for shotgun
+    }
 }

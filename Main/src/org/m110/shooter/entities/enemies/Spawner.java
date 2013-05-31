@@ -32,14 +32,11 @@ public class Spawner extends HostileEntity {
     }
 
     public Spawner(float startX, float startY, String entity, float interval, int maxEntities) {
-        super(texture, name, startX, startY);
+        super(EntityProto.SPAWNER, texture, name, startX, startY, null, null, null);
         this.entity = entity;
         this.maxEntities = maxEntities;
         spawnTimer = new IntervalTimer(interval);
         entities = new Array<>();
-
-        // Stats
-        setBaseHealth(300);
     }
 
     @Override

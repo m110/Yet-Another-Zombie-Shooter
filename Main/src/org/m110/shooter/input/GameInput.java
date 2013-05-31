@@ -22,18 +22,12 @@ public class GameInput extends InputListener {
 
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
-        if (player.isAlive()) {
-            player.lookAt(x, y);
-        }
+        player.lookAt(x, y);
         return true;
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
-        if (player.isDead()) {
-            return false;
-        }
-
         switch (keycode) {
             case Input.Keys.W:
                 player.movement().add(Movement.UP);
@@ -49,6 +43,9 @@ public class GameInput extends InputListener {
                 break;
             case Input.Keys.R:
                 player.reload();
+                break;
+            case Input.Keys.G:
+                player.dropMagazine();
                 break;
             case Input.Keys.SHIFT_LEFT:
                 player.setSprintActive(true);
@@ -74,10 +71,6 @@ public class GameInput extends InputListener {
 
     @Override
     public boolean keyUp(InputEvent event, int keycode) {
-        if (player.isDead()) {
-            return false;
-        }
-
         switch (keycode) {
             case Input.Keys.W:
                 player.movement().remove(Movement.UP);
@@ -100,10 +93,6 @@ public class GameInput extends InputListener {
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        if (player.isDead()) {
-            return false;
-        }
-
         switch (button) {
             case Input.Buttons.LEFT:
                 player.attack();
@@ -114,10 +103,6 @@ public class GameInput extends InputListener {
 
     @Override
     public boolean scrolled (InputEvent event, float x, float y, int amount) {
-        if (player.isDead()) {
-            return false;
-        }
-
         if (amount < 0) {
             player.nextWeapon();
         } else {

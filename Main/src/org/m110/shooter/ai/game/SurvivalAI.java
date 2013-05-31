@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
-import org.m110.shooter.entities.enemies.HostileType;
+import org.m110.shooter.entities.enemies.EntityProto;
 import org.m110.shooter.entities.enemies.Spawner;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.pickups.Crate;
@@ -61,7 +61,7 @@ public class SurvivalAI extends GameAI {
                                 x + MathUtils.random(-50.0f, 50.0f), y + MathUtils.random(-50.0f, 50.0f));
                     }
                 } else {
-                    Spawner spawner = new Spawner(x, y, HostileType.getRandomWithoutSpawner().toString().toLowerCase(),
+                    Spawner spawner = new Spawner(x, y, EntityProto.getRandomWithoutSpawner().toString().toLowerCase(),
                                                   MathUtils.random(0.5f, 3.0f), MathUtils.random(5, 15));
                     Shooter.getInstance().getGame().addEntity(spawner);
                 }

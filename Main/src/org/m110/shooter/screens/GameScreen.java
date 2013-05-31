@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.entities.enemies.HostileEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.input.GameInput;
 import org.m110.shooter.entities.bullets.Bullet;
@@ -74,18 +74,21 @@ public class GameScreen implements Screen {
     private Texture crosshair;
     private final Texture leftHUD;
     private final Texture rightHUD;
+    private final Texture topHUD;
 
     private final float mapWidth;
     private final float mapHeight;
 
     private final Group actorsGroup;
-    private final Array<Entity> entities;
+    private final Array<HostileEntity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
     private final Array<Dummy> dummies;
 
     private GameAI ai = NoneAI.getInstance();
 
+    private float gameTime = 0.0f;
+    private int score = 0;
     private boolean running = true;
 
     private float aggroRange = 350.0f;
@@ -140,6 +143,7 @@ public class GameScreen implements Screen {
         crosshair = new Texture(Gdx.files.internal("images/crosshair.png"));
         leftHUD = new Texture(Gdx.files.internal("images/left_hud.png"));
         rightHUD = new Texture(Gdx.files.internal("images/right_hud.png"));
+        topHUD = new Texture(Gdx.files.internal("images/top_hud.png"));
 
         // Tile map
         map = TiledLoader.createMap(Gdx.files.internal("data/level"+levelID+".tmx"));
@@ -239,17 +243,17 @@ public class GameScreen implements Screen {
         tileMapRenderer.render(camera);
         stage.draw();
 
-        // Check dead entities
-        Iterator<Entity> it = entities.iterator();
-        while (it.hasNext()) {
-            Entity enemy = it.next();
-            if (enemy.isDead()) {
-                it.remove();
-            }
-        }
-
         // Draw HUD
         batch.begin();
+
+        float topX = Gdx.graphics.getWidth() - 175;
+        float topY = Gdx.graphics.getHeight() - 90;
+        batch.draw(topHUD, topX, topY);
+        mediumFont.setColor(Color.WHITE);
+        mediumFont.draw(batch, "Level: " + levelID, topX + 15.0f, topY + 65.0f);
+        mediumFont.draw(batch, "Time: " + getTimeString(), topX + 15.0f, topY + 45.0f);
+        mediumFont.draw(batch, "Score: " + score, topX + 15.0f, topY + 25.0f);
+
         float leftX = 20;
         float leftY = 10;
         batch.draw(leftHUD, leftX, leftY);
@@ -289,14 +293,16 @@ public class GameScreen implements Screen {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
             renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
-            renderer.setColor(new Color(0.2f, 0.2f, 0.2f, 0.6f));
+            renderer.setColor(new Color(0.2f, 0.2f, 0.2f, 0.7f));
             renderer.filledRect(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             renderer.end();
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             batch.begin();
-            largeFont.draw(batch, "GAME OVER", 315, 400);
-            mediumFont.draw(batch, "Press ENTER to continue...", 280, 370);
+            largeFont.draw(batch, "G A M E   O V E R", 260, 420);
+            mediumFont.draw(batch, "Score: " + score, 330, 370);
+            mediumFont.draw(batch, "Time: " + getTimeString(), 330, 390);
+            mediumFont.draw(batch, "Press ENTER to continue...", 280, 330);
             batch.end();
         }
 
@@ -313,6 +319,7 @@ public class GameScreen implements Screen {
         }
 
         // Check crossahair's position
+        // Has to be done here, not in the update()!
         float crossX = Gdx.input.getX();
         float crossY = Gdx.input.getY();
         int newCrossX = (int) crossX;
@@ -347,10 +354,12 @@ public class GameScreen implements Screen {
             return;
         }
 
+        gameTime += delta;
+
         // Is player dead? (Game Over)
         if (player.isDead()) {
             running = false;
-            stage.removeListener(inputListener); // seems bugged?
+            stage.removeListener(inputListener);
             stage.addListener(new GameOverInput());
             return;
         }
@@ -364,8 +373,18 @@ public class GameScreen implements Screen {
                     pickup.remove();
                     pit.remove();
                 } else {
-                    // todo print alert of somethin
+                    // todo print alert or somethin
                 }
+            }
+        }
+
+        // Check dead entities
+        Iterator<HostileEntity> it = entities.iterator();
+        while (it.hasNext()) {
+            HostileEntity enemy = it.next();
+            if (enemy.isDead()) {
+                score += enemy.getPoints();
+                it.remove();
             }
         }
 
@@ -402,7 +421,7 @@ public class GameScreen implements Screen {
      * @return new created entity.
      */
     public Entity spawnEntity(TiledObject object, float x, float y) {
-        Entity entity = EntityFactory.createEntity(object, x, y);
+        HostileEntity entity = EntityFactory.createEntity(object, x, y);
         entities.add(entity);
         actorsGroup.addActor(entity);
         return entity;
@@ -415,13 +434,13 @@ public class GameScreen implements Screen {
         return pickup;
     }
 
-    public void addEntity(Entity entity) {
+    public void addEntity(HostileEntity entity) {
         entities.add(entity);
         actorsGroup.addActor(entity);
     }
 
     public Entity spawnRandomEntity(float x, float y) {
-        Entity entity = EntityFactory.createRandomEntity(x, y);
+        HostileEntity entity = EntityFactory.createRandomEntity(x, y);
         entities.add(entity);
         actorsGroup.addActor(entity);
         return entity;
@@ -490,7 +509,7 @@ public class GameScreen implements Screen {
 
     public boolean collidesWithEnemy(float newX, float newY, Entity actor) {
         for (Entity enemy : entities) {
-            if (actor != null && enemy == actor) {
+            if (enemy == actor) {
                 continue;
             }
 
@@ -512,12 +531,8 @@ public class GameScreen implements Screen {
     }
 
     public boolean collidesWith(Actor a, Actor b) {
-        if (a.getX() < b.getX()+b.getWidth() && a.getX()+a.getWidth() > b.getX() &&
-            a.getY() < b.getY()+b.getHeight() && a.getY()+a.getHeight() > b.getY()) {
-            return true;
-        } else {
-            return false;
-        }
+        return (a.getX() < b.getX()+b.getWidth() && a.getX()+a.getWidth() > b.getX() &&
+                a.getY() < b.getY()+b.getHeight() && a.getY()+a.getHeight() > b.getY());
     }
 
     @Override
@@ -603,5 +618,16 @@ public class GameScreen implements Screen {
 
     public void setAggroRange(float aggroRange) {
         this.aggroRange = aggroRange;
+    }
+
+    public String getTimeString() {
+        String minutes = Integer.toString((int)(gameTime / 60.0f));
+        if (minutes.length() < 2) minutes = "0" + minutes;
+        String seconds = Integer.toString((int) gameTime % 60);
+        if (seconds.length() < 2) seconds = "0" + seconds;
+        String milis = Integer.toString((int)(100.0f * (gameTime - (int)gameTime)));
+        if (milis.length() < 2) milis = "0" + milis;
+
+        return minutes + ":" + seconds + ":" + milis;
     }
 }

@@ -316,7 +316,7 @@ public class Player extends Entity {
             if (activeWeapon == null) {
                 activeWeapon = weapon;
             }
-            weapon.playReloadSound();
+            weapon.setPickedUp();
             return true;
         }
     }
@@ -363,6 +363,12 @@ public class Player extends Entity {
             return changeWeapon(slot);
         } else {
             return false;
+        }
+    }
+
+    public void dropMagazine() {
+        if (activeWeapon != null) {
+            activeWeapon.dropMagazine();
         }
     }
 

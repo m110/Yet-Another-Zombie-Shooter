@@ -25,19 +25,7 @@ public class Boomer extends HostileEntity {
     }
 
     public Boomer(float startX, float startY) {
-        super(texture, name, startX, startY);
-
-        // Stats
-        setVelocity(2.0f);
-        setBaseHealth(300);
-        setAttackDamage(75);
-        setAttackInterval(10.0f);
-
-        // Sounds
-        setAttackSound(attackSound);
-        setDamageSound(damageSound);
-        setDeathSound(deathSound);
-
-        ai = new BoomerAI(this);
+        super(EntityProto.BOOMER, texture, name, startX, startY, attackSound, damageSound, deathSound);
+        setAI(new BoomerAI(this));
     }
 }

@@ -336,6 +336,10 @@ public abstract class Entity extends Actor {
         }
     }
 
+    public void setAI(AI ai) {
+        this.ai = ai;
+    }
+
     public void setAttackSound(Sound attackSound) {
         this.attackSound = attackSound;
     }

@@ -2,7 +2,6 @@ package org.m110.shooter.entities;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import org.m110.shooter.entities.enemies.*;
-import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -10,7 +9,7 @@ import org.m110.shooter.screens.GameScreen;
 public class EntityFactory {
     private EntityFactory() {}
 
-    public static Entity createEntity(TiledObject object, float x, float y) {
+    public static HostileEntity createEntity(TiledObject object, float x, float y) {
         switch (object.name) {
             case "zombie": return new Zombie(x ,y);
             case "boomer": return new Boomer(x, y);
@@ -25,8 +24,8 @@ public class EntityFactory {
         }
     }
 
-    public static Entity createRandomEntity(float x, float y) {
-        HostileType type = HostileType.getRandom();
+    public static HostileEntity createRandomEntity(float x, float y) {
+        EntityProto type = EntityProto.getRandom();
         switch (type) {
             case ZOMBIE:
             case SPAWNER: // Just to increase chances...

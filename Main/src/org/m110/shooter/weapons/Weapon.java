@@ -42,6 +42,8 @@ public class Weapon {
     private final Array<Magazine> magazines;
     protected Magazine activeMagazine;
 
+    private boolean pickedUp = false;
+
     static {
         mainTexture = new Texture("images/weapons.png");
         emptySound = Gdx.audio.newSound(Gdx.files.internal("audio/empty.ogg"));
@@ -94,6 +96,11 @@ public class Weapon {
         reloadTimer.reset();
     }
 
+    public void setPickedUp() {
+        pickedUp = true;
+        playReloadSound();
+    }
+
     /**
      * Fires the weapon, spawns bullet at given location.
      * @param x
@@ -104,8 +111,14 @@ public class Weapon {
     public Array<Bullet> fire(float x, float y, float angle) {
         Array<Bullet> bullets = new Array<>();
 
-        // No magazine or weapon cooldown or still reloading
-        if (activeMagazine == null || !cooldownTimer.ready() || !reloadTimer.ready()) {
+        // No magazine available
+        if (activeMagazine == null) {
+            emptySound.play();
+            return bullets; // return empty array
+        }
+
+        // Weapon cooldown or still reloading
+        if (!cooldownTimer.ready() || !reloadTimer.ready()) {
             return bullets; // return empty array
         }
 
@@ -188,7 +201,9 @@ public class Weapon {
             magazines.add(magazine);
             if (activeMagazine == null) {
                 activeMagazine = magazine;
-            } else {
+            }
+
+            if (pickedUp) {
                 if (proto != WeaponProto.SHOTGUN) {
                     reloadSound.play();
                 }
@@ -251,6 +266,15 @@ public class Weapon {
      */
     public void setActiveMagazineAmmo(int ammo) {
         activeMagazine.setBullets(ammo);
+    }
+
+    public void dropMagazine() {
+        magazines.removeValue(activeMagazine, true);
+        if (magazines.size > 0) {
+            activeMagazine = magazines.first();
+        } else {
+            activeMagazine = null;
+        }
     }
 
     public Magazine getActiveMagazine() {

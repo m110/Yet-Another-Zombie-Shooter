@@ -59,6 +59,9 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         menu.draw(batch, delta);
+        batch.begin();
+        Shooter.getInstance().getMediumFont().draw(batch, "version " + Shooter.VERSION, 5.0f, 20.0f);
+        batch.end();
     }
 
     @Override

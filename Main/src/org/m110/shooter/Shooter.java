@@ -18,10 +18,11 @@ import java.util.Iterator;
 
 /**
  * @author m1_10sz <m110@m110.pl>
+ * @version 0.1.11
  */
 public class Shooter extends Game {
-    public static final int GAME_WIDTH = 800;
-    public static final int GAME_HEIGHT = 600;
+
+    public static final String VERSION = "0.1.11";
 
     private static Shooter INSTANCE = null;
 
