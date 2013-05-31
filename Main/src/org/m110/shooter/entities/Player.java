@@ -11,8 +11,10 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.bullets.Bullet;
+import org.m110.shooter.pickups.Ammo;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.*;
+import org.m110.shooter.weapons.magazines.Magazine;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -375,7 +377,10 @@ public class Player extends Entity {
 
     public void dropMagazine() {
         if (activeWeapon != null) {
-            activeWeapon.dropMagazine();
+            Magazine magazine = activeWeapon.dropMagazine();
+            if (magazine != null) {
+                // todo wyrzuc magazynek na ziemie
+            }
         }
     }
 

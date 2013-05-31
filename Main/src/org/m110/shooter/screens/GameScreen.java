@@ -166,7 +166,7 @@ public class GameScreen implements Screen {
         fences = new Array<>();
         dummies = new Array<>();
 
-        bloodScreenTimer = new IntervalTimer(0.5f);
+        bloodScreenTimer = new IntervalTimer(0.7f);
         bloodScreenTimer.disable();
     }
 

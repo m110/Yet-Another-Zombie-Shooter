@@ -5,21 +5,58 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.ai.entity.NoneAI;
+import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.screens.GameScreen;
+
+import java.util.Iterator;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public abstract class Entity extends Actor {
+
+    class DamageIndicator {
+        private final String damage;
+        private final CountdownTimer timer;
+        private final float x;
+        private final float y;
+
+        private static final float duration = 1f;
+        private static final float finalY = 30.0f;
+        private final BitmapFont font = Shooter.getInstance().getSmallFont();
+
+        public DamageIndicator(int damage) {
+            this.damage = Integer.toString(damage);
+            timer = new CountdownTimer(duration);
+
+            x = getWorldX() - font.getSpaceWidth() * this.damage.length() / 2.0f;
+            y = getWorldY() + getHeight() / 2.0f;
+        }
+
+        public void update(float delta) {
+            timer.update(delta);
+        }
+
+        public void draw(SpriteBatch batch) {
+            font.setColor(1.0f, 0.0f, 0.0f, Math.min(Math.max(timer.getTimeLeft(), 0.0f), 1.0f));
+            font.draw(batch, damage, x, y + finalY * (duration - timer.getTimeLeft()));
+        }
+
+        public boolean isDone() {
+            return timer.ready();
+        }
+    }
 
     private enum State {
         ALIVE, DEAD
@@ -51,13 +88,14 @@ public abstract class Entity extends Actor {
     private State state;
 
     // Combat system
-    private float attackInterval = 0.8f;
-    private float attackTime = 0.0f;
-    private int attackDamage = 10;
+    private float attackInterval;
+    private float attackTime;
+    private int attackDamage;
 
     private Entity victim = null;
-
     protected AI ai = NoneAI.getInstance();
+
+    private Array<DamageIndicator> indicators;
 
     static {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("images/dead.png")));
@@ -72,7 +110,6 @@ public abstract class Entity extends Actor {
         } else {
             return null;
         }
-
     }
 
     protected static Sound loadAttackSound(String name) { return loadSound(name + "_attack"); }
@@ -97,6 +134,7 @@ public abstract class Entity extends Actor {
         setY(startY);
 
         state = State.ALIVE;
+        indicators = new Array<>();
     }
 
     public int getHealth() {
@@ -124,6 +162,7 @@ public abstract class Entity extends Actor {
         }
 
         damageSoundTimer.update(delta);
+        updateIndicators(delta);
     }
 
     @Override
@@ -144,11 +183,17 @@ public abstract class Entity extends Actor {
         renderer.filledRect(getX(), getY() - 5.0f, getHealthPercent() * getWidth(), 3);
         renderer.end();
         batch.begin();
+
+        for (DamageIndicator indicator : indicators) {
+            indicator.draw(batch);
+        }
     }
 
     public void takenDamage(int damage, Entity attacker) {
         health -= damage;
         playDamageSound();
+
+        indicators.add(new DamageIndicator(damage));
 
         ai.afterHit(attacker);
 
@@ -261,6 +306,17 @@ public abstract class Entity extends Actor {
     private boolean checkCollisions(float newX, float newY) {
         return game.collidesWithWall(newX, newY, this)
             || game.collidesWithEnemy(newX, newY, this);
+    }
+
+    protected void updateIndicators(float delta) {
+        Iterator<DamageIndicator> it = indicators.iterator();
+        while (it.hasNext()) {
+            DamageIndicator indicator = it.next();
+            indicator.update(delta);
+            if (indicator.isDone()) {
+                it.remove();
+            }
+        }
     }
 
     public float getWorldX() {

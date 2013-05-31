@@ -225,6 +225,7 @@ public class Weapon {
      */
     public void drawMagazines(float x, float y, ShapeRenderer renderer, SpriteBatch batch) {
         BitmapFont font = Shooter.getInstance().getSmallFont();
+        font.setColor(Color.WHITE);
         for (Magazine magazine : magazines) {
             if (magazine == activeMagazine) {
                 renderer.setColor(Color.WHITE);
@@ -270,11 +271,12 @@ public class Weapon {
         activeMagazine.setBullets(ammo);
     }
 
-    public void dropMagazine() {
+    public Magazine dropMagazine() {
         if (magazines.size == 0) {
-            return;
+            return null;
         }
 
+        Magazine result = activeMagazine;
         magazines.removeValue(activeMagazine, true);
         dropMagazineSound.play();
         if (magazines.size > 0) {
@@ -282,6 +284,8 @@ public class Weapon {
         } else {
             activeMagazine = null;
         }
+
+        return result;
     }
 
     public Magazine getActiveMagazine() {

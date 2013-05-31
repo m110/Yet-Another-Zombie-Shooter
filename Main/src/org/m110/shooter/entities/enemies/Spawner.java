@@ -41,6 +41,8 @@ public class Spawner extends HostileEntity {
 
     @Override
     public void act(float delta) {
+        updateIndicators(delta);
+
         if (isDead()) {
             return;
         }
