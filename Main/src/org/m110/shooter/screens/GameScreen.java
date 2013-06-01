@@ -283,11 +283,12 @@ public class GameScreen implements Screen {
 
         Weapon weapon = player.getActiveWeapon();
         if (weapon != null) {
-            batch.draw(weapon.getTexture(), rightX + 15, rightY + 15);
+            batch.draw(weapon.getTexture(), rightX + 15.0f, rightY + 15.0f);
+            mediumFont.draw(batch, weapon.getMode().name, rightX + 18.0f, rightY + 75.0f);
             batch.end();
 
             // Draw magazines
-            weapon.drawMagazines(rightX + 80, rightY + 13, renderer, batch);
+            weapon.drawMagazines(rightX + 80.0f, rightY + 13.0f, renderer, batch);
 
             batch.begin();
         }
@@ -304,7 +305,7 @@ public class GameScreen implements Screen {
         }
 
         // Game Over?
-        if (player.isDead()) {
+        if (!running) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
             renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
@@ -314,7 +315,11 @@ public class GameScreen implements Screen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             batch.begin();
-            largeFont.draw(batch, "G A M E   O V E R", 260, 420);
+            if (player.isDead()) {
+                largeFont.draw(batch, "G A M E   O V E R", 260, 420);
+            } else {
+                largeFont.draw(batch, "L E V E L   C O M P L E T E", 200, 420);
+            }
             mediumFont.draw(batch, "Score: " + score, 330, 370);
             mediumFont.draw(batch, "Time: " + getTimeString(), 330, 390);
             mediumFont.draw(batch, "Press ENTER to continue...", 280, 330);
@@ -548,6 +553,11 @@ public class GameScreen implements Screen {
     public boolean collidesWith(Actor a, Actor b) {
         return (a.getX() < b.getX()+b.getWidth() && a.getX()+a.getWidth() > b.getX() &&
                 a.getY() < b.getY()+b.getHeight() && a.getY()+a.getHeight() > b.getY());
+    }
+
+    public boolean collidesWith(Actor a, Dummy dummy) {
+        return (a.getX() < dummy.getX()+dummy.getWidth() && a.getX()+a.getWidth() > dummy.getX() &&
+                a.getY() < dummy.getY()+dummy.getHeight() && a.getY()+a.getHeight() > dummy.getY());
     }
 
     @Override

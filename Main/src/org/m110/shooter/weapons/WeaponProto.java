@@ -6,6 +6,7 @@ import org.m110.shooter.entities.bullets.BulletType;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -18,11 +19,12 @@ public enum WeaponProto {
             bulletVelocity(1.0f).cooldown(0.8f).reloadCooldown(0.7f).recoilFactor(16.0f).
             maxMagazines(10).damage(10).bulletType(BulletType.BOLD)),
     RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.1f).
-            reloadCooldown(0.8f).recoilFactor(4.5f).damage(20));
+            reloadCooldown(0.8f).recoilFactor(3.5f).damage(20).mode(WeaponMode.BURST).mode(WeaponMode.AUTO));
 
     public final int textureID;
     public final String name;
     public final WeaponSlot slot;
+    public final EnumSet<WeaponMode> modes;
     public final int magazineCapacity;
     public final int maxMagazines;
     public final float cooldown;
@@ -42,6 +44,7 @@ public enum WeaponProto {
         private final WeaponSlot slot;
 
         // Weapon specific stats
+        private EnumSet<WeaponMode> modes;
         private int magazineCapacity = 10;
         private int maxMagazines = 5;
         private float cooldown = 0.5f;
@@ -58,6 +61,12 @@ public enum WeaponProto {
             this.textureID = textureID;
             this.name = name;
             this.slot = slot;
+            modes = EnumSet.of(WeaponMode.SEMI);
+        }
+
+        public Builder mode(WeaponMode mode) {
+            modes.add(mode);
+            return this;
         }
 
         public Builder magazineCapacity(int magazineCapacity) {
@@ -110,6 +119,7 @@ public enum WeaponProto {
         textureID = builder.textureID;
         name = builder.name;
         slot = builder.slot;
+        modes = builder.modes;
         magazineCapacity = builder.magazineCapacity;
         maxMagazines = builder.maxMagazines;
         cooldown = builder.cooldown;

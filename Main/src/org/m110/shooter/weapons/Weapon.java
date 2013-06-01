@@ -17,6 +17,8 @@ import org.m110.shooter.entities.bullets.BulletFactory;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.Magazine;
 
+import java.util.Iterator;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
@@ -43,7 +45,13 @@ public class Weapon {
     private final Array<Magazine> magazines;
     protected Magazine activeMagazine;
 
+    private int shots = 0;
+    private WeaponMode mode = WeaponMode.SEMI;
+    private boolean blocked = false;
+
     private boolean pickedUp = false;
+
+    private static final float burstFactor = 0.2f;
 
     static {
         mainTexture = new Texture("images/weapons.png");
@@ -120,24 +128,31 @@ public class Weapon {
         }
 
         // Weapon cooldown or still reloading
-        if (!cooldownTimer.ready() || !reloadTimer.ready()) {
+        if (!isReady()) {
+            return bullets; // return empty array
+        }
+
+        // Check burst shots
+        if (shots >= mode.maxShots) {
             return bullets; // return empty array
         }
 
         // Active magazine is empty
         if (activeMagazine.isEmpty()) {
             emptySound.play();
+            blocked = true;
             return bullets; // return empty array
         }
 
-        // Play the fire shoot
+        // Play the fire sound
         fireSound.play();
 
         // Fire just a single bullet or multiple bullets?
         if (proto.bulletsCount == 1) {
-            // Angle = player's angle + random recoil factor
-            float totalAngle = angle + MathUtils.random(-proto.recoilFactor, proto.recoilFactor);
-            bullets.add(BulletFactory.createBullet(proto, x, y, angle));
+            // Angle = player's angle + random recoil factor increased with mode factor
+            float recoil = proto.recoilFactor + shots * burstFactor;
+            float totalAngle = angle + MathUtils.random(-recoil, recoil);
+            bullets.add(BulletFactory.createBullet(proto, x, y, totalAngle));
         } else {
             // Angle = player's angle - factor, and then increase it by %
             float startAngle = angle - proto.recoilFactor;
@@ -158,6 +173,9 @@ public class Weapon {
         cooldownTimer.reset();
         activeMagazine.takeBullet();
 
+        // Increase shots counter
+        shots++;
+
         return bullets;
     }
 
@@ -165,7 +183,7 @@ public class Weapon {
      * Reload the weapon (change magazine).
      */
     public void reload() {
-        if (magazines.size == 1 || !reloadTimer.ready()) {
+        if (magazines.size <= 1 || !reloadTimer.ready()) {
             return;
         }
 
@@ -263,6 +281,34 @@ public class Weapon {
         reloadTimer.update(delta);
     }
 
+    public void nextWeaponMode() {
+        if (proto.modes.size() <= 1) {
+            return;
+        }
+
+        WeaponMode first = proto.modes.iterator().next();
+        Iterator<WeaponMode> it = proto.modes.iterator();
+        while (it.hasNext()) {
+            WeaponMode wm = it.next();
+            if (wm == mode) {
+                if (it.hasNext()) {
+                    mode = it.next();
+                } else {
+                    mode = first;
+                }
+
+                // todo find better sound
+                emptySound.play();
+                return;
+            }
+        }
+    }
+
+    public void stopFire() {
+        shots = 0;
+        blocked = false;
+    }
+
     /**
      * Set active magazine ammunition.
      * @param ammo bullets amount to be set.
@@ -292,6 +338,10 @@ public class Weapon {
         return activeMagazine;
     }
 
+    public WeaponMode getMode() {
+        return mode;
+    }
+
     public WeaponProto getProto() {
         return proto;
     }
@@ -302,5 +352,9 @@ public class Weapon {
 
     public TextureRegion getTexture() {
         return texture;
+    }
+
+    public boolean isReady() {
+        return cooldownTimer.ready() && reloadTimer.ready() && !blocked;
     }
 }

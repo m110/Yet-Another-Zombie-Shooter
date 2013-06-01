@@ -97,8 +97,20 @@ public class GameInput extends InputListener {
             case Input.Buttons.LEFT:
                 player.attack();
                 break;
+            case Input.Buttons.RIGHT:
+                player.getActiveWeapon().nextWeaponMode();
+                break;
         }
         return true;
+    }
+
+    @Override
+    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        switch (button) {
+            case Input.Buttons.LEFT:
+                player.stopAttack();
+                break;
+        }
     }
 
     @Override

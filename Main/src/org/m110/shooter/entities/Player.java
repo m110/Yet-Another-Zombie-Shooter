@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.bullets.Bullet;
-import org.m110.shooter.pickups.Ammo;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.*;
 import org.m110.shooter.weapons.magazines.Magazine;
@@ -74,6 +72,7 @@ public class Player extends Entity {
     // Weapons related stuff
     private final HashMap<WeaponSlot, Weapon> weapons;
     private Weapon activeWeapon;
+    private boolean attacking = false;
 
     // This should be replaced with proper buff system
     private float medpackInterval = 0.5f;
@@ -167,6 +166,10 @@ public class Player extends Entity {
 
         // Update change weapon time
         changeWeaponTime -= delta;
+
+        if (attacking && activeWeapon.isReady()) {
+            fire();
+        }
 
         if (!movement.isEmpty()) {
             // Stamina usage
@@ -287,13 +290,21 @@ public class Player extends Entity {
     }
 
     /**
-     * Causes the player to dealDamage.
+     * Causes the player to attack..
      */
     public void attack() {
         if (activeWeapon == null) {
             return;
         }
+        attacking = true;
+    }
 
+    public void stopAttack() {
+        attacking = false;
+        activeWeapon.stopFire();
+    }
+
+    public void fire() {
         Array<Bullet> firedBullets = activeWeapon.fire(
                getWorldX() + (float)Math.cos(Math.toRadians(getRotation()))*(getWidth()/2),
                getWorldY() + (float)Math.sin(Math.toRadians(getRotation()))*(getHeight()/2), getRotation());
