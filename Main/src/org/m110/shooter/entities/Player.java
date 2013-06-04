@@ -24,6 +24,7 @@ import java.util.Iterator;
 public class Player extends Entity {
 
     private static final TextureRegion texture;
+    private static final Array<TextureRegion> fleshTextures;
 
     /**
      * Time in seconds between steps sound.
@@ -67,7 +68,7 @@ public class Player extends Entity {
     private float changeWeaponTime = 0.0f;
 
     private boolean sprintActive = false;
-    private float bonusVelocity = 6.0f;
+    private float bonusVelocity = 4.0f;
 
     // Weapons related stuff
     private final HashMap<WeaponSlot, Weapon> weapons;
@@ -86,11 +87,12 @@ public class Player extends Entity {
     private boolean adrenalineActive = false;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
+        texture = Entity.loadTexture("player");
+        fleshTextures = Entity.loadFleshTextures(texture);
     }
 
     public Player() {
-        super(texture, "player", 0.0f, 0.0f);
+        super(texture, fleshTextures, "player", 0.0f, 0.0f);
 
         // Load step sounds
         stepSound = new Sound[3];
@@ -109,7 +111,7 @@ public class Player extends Entity {
         activeWeapon = null;
 
         // Stats
-        setVelocity(6.0f);
+        setVelocity(8.0f);
     }
 
     public void updateGame(GameScreen game) {
@@ -194,9 +196,10 @@ public class Player extends Entity {
 
             if (movement.contains(Movement.UP)) {
                 newY += totalVelocity;
-            }
-            if (movement.contains(Movement.DOWN)) {
+                totalVelocity /= 2;
+            } else if (movement.contains(Movement.DOWN)) {
                 newY -= totalVelocity;
+                totalVelocity /= 2;
             }
             if (movement.contains(Movement.LEFT)) {
                 newX -= totalVelocity;
@@ -301,7 +304,9 @@ public class Player extends Entity {
 
     public void stopAttack() {
         attacking = false;
-        activeWeapon.stopFire();
+        if (activeWeapon != null) {
+            activeWeapon.stopFire();
+        }
     }
 
     public void fire() {
@@ -401,6 +406,12 @@ public class Player extends Entity {
     public void reload() {
         if (activeWeapon != null) {
             activeWeapon.reload();
+        }
+    }
+
+    public void nextWeaponMode() {
+        if (activeWeapon != null) {
+            activeWeapon.nextWeaponMode();
         }
     }
 

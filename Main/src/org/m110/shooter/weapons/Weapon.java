@@ -124,6 +124,7 @@ public class Weapon {
         // No magazine available
         if (activeMagazine == null) {
             emptySound.play();
+            blocked = true;
             return bullets; // return empty array
         }
 
@@ -314,7 +315,9 @@ public class Weapon {
      * @param ammo bullets amount to be set.
      */
     public void setActiveMagazineAmmo(int ammo) {
-        activeMagazine.setBullets(ammo);
+        if (activeMagazine != null) {
+            activeMagazine.setBullets(ammo);
+        }
     }
 
     public Magazine dropMagazine() {

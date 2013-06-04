@@ -457,7 +457,6 @@ public class GameScreen implements Screen {
     public void addEntity(HostileEntity entity) {
         entities.add(entity);
         actorsGroup.addActor(entity);
-        entity.setZIndex(0);
     }
 
     public Entity spawnRandomEntity(float x, float y) {

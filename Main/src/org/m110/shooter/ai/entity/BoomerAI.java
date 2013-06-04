@@ -23,4 +23,9 @@ public class BoomerAI extends AI {
             me.moveChase();
         }
     }
+
+    @Override
+    public void afterDeath() {
+        me.setPiecesRecoil(0.0f, 360.0f, 1.0f, 1.5f);
+    }
 }

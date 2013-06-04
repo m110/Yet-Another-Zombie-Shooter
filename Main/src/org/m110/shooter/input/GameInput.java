@@ -27,6 +27,11 @@ public class GameInput extends InputListener {
     }
 
     @Override
+    public void touchDragged (InputEvent event, float x, float y, int pointer) {
+        player.lookAt(x, y);
+    }
+
+    @Override
     public boolean keyDown(InputEvent event, int keycode) {
         switch (keycode) {
             case Input.Keys.W:
@@ -98,7 +103,7 @@ public class GameInput extends InputListener {
                 player.attack();
                 break;
             case Input.Buttons.RIGHT:
-                player.getActiveWeapon().nextWeaponMode();
+                player.nextWeaponMode();
                 break;
         }
         return true;

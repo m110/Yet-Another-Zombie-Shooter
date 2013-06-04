@@ -2,6 +2,7 @@ package org.m110.shooter.entities.enemies;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.entities.Entity;
 
@@ -13,9 +14,9 @@ public abstract class HostileEntity extends Entity {
     private final EntityProto proto;
     private final int points;
 
-    public HostileEntity(EntityProto proto, TextureRegion texture, String name, float startX, float startY,
-                         Sound attackSound, Sound damageSound, Sound deathSound) {
-        super(texture, name, startX, startY);
+    public HostileEntity(EntityProto proto, TextureRegion texture, Array<TextureRegion> fleshTextures, String name,
+                         float startX, float startY, Sound attackSound, Sound damageSound, Sound deathSound) {
+        super(texture, fleshTextures, name, startX, startY);
         this.proto = proto;
         this.points = proto.points;
 

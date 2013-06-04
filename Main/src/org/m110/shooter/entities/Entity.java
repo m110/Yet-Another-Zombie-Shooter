@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.Array;
@@ -58,6 +59,53 @@ public abstract class Entity extends Actor {
         }
     }
 
+    private class Piece {
+
+        private final TextureRegion texture;
+        private final float rotation;
+        private float x;
+        private float y;
+        private final float offsetX;
+        private final float offsetY;
+
+        private float angle = 0.0f;
+        private float velocity = 0.0f;
+
+        public Piece(TextureRegion texture) {
+            this.texture = texture;
+            offsetX = MathUtils.random(-getOriginX()/2, getOriginX()/2);
+            offsetY = MathUtils.random(-getOriginY()/2, getOriginY()/2);
+            rotation = MathUtils.random(0.0f, 360.0f);
+            updatePosition();
+        }
+
+        public void draw(SpriteBatch batch) {
+            batch.draw(texture, x, y, 0, 0,
+                       texture.getRegionWidth(), texture.getRegionHeight(), 1, 1, rotation);
+        }
+
+        public void act(float delta) {
+            if (velocity <= 0) {
+                return;
+            }
+
+            x += Math.cos(Math.toRadians(angle)) * velocity;
+            y += Math.sin(Math.toRadians(angle)) * velocity;
+
+            velocity -= delta;
+        }
+
+        public void updatePosition() {
+            x = getWorldX() + offsetX;
+            y = getWorldY() + offsetY;
+        }
+
+        public void setRecoil(float angle, float velocity) {
+            this.angle = angle;
+            this.velocity = velocity;
+        }
+    }
+
     private enum State {
         ALIVE, DEAD
     }
@@ -66,7 +114,7 @@ public abstract class Entity extends Actor {
     protected final ShapeRenderer renderer;
 
     // Textures
-    private TextureRegion texture;
+    private final TextureRegion texture;
     private static final TextureRegion deadTexture;
 
     // Sounds
@@ -96,6 +144,7 @@ public abstract class Entity extends Actor {
     protected AI ai = NoneAI.getInstance();
 
     private Array<DamageIndicator> indicators;
+    private final Array<Piece> pieces;
 
     static {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("images/dead.png")));
@@ -120,7 +169,24 @@ public abstract class Entity extends Actor {
         return new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
     }
 
-    public Entity(TextureRegion texture, String name, float startX, float startY) {
+    protected static Array<TextureRegion> loadFleshTextures(TextureRegion texture) {
+        Array<TextureRegion> regions = new Array<>();
+
+        final float width = texture.getRegionWidth();
+        final float height = texture.getRegionHeight();
+
+        float stepH = height / 4.0f;
+        float stepW = width / 4.0f;
+        for (int i = 0; i < height; i += stepH) {
+            for (int j = 0; j < width; j += stepW) {
+                regions.add(new TextureRegion(texture, j, i, (int) stepW, (int) stepH));
+            }
+        }
+
+        return regions;
+    }
+
+    public Entity(TextureRegion texture, Array<TextureRegion> fleshTextures, String name, float startX, float startY) {
         this.game = Shooter.getInstance().getGame();
         this.name = name;
         renderer = new ShapeRenderer();
@@ -135,6 +201,11 @@ public abstract class Entity extends Actor {
 
         state = State.ALIVE;
         indicators = new Array<>();
+
+        pieces = new Array<>();
+        for (TextureRegion fleshTexture : fleshTextures) {
+            pieces.add(new Piece(fleshTexture));
+        }
     }
 
     public int getHealth() {
@@ -161,6 +232,12 @@ public abstract class Entity extends Actor {
             attackTime -= delta;
         }
 
+        if (isDead()) {
+            for (Piece piece : pieces) {
+                piece.act(delta);
+            }
+        }
+
         damageSoundTimer.update(delta);
         updateIndicators(delta);
     }
@@ -183,6 +260,12 @@ public abstract class Entity extends Actor {
         renderer.filledRect(getX(), getY() - 5.0f, getHealthPercent() * getWidth(), 3);
         renderer.end();
         batch.begin();
+
+        if (isDead()) {
+            for (Piece piece : pieces) {
+                piece.draw(batch);
+            }
+        }
 
         for (DamageIndicator indicator : indicators) {
             indicator.draw(batch);
@@ -219,6 +302,12 @@ public abstract class Entity extends Actor {
         state = State.DEAD;
         playDeathSound();
         setZIndex(0);
+
+        for (Piece piece : pieces) {
+            piece.updatePosition();
+        }
+
+        ai.afterDeath();
     }
 
     public void move(float newX, float newY) {
@@ -276,6 +365,12 @@ public abstract class Entity extends Actor {
         move(newX, newY);
     }
 
+    public void setPiecesRecoil(float angleMin, float angleMax, float velocityMin, float velocityMax) {
+        for (Piece piece : pieces) {
+            piece.setRecoil(MathUtils.random(angleMin, angleMax), MathUtils.random(velocityMin, velocityMax));
+        }
+    }
+
     /**
      * Sets actor's rotation towards the point..
      * @param x coord x of the point.
@@ -298,6 +393,23 @@ public abstract class Entity extends Actor {
 
         setRotation(degrees);
     }
+
+    public float angleWith(Entity entity) {
+        float px = getWorldX();
+        float py = getWorldY();
+
+        // Calculate two angles
+        double a1 = Math.atan2(py - entity.getWorldY(), px - entity.getWorldX());
+        double a2 = Math.atan2(py - py, px - entity.getWorldX());
+
+        // Calculate degrees
+        float degrees = 360 + (float) Math.toDegrees(a1 - a2);
+        if (entity.getWorldX() <= px ) {
+            degrees -= 180.0f;
+        }
+        return degrees;
+    }
+
     public float distanceTo(Entity actor) {
         return (float) Math.sqrt(Math.pow(getWorldX() - actor.getWorldX(), 2) +
                                  Math.pow(getWorldY() - actor.getWorldY(), 2));

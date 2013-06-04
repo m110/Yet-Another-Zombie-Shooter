@@ -26,6 +26,16 @@ public abstract class AI {
 
     public void afterCollision() {}
 
+    public void afterDeath() {
+        if (player == null) {
+            return;
+        }
+
+        float angle = me.angleWith(player) + 180.0f;
+        float offset = 30.0f;
+        me.setPiecesRecoil(angle - offset, angle + offset, 0.5f, 1.0f);
+    }
+
     protected boolean updateVictim() {
         if (player == null) {
             return false;

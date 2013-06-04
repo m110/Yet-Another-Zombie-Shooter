@@ -19,6 +19,7 @@ public class Spawner extends HostileEntity {
 
     private static final String name;
     private static final TextureRegion texture;
+    private static final Array<TextureRegion> fleshTextures;
 
     private final String entity;
     private final int maxEntities;
@@ -29,10 +30,11 @@ public class Spawner extends HostileEntity {
     static {
         name = "spawner";
         texture = Entity.loadTexture(name);
+        fleshTextures = Entity.loadFleshTextures(texture);
     }
 
     public Spawner(float startX, float startY, String entity, float interval, int maxEntities) {
-        super(EntityProto.SPAWNER, texture, name, startX, startY, null, null, null);
+        super(EntityProto.SPAWNER, texture, fleshTextures, name, startX, startY, null, null, null);
         this.entity = entity;
         this.maxEntities = maxEntities;
         spawnTimer = new IntervalTimer(interval);
