@@ -1,5 +1,6 @@
 package org.m110.shooter.ai.entity;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.Player;
@@ -17,6 +18,7 @@ public abstract class AI {
     }
 
     public void act(float delta) {}
+    public void draw(SpriteBatch batch) {}
 
     public void afterHit(Entity attacker) {
         if (me != attacker && !me.inCombat()) {

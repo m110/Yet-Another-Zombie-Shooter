@@ -50,7 +50,7 @@ public class ChargerAI extends AI {
                 charging = true;
             } else {
                 // Remember coords of player
-                me.lookAt(me.getVictim().getWorldX(), me.getVictim().getWorldY());
+                me.lookAt(me.getVictim());
             }
         }
     }

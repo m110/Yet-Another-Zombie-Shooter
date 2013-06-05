@@ -19,6 +19,7 @@ public class EntityFactory {
                 float interval = Float.parseFloat(object.properties.get("interval"));
                 int maxEntities = Integer.parseInt(object.properties.get("max"));
                 return new Spawner(x, y, entity, interval, maxEntities);
+            case "spitter": return new Spitter(x, y);
             default:
                 throw new IllegalArgumentException("No such Entity: " + object.name);
         }
@@ -32,6 +33,7 @@ public class EntityFactory {
                 return new Zombie(x ,y);
             case BOOMER: return new Boomer(x, y);
             case CHARGER: return new Charger(x, y);
+            case SPITTER: return new Spitter(x, y);
             default:
                 return null;
         }

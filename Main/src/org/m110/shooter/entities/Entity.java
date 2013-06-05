@@ -246,6 +246,8 @@ public abstract class Entity extends Actor {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
+        ai.draw(batch);
+
         TextureRegion toDraw = null;
         if (state == State.ALIVE) {
             toDraw = texture;
@@ -394,6 +396,10 @@ public abstract class Entity extends Actor {
         }
 
         setRotation(degrees);
+    }
+
+    public void lookAt(Entity entity) {
+        lookAt(entity.getWorldX(), entity.getWorldY());
     }
 
     public float angleWith(Entity entity) {

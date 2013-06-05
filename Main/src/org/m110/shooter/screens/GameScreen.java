@@ -20,6 +20,7 @@ import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.core.timers.IntervalTimer;
+import org.m110.shooter.entities.bullets.GooBullet;
 import org.m110.shooter.entities.enemies.HostileEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.input.GameInput;
@@ -36,7 +37,6 @@ import org.m110.shooter.screens.menu.MenuItem;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponSlot;
 
-import java.security.PublicKey;
 import java.util.Iterator;
 
 /**
@@ -81,7 +81,8 @@ public class GameScreen implements Screen {
     private final float mapWidth;
     private final float mapHeight;
 
-    private final Group actorsGroup;
+    private final Group entitiesGroup;
+    private final Group pickupsGroup;
     private final Array<HostileEntity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
@@ -161,8 +162,12 @@ public class GameScreen implements Screen {
         stage = new Stage();
         stage.setCamera(camera);
 
-        actorsGroup = new Group();
-        stage.addActor(actorsGroup);
+        entitiesGroup = new Group();
+        pickupsGroup = new Group();
+        stage.addActor(entitiesGroup);
+        stage.addActor(pickupsGroup);
+        pickupsGroup.setZIndex(0);
+
         entities = new Array<>();
         pickups = new Array<>();
         fences = new Array<>();
@@ -232,7 +237,7 @@ public class GameScreen implements Screen {
         }
 
         // To ensure player will appear on top...
-        actorsGroup.addActor(player);
+        entitiesGroup.addActor(player);
         // Call AI's start
         ai.start();
     }
@@ -252,7 +257,7 @@ public class GameScreen implements Screen {
         // Render stage
         stage.draw();
         // Render walls
-        //tileMapRenderer.render(camera, new int[]{1});
+        tileMapRenderer.render(camera, new int[]{1});
         // Draw HUD
         batch.begin();
 
@@ -470,21 +475,22 @@ public class GameScreen implements Screen {
         return entity;
     }
 
-    public Pickup spawnPickup(TiledObject object, float x, float y) {
-        Pickup pickup = PickupFactory.createPickup(object, x, y);
-        addPickup(pickup);
-        return pickup;
-    }
-
-    public void addEntity(HostileEntity entity) {
-        entities.add(entity);
-        actorsGroup.addActor(entity);
-    }
-
     public Entity spawnRandomEntity(float x, float y) {
         HostileEntity entity = EntityFactory.createRandomEntity(x, y);
         addEntity(entity);
         return entity;
+    }
+
+    public void addEntity(HostileEntity entity) {
+        entities.add(entity);
+        entitiesGroup.addActor(entity);
+        entity.setZIndex(0);
+    }
+
+    public Pickup spawnPickup(TiledObject object, float x, float y) {
+        Pickup pickup = PickupFactory.createPickup(object, x, y);
+        addPickup(pickup);
+        return pickup;
     }
 
     public Pickup spawnRandomPickup(float x, float y) {
@@ -495,7 +501,7 @@ public class GameScreen implements Screen {
 
     public void addPickup(Pickup pickup) {
         pickups.add(pickup);
-        actorsGroup.addActor(pickup);
+        pickupsGroup.addActor(pickup);
         pickup.setZIndex(0);
     }
 
@@ -529,6 +535,10 @@ public class GameScreen implements Screen {
     }
 
     public boolean collidesWithEnemy(Bullet bullet) {
+        if (bullet instanceof GooBullet) {
+            return false;
+        }
+
         float bx = bullet.getX();
         float by = bullet.getY();
         float bw = bullet.getWidth();
@@ -625,7 +635,7 @@ public class GameScreen implements Screen {
         rightHUD.dispose();
 
         entities.clear();
-        actorsGroup.clear();
+        entitiesGroup.clear();
         pickups.clear();
         fences.clear();
     }

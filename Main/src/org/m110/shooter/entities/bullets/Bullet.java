@@ -36,19 +36,19 @@ public class Bullet extends Actor {
     /**
      * Is the bullet still moving.
      */
-    private boolean moving;
+    protected boolean moving;
 
     protected static TextureRegion loadTexture(String name) {
         return new TextureRegion(new Texture("images/bullet_" + name + ".png"));
     }
 
-    public Bullet(TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
+    public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int damage) {
         this.game = Shooter.getInstance().getGame();
 
         this.texture = texture;
         this.angle = angle;
-        this.velocity = BASE_VELOCITY + proto.bulletVelocity;
-        this.damage = proto.damage;
+        this.velocity = BASE_VELOCITY + velocity;
+        this.damage = damage;
         moving = true;
 
         setWidth(texture.getRegionWidth());
@@ -57,6 +57,10 @@ public class Bullet extends Actor {
         setX(x);
         setY(y);
         setRotation(angle);
+    }
+
+    public Bullet(TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
+        this(texture, x, y, angle, proto.bulletVelocity, proto.damage);
     }
 
     @Override
