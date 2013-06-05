@@ -33,7 +33,7 @@ public abstract class AI {
 
         float angle = me.angleWith(player) + 180.0f;
         float offset = 30.0f;
-        me.setPiecesRecoil(angle - offset, angle + offset, 0.5f, 1.0f);
+        me.setPiecesRecoil(angle - offset, angle + offset, 0.1f, 1.0f);
     }
 
     protected boolean updateVictim() {

@@ -6,6 +6,7 @@ package org.m110.shooter.weapons;
 public enum WeaponMode {
     SEMI("semi", 1),
     BURST("burst", 2),
+    BURST_3("burst", 3),
     AUTO("auto", 1000);
 
     public final String name;

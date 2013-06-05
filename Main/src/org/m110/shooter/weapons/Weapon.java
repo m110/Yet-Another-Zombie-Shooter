@@ -46,7 +46,7 @@ public class Weapon {
     protected Magazine activeMagazine;
 
     private int shots = 0;
-    private WeaponMode mode = WeaponMode.SEMI;
+    private  WeaponMode mode;
     private boolean blocked = false;
 
     private boolean pickedUp = false;
@@ -95,6 +95,8 @@ public class Weapon {
 
         // Add first magazine.
         addMagazine(proto.magazineCapacity);
+
+        mode = proto.modes.iterator().next();
     }
 
     /**

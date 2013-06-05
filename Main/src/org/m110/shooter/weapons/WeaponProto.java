@@ -14,12 +14,17 @@ import java.util.List;
  */
 public enum WeaponProto {
     PISTOL(new Builder(0, "pistol", WeaponSlot.HANDGUN).magazineCapacity(12).cooldown(0.6f).reloadCooldown(0.5f).
-            recoilFactor(2.5f).damage(10)),
+            recoilFactor(2.5f).damage(10).maxMagazines(5)),
     SHOTGUN(new Builder(1, "shotgun", WeaponSlot.SHOTGUN).bulletsCount(8).magazineCapacity(8).
             bulletVelocity(1.0f).cooldown(0.8f).reloadCooldown(0.7f).recoilFactor(16.0f).
             maxMagazines(10).damage(10).bulletType(BulletType.BOLD)),
-    RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.1f).
-            reloadCooldown(0.8f).recoilFactor(3.5f).damage(20).mode(WeaponMode.BURST).mode(WeaponMode.AUTO));
+    RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.2f).
+            reloadCooldown(0.8f).recoilFactor(3.5f).damage(15).mode(WeaponMode.BURST).mode(WeaponMode.AUTO).
+            maxMagazines(4)),
+    MP5(new Builder(3, "mp5", WeaponSlot.SMG, WeaponMode.BURST_3).magazineCapacity(32).bulletVelocity(4.5f).cooldown(0.1f).
+            reloadCooldown(0.75f).recoilFactor(3.0f).damage(12).mode(WeaponMode.AUTO).maxMagazines(5)),
+    M40(new Builder(4, "m40", WeaponSlot.SNIPER_RIFLE).magazineCapacity(10).bulletVelocity(7.0f).cooldown(1.2f).
+            reloadCooldown(1.5f).recoilFactor(0.5f).damage(40).maxMagazines(3));
 
     public final int textureID;
     public final String name;
@@ -62,6 +67,13 @@ public enum WeaponProto {
             this.name = name;
             this.slot = slot;
             modes = EnumSet.of(WeaponMode.SEMI);
+        }
+
+        public Builder(int textureID, String name, WeaponSlot slot, WeaponMode defaultMode) {
+           this.textureID = textureID;
+            this.name = name;
+            this.slot = slot;
+            modes = EnumSet.of(defaultMode);
         }
 
         public Builder mode(WeaponMode mode) {

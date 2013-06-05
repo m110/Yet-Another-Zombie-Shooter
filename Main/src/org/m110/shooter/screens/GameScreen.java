@@ -112,6 +112,7 @@ public class GameScreen implements Screen {
         // Initialize camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
 
         // Rendering objects
         batch = new SpriteBatch();
@@ -231,7 +232,6 @@ public class GameScreen implements Screen {
 
         // To ensure player will appear on top...
         actorsGroup.addActor(player);
-
         // Call AI's start
         ai.start();
     }
@@ -245,9 +245,13 @@ public class GameScreen implements Screen {
         update(delta);
 
         centerCamera();
-        tileMapRenderer.render(camera);
-        stage.draw();
 
+        // Render background
+        tileMapRenderer.render(camera, new int[]{0,1});
+        // Render stage
+        stage.draw();
+        // Render walls
+        //tileMapRenderer.render(camera, new int[]{1});
         // Draw HUD
         batch.begin();
 
@@ -415,8 +419,8 @@ public class GameScreen implements Screen {
     }
 
     protected void centerCamera() {
-        float x = player.getX();
-        float y = player.getY();
+        float x = player.getWorldX();
+        float y = player.getWorldY();
 
         float halfW = Gdx.graphics.getWidth() / 2.0f;
         float halfH = Gdx.graphics.getHeight() / 2.0f;

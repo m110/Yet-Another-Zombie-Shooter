@@ -4,7 +4,7 @@ package org.m110.shooter.weapons;
  * @author m1_10sz <m110@m110.pl>
  */
 public enum WeaponSlot {
-    HANDGUN, SMG, SHOTGUN, RIFLE;
+    HANDGUN, SMG, SHOTGUN, RIFLE, SNIPER_RIFLE;
 
     public WeaponSlot getNext() {
         return this.ordinal() < WeaponSlot.values().length - 1

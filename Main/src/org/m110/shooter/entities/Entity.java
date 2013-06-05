@@ -41,8 +41,10 @@ public abstract class Entity extends Actor {
             this.damage = Integer.toString(damage);
             timer = new CountdownTimer(duration);
 
-            x = getWorldX() - font.getSpaceWidth() * this.damage.length() / 2.0f;
-            y = getWorldY() + getHeight() / 2.0f;
+            x = getWorldX() - font.getSpaceWidth() * this.damage.length() / 2.0f
+                            + MathUtils.random(-getWidth()/2, getWidth()/2);
+            y = getWorldY() + getHeight() / 2.0f
+                            + MathUtils.random(-getHeight()/4, getHeight()/4);
         }
 
         public void update(float delta) {
