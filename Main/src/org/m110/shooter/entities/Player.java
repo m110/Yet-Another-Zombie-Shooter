@@ -272,24 +272,9 @@ public class Player extends Entity {
         renderer.setTransformMatrix(batch.getTransformMatrix());
         renderer.setColor(Color.YELLOW);
         renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        renderer.filledRect(getX(), getY() - 8.0f, (float)stamina/100 * getWidth(), 3);
+        renderer.filledRect(getX(), getY() - 8.0f, getStaminaPercent() * getWidth(), 3);
         renderer.end();
         batch.begin();
-/*
-        batch.end();
-
-        ShapeRenderer r = new ShapeRenderer();
-        r.setProjectionMatrix(batch.getProjectionMatrix());
-        r.setTransformMatrix(batch.getTransformMatrix());
-        r.setColor(Color.RED);
-        r.begin(ShapeRenderer.ShapeType.FilledCircle);
-        r.filledCircle(getWorldX() + (float)Math.cos(Math.toRadians(getRotation()))*(getWidth()/2),
-                       getWorldY() + (float)Math.sin(Math.toRadians(getRotation()))*(getHeight()/2), 1.0f);
-        //r.line(getX()+getOriginX(), getY()+getOriginY(), getStage().getCamera().position.x + Gdx.input.getX() - Shooter.GAME_WIDTH / 2,
-        //        getStage().getCamera().position.y - Gdx.input.getY() + Shooter.GAME_HEIGHT / 2);
-        r.end();
-        batch.begin();
-        */
     }
 
     /**

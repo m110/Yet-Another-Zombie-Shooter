@@ -34,6 +34,7 @@ import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuItem;
 import org.m110.shooter.weapons.Weapon;
+import org.m110.shooter.weapons.WeaponSlot;
 
 import java.security.PublicKey;
 import java.util.Iterator;
@@ -277,7 +278,7 @@ public class GameScreen implements Screen {
         renderer.setColor(Color.RED);
         renderer.filledRect(leftX+41, leftY+46, player.getHealthPercent() * 158, 9);
         renderer.setColor(Color.YELLOW);
-        renderer.filledRect(leftX+41, leftY+16, (float)player.getStamina()/100 * 158, 9);
+        renderer.filledRect(leftX+41, leftY+16, player.getStaminaPercent() * 158, 9);
         renderer.end();
         batch.begin();
 
@@ -340,6 +341,23 @@ public class GameScreen implements Screen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             pauseMenu.draw(batch, delta);
+        }
+
+        // Draw the "laser" sight
+        if (player.isAlive() && player.getActiveWeapon() != null &&
+            player.getActiveWeapon().getProto().slot == WeaponSlot.SNIPER_RIFLE) {
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+            renderer.setProjectionMatrix(camera.combined);
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            float x = player.getWorldX() + (float)Math.cos(Math.toRadians(player.getRotation()))*(player.getWidth()/2.0f);
+            float y = player.getWorldY() + (float)Math.sin(Math.toRadians(player.getRotation()))*(player.getHeight()/2.0f);
+            renderer.line(x, y, camera.position.x + Gdx.input.getX() - Gdx.graphics.getWidth() / 2.0f,
+                                camera.position.y - Gdx.input.getY() + Gdx.graphics.getHeight() / 2.0f);
+            renderer.end();
+            renderer.setProjectionMatrix(batch.getProjectionMatrix());
+            Gdx.gl.glDisable(GL10.GL_BLEND);
         }
 
         // Check crossahair's position
