@@ -54,7 +54,6 @@ public class SpitterAI extends CombatAI {
 
         @Override
         public void act(float delta) {
-            System.out.println("ada");
             if (!active) {
                 return;
             }

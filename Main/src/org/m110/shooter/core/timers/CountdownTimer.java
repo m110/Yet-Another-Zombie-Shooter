@@ -36,6 +36,7 @@ public class CountdownTimer extends Timer {
     @Override
     public void reset() {
         this.time = countdown;
+        done = false;
     }
 
     @Override

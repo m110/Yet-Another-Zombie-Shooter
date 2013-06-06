@@ -19,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.core.StreakSystem;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.GooBullet;
 import org.m110.shooter.entities.enemies.CombatEntity;
@@ -96,6 +97,8 @@ public class GameScreen implements Screen {
     private int score = 0;
     private boolean running = true;
     private final IntervalTimer bloodScreenTimer;
+
+    private final StreakSystem streakSystem;
 
     private float aggroRange = 350.0f;
 
@@ -180,6 +183,8 @@ public class GameScreen implements Screen {
 
         bloodScreenTimer = new IntervalTimer(0.7f);
         bloodScreenTimer.disable();
+
+        streakSystem = new StreakSystem();
     }
 
     public void loadLevel() {
@@ -310,6 +315,26 @@ public class GameScreen implements Screen {
         }
         batch.end();
 
+        // Draw the "laser" sight
+        if (player.isAlive() && player.getActiveWeapon() != null &&
+            player.getActiveWeapon().getProto().slot == WeaponSlot.SNIPER_RIFLE) {
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.setColor(1.0f, 0.0f, 0.0f, 0.3f);
+            renderer.setProjectionMatrix(camera.combined);
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            float x = player.getWorldX() + (float)Math.cos(Math.toRadians(player.getRotation()))*(player.getWidth()/2.0f);
+            float y = player.getWorldY() + (float)Math.sin(Math.toRadians(player.getRotation()))*(player.getHeight()/2.0f);
+            renderer.line(x, y, camera.position.x + Gdx.input.getX() - Gdx.graphics.getWidth() / 2.0f,
+                                camera.position.y - Gdx.input.getY() + Gdx.graphics.getHeight() / 2.0f);
+            renderer.end();
+            renderer.setProjectionMatrix(batch.getProjectionMatrix());
+            Gdx.gl.glDisable(GL10.GL_BLEND);
+        }
+
+        // Draw notifications from bonus system
+        streakSystem.draw(batch);
+
         if (!bloodScreenTimer.ready()) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -336,9 +361,13 @@ public class GameScreen implements Screen {
             } else {
                 largeFont.draw(batch, "L E V E L   C O M P L E T E", 200, 420);
             }
-            mediumFont.draw(batch, "Score: " + score, 330, 370);
+
+            mediumFont.setColor(Color.WHITE);
             mediumFont.draw(batch, "Time: " + getTimeString(), 330, 390);
-            mediumFont.draw(batch, "Press ENTER to continue...", 280, 330);
+            mediumFont.draw(batch, "Score: " + score, 330, 370);
+            mediumFont.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 340);
+            mediumFont.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 320);
+            mediumFont.draw(batch, "Press ENTER to continue...", 280, 290);
             batch.end();
         }
 
@@ -352,23 +381,6 @@ public class GameScreen implements Screen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             pauseMenu.draw(batch, delta);
-        }
-
-        // Draw the "laser" sight
-        if (player.isAlive() && player.getActiveWeapon() != null &&
-            player.getActiveWeapon().getProto().slot == WeaponSlot.SNIPER_RIFLE) {
-            Gdx.gl.glEnable(GL10.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-            renderer.setColor(1.0f, 0.0f, 0.0f, 0.2f);
-            renderer.setProjectionMatrix(camera.combined);
-            renderer.begin(ShapeRenderer.ShapeType.Line);
-            float x = player.getWorldX() + (float)Math.cos(Math.toRadians(player.getRotation()))*(player.getWidth()/2.0f);
-            float y = player.getWorldY() + (float)Math.sin(Math.toRadians(player.getRotation()))*(player.getHeight()/2.0f);
-            renderer.line(x, y, camera.position.x + Gdx.input.getX() - Gdx.graphics.getWidth() / 2.0f,
-                                camera.position.y - Gdx.input.getY() + Gdx.graphics.getHeight() / 2.0f);
-            renderer.end();
-            renderer.setProjectionMatrix(batch.getProjectionMatrix());
-            Gdx.gl.glDisable(GL10.GL_BLEND);
         }
 
         // Check crossahair's position
@@ -437,6 +449,7 @@ public class GameScreen implements Screen {
             CombatEntity enemy = it.next();
             if (enemy.isDead()) {
                 score += enemy.getPoints();
+                streakSystem.addKill();
                 it.remove();
             }
         }
@@ -445,6 +458,7 @@ public class GameScreen implements Screen {
         ai.act(delta);
 
         bloodScreenTimer.update(delta);
+        streakSystem.update(delta);
     }
 
     protected void centerCamera() {

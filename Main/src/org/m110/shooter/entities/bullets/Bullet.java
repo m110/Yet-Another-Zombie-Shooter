@@ -123,13 +123,15 @@ public class Bullet extends Actor {
         float radius = victim.getHeight() / 2.0f;
         float hitRatio = 1.0f - distance / radius;
 
+        int damage = minDamage + Math.round((maxDamage - minDamage) * hitRatio);
+
         // Check if the shot was a critical hit
         boolean critical = false;
         if (hitRatio > 0.9f) {
             critical = true;
+            damage = maxDamage;
         }
 
-        int damage = minDamage + Math.round((maxDamage - minDamage) * hitRatio);
         victim.takenDamage(damage, attacker, critical);
     }
 }

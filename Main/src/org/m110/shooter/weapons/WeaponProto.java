@@ -22,7 +22,7 @@ public enum WeaponProto {
             reloadCooldown(0.8f).recoilFactor(3.5f).damage(13, 18).mode(WeaponMode.BURST).mode(WeaponMode.AUTO).
             maxMagazines(4)),
     MP5(new Builder(3, "mp5", WeaponSlot.SMG, WeaponMode.BURST_3).magazineCapacity(32).bulletVelocity(4.5f).cooldown(0.1f).
-            reloadCooldown(0.75f).recoilFactor(3.0f).damage(7, 12).mode(WeaponMode.AUTO).maxMagazines(5)),
+            reloadCooldown(0.75f).recoilFactor(3.0f).damage(6, 8).mode(WeaponMode.AUTO).maxMagazines(5)),
     M40(new Builder(4, "m40", WeaponSlot.SNIPER_RIFLE).magazineCapacity(10).bulletVelocity(7.0f).cooldown(1.2f).
             reloadCooldown(1.5f).recoilFactor(0.5f).damage(40, 50).maxMagazines(3));
 

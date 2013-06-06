@@ -468,14 +468,14 @@ public abstract class Entity extends Actor {
 
     public void playAttackSound() {
         if (attackSound != null) {
-            attackSound.play();
+            attackSound.play(0.5f);
         }
     }
 
     public void playDamageSound() {
         if (damageSound != null) {
             if (damageSoundTimer.ready()) {
-                damageSound.play();
+                damageSound.play(0.5f);
                 damageSoundTimer.reset();
             }
         }
@@ -483,7 +483,7 @@ public abstract class Entity extends Actor {
 
     public void playDeathSound() {
         if (deathSound != null) {
-            deathSound.play();
+            deathSound.play(0.5f);
         }
     }
 
