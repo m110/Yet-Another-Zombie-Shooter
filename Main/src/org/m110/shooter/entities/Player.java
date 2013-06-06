@@ -111,6 +111,7 @@ public class Player extends Entity {
         activeWeapon = null;
 
         // Stats
+        setBaseHealth(100);
         setVelocity(8.0f);
     }
 

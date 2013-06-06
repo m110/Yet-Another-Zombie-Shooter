@@ -9,7 +9,7 @@ import org.m110.shooter.entities.enemies.*;
 public class EntityFactory {
     private EntityFactory() {}
 
-    public static HostileEntity createEntity(TiledObject object, float x, float y) {
+    public static CombatEntity createEntity(TiledObject object, float x, float y) {
         switch (object.name) {
             case "zombie": return new Zombie(x ,y);
             case "boomer": return new Boomer(x, y);
@@ -25,7 +25,7 @@ public class EntityFactory {
         }
     }
 
-    public static HostileEntity createRandomEntity(float x, float y) {
+    public static CombatEntity createRandomEntity(float x, float y) {
         EntityProto type = EntityProto.getRandom();
         switch (type) {
             case ZOMBIE:

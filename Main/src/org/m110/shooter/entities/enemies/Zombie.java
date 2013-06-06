@@ -3,13 +3,14 @@ package org.m110.shooter.entities.enemies;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.ai.entity.BasicAI;
+import org.m110.shooter.ai.entity.ChaseAI;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Zombie extends HostileEntity {
+public class Zombie extends CombatEntity {
 
     private static final String name;
     private static final TextureRegion texture;
@@ -29,6 +30,6 @@ public class Zombie extends HostileEntity {
 
     public Zombie(float startX, float startY) {
         super(EntityProto.ZOMBIE, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
-        setAI(new BasicAI(this));
+        setAI(new ChaseAI(this));
     }
 }

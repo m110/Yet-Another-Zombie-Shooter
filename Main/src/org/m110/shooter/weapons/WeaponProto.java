@@ -14,17 +14,17 @@ import java.util.List;
  */
 public enum WeaponProto {
     PISTOL(new Builder(0, "pistol", WeaponSlot.HANDGUN).magazineCapacity(12).cooldown(0.6f).reloadCooldown(0.5f).
-            recoilFactor(2.5f).damage(10).maxMagazines(5)),
+            recoilFactor(2.5f).damage(4, 6).maxMagazines(5)),
     SHOTGUN(new Builder(1, "shotgun", WeaponSlot.SHOTGUN).bulletsCount(8).magazineCapacity(8).
             bulletVelocity(1.0f).cooldown(0.8f).reloadCooldown(0.7f).recoilFactor(16.0f).
-            maxMagazines(10).damage(10).bulletType(BulletType.BOLD)),
+            maxMagazines(10).damage(5, 7).bulletType(BulletType.BOLD)),
     RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.2f).
-            reloadCooldown(0.8f).recoilFactor(3.5f).damage(15).mode(WeaponMode.BURST).mode(WeaponMode.AUTO).
+            reloadCooldown(0.8f).recoilFactor(3.5f).damage(13, 18).mode(WeaponMode.BURST).mode(WeaponMode.AUTO).
             maxMagazines(4)),
     MP5(new Builder(3, "mp5", WeaponSlot.SMG, WeaponMode.BURST_3).magazineCapacity(32).bulletVelocity(4.5f).cooldown(0.1f).
-            reloadCooldown(0.75f).recoilFactor(3.0f).damage(12).mode(WeaponMode.AUTO).maxMagazines(5)),
+            reloadCooldown(0.75f).recoilFactor(3.0f).damage(7, 12).mode(WeaponMode.AUTO).maxMagazines(5)),
     M40(new Builder(4, "m40", WeaponSlot.SNIPER_RIFLE).magazineCapacity(10).bulletVelocity(7.0f).cooldown(1.2f).
-            reloadCooldown(1.5f).recoilFactor(0.5f).damage(100).maxMagazines(3));
+            reloadCooldown(1.5f).recoilFactor(0.5f).damage(40, 50).maxMagazines(3));
 
     public final int textureID;
     public final String name;
@@ -35,7 +35,8 @@ public enum WeaponProto {
     public final float cooldown;
     public final float reloadCooldown;
     public final float recoilFactor;
-    public final int damage;
+    public final int minDamage;
+    public final int maxDamage;
     public final BulletType bulletType;
     public final float bulletVelocity;
     public final int bulletsCount;
@@ -55,7 +56,8 @@ public enum WeaponProto {
         private float cooldown = 0.5f;
         private float reloadCooldown = 0.5f;
         private float recoilFactor = 2.5f;
-        private int damage = 10;
+        private int minDamage = 1;
+        private int maxDamage = 1;
 
         // Bullet specific stats
         private BulletType bulletType = BulletType.STANDARD;
@@ -106,9 +108,14 @@ public enum WeaponProto {
             return this;
         }
 
-        public Builder damage(int damage) {
-            this.damage = damage;
+        public Builder damage(int minDamage, int maxDamage) {
+            this.minDamage = minDamage;
+            this.maxDamage = maxDamage;
             return this;
+        }
+
+        public Builder damage(int damage) {
+            return damage(damage, damage);
         }
 
         public Builder bulletType(BulletType bulletType) {
@@ -137,7 +144,8 @@ public enum WeaponProto {
         cooldown = builder.cooldown;
         reloadCooldown = builder.reloadCooldown;
         recoilFactor = builder.recoilFactor;
-        damage = builder.damage;
+        minDamage = builder.minDamage;
+        maxDamage = builder.maxDamage;
         bulletType = builder.bulletType;
         bulletVelocity = builder.bulletVelocity;
         bulletsCount = builder.bulletsCount;

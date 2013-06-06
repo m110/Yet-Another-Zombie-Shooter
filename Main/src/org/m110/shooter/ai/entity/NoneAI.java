@@ -19,18 +19,4 @@ public class NoneAI extends AI {
         }
         return INSTANCE;
     }
-
-    @Override
-    public void act(float delta) {}
-
-    @Override
-    public void afterHit(Entity attacker) {}
-
-    @Override
-    protected boolean updateVictim() {
-        return false;
-    }
-
-    @Override
-    public void afterCollision() {}
 }

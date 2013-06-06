@@ -1,20 +1,19 @@
 package org.m110.shooter.ai.entity;
 
-import org.m110.shooter.core.timers.IntervalTimer;
-import org.m110.shooter.entities.Entity;
+import org.m110.shooter.core.timers.RandomIntervalTimer;
+import org.m110.shooter.entities.enemies.CombatEntity;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class ChargerAI extends AI {
+public class ChargerAI extends CombatAI {
 
     private boolean charging = false;
-    private IntervalTimer chargeTimer;
-    private float pushbackPower = 50.0f;
+    private RandomIntervalTimer chargeTimer;
 
-    public ChargerAI(Entity me) {
+    public ChargerAI(CombatEntity me) {
         super(me);
-        chargeTimer = new IntervalTimer(2.0f);
+        chargeTimer = new RandomIntervalTimer(0.75f, 2.0f);
     }
 
     @Override
@@ -27,15 +26,8 @@ public class ChargerAI extends AI {
             if (!me.isInMeleeRange(me.getVictim())) {
                 me.moveForward();
             } else {
-                float vx = me.getVictim().getWorldX();
-                float vy = me.getVictim().getWorldY();
-
-                // Push the victim back a bit
-                float dx = Math.signum(vx - me.getWorldX());
-                float dy = Math.signum(vy - me.getWorldY());
-                me.getVictim().move(vx + pushbackPower * dx, vy + pushbackPower * dy);
+                me.getVictim().pushAwayFrom(me, 75.0f);
                 me.dealDamage(me.getVictim());
-
                 // Charging done
                 charging = false;
                 me.setBonusVelocity(0.0f);

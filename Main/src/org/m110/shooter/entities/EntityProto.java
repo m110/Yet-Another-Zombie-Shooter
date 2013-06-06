@@ -1,4 +1,4 @@
-package org.m110.shooter.entities.enemies;
+package org.m110.shooter.entities;
 
 import com.badlogic.gdx.math.MathUtils;
 
@@ -10,15 +10,16 @@ import java.util.List;
  * @author m1_10sz <m110@m110.pl>
  */
 public enum EntityProto {
-    ZOMBIE(new Builder().points(1).health(40).damage(10).velocity(4.0f).attackInterval(0.8f)),
-    BOOMER(new Builder().points(10).health(300).damage(75).velocity(2.0f).attackInterval(10.0f)),
-    CHARGER(new Builder().points(5).health(150).damage(40).velocity(1.0f).attackInterval(2.0f)),
-    SPAWNER(new Builder().points(15).health(300).damage(0).velocity(0.0f)),
-    SPITTER(new Builder().points(5).health(200).damage(0).velocity(0.0f));
+    ZOMBIE(new Builder().points(1).health(20).damage(1, 5).velocity(4.0f).attackInterval(0.8f)),
+    BOOMER(new Builder().points(10).health(200).damage(50, 75).velocity(2.0f).attackInterval(0.0f)),
+    CHARGER(new Builder().points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
+    SPAWNER(new Builder().points(15).health(150).damage(0).velocity(0.0f)),
+    SPITTER(new Builder().points(5).health(120).damage(5).velocity(0.0f));
 
     public final int points;
     public final int health;
-    public final int damage;
+    public final int minDamage;
+    public final int maxDamage;
     public final float velocity;
     public final float attackInterval;
 
@@ -26,7 +27,8 @@ public enum EntityProto {
 
         private int points = 1;
         private int health = 100;
-        private int damage = 10;
+        private int minDamage = 1;
+        private int maxDamage = 1;
         private float velocity = 1.0f;
         private float attackInterval = 1.0f;
 
@@ -40,9 +42,14 @@ public enum EntityProto {
             return this;
         }
 
-        public Builder damage(int damage) {
-            this.damage = damage;
+        public Builder damage(int minDamage, int maxDamage) {
+            this.minDamage = minDamage;
+            this.maxDamage = maxDamage;
             return this;
+        }
+
+        public Builder damage(int damage) {
+            return damage(damage, damage);
         }
 
         public Builder velocity(float velocity) {
@@ -59,7 +66,8 @@ public enum EntityProto {
     EntityProto(Builder builder) {
         points = builder.points;
         health = builder.health;
-        damage = builder.damage;
+        minDamage = builder.minDamage;
+        maxDamage = builder.maxDamage;
         velocity = builder.velocity;
         attackInterval = builder.attackInterval;
     }

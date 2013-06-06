@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.ChargerAI;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Charger extends HostileEntity {
+public class Charger extends CombatEntity {
 
     private static final String name;
     private static final TextureRegion texture;

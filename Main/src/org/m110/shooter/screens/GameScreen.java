@@ -21,7 +21,7 @@ import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.GooBullet;
-import org.m110.shooter.entities.enemies.HostileEntity;
+import org.m110.shooter.entities.enemies.CombatEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.input.GameInput;
 import org.m110.shooter.entities.bullets.Bullet;
@@ -83,7 +83,9 @@ public class GameScreen implements Screen {
 
     private final Group entitiesGroup;
     private final Group pickupsGroup;
-    private final Array<HostileEntity> entities;
+    private final Group backgroundGroup;
+
+    private final Array<CombatEntity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
     private final Array<Dummy> dummies;
@@ -164,9 +166,12 @@ public class GameScreen implements Screen {
 
         entitiesGroup = new Group();
         pickupsGroup = new Group();
+        backgroundGroup = new Group();
         stage.addActor(entitiesGroup);
         stage.addActor(pickupsGroup);
-        pickupsGroup.setZIndex(0);
+        stage.addActor(backgroundGroup);
+        backgroundGroup.setZIndex(0);
+        pickupsGroup.setZIndex(1);
 
         entities = new Array<>();
         pickups = new Array<>();
@@ -257,6 +262,7 @@ public class GameScreen implements Screen {
         // Render stage
         stage.draw();
         // Render walls
+        //centerCamera();
         tileMapRenderer.render(camera, new int[]{1});
         // Draw HUD
         batch.begin();
@@ -353,7 +359,7 @@ public class GameScreen implements Screen {
             player.getActiveWeapon().getProto().slot == WeaponSlot.SNIPER_RIFLE) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-            renderer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+            renderer.setColor(1.0f, 0.0f, 0.0f, 0.2f);
             renderer.setProjectionMatrix(camera.combined);
             renderer.begin(ShapeRenderer.ShapeType.Line);
             float x = player.getWorldX() + (float)Math.cos(Math.toRadians(player.getRotation()))*(player.getWidth()/2.0f);
@@ -426,9 +432,9 @@ public class GameScreen implements Screen {
         }
 
         // Check dead entities
-        Iterator<HostileEntity> it = entities.iterator();
+        Iterator<CombatEntity> it = entities.iterator();
         while (it.hasNext()) {
-            HostileEntity enemy = it.next();
+            CombatEntity enemy = it.next();
             if (enemy.isDead()) {
                 score += enemy.getPoints();
                 it.remove();
@@ -470,21 +476,20 @@ public class GameScreen implements Screen {
      * @return new created entity.
      */
     public Entity spawnEntity(TiledObject object, float x, float y) {
-        HostileEntity entity = EntityFactory.createEntity(object, x, y);
+        CombatEntity entity = EntityFactory.createEntity(object, x, y);
         addEntity(entity);
         return entity;
     }
 
     public Entity spawnRandomEntity(float x, float y) {
-        HostileEntity entity = EntityFactory.createRandomEntity(x, y);
+        CombatEntity entity = EntityFactory.createRandomEntity(x, y);
         addEntity(entity);
         return entity;
     }
 
-    public void addEntity(HostileEntity entity) {
+    public void addEntity(CombatEntity entity) {
         entities.add(entity);
         entitiesGroup.addActor(entity);
-        entity.setZIndex(0);
     }
 
     public Pickup spawnPickup(TiledObject object, float x, float y) {
@@ -503,6 +508,10 @@ public class GameScreen implements Screen {
         pickups.add(pickup);
         pickupsGroup.addActor(pickup);
         pickup.setZIndex(0);
+    }
+
+    public void addBackgroundActor(Actor actor) {
+        backgroundGroup.addActor(actor);
     }
 
     /**
@@ -550,7 +559,7 @@ public class GameScreen implements Screen {
             float eh = enemy.getHeight();
             if (bx < ex+ew && bx+bw > ex &&
                 by < ey+eh && by+bh > ey) {
-                enemy.takenDamage(bullet.getDamage(), player);
+                bullet.dealDamage(player, enemy);
                 return true;
             }
 

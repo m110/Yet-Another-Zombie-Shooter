@@ -20,42 +20,7 @@ public abstract class AI {
     public void act(float delta) {}
     public void draw(SpriteBatch batch) {}
 
-    public void afterHit(Entity attacker) {
-        if (me != attacker && !me.inCombat()) {
-            me.startCombat(attacker);
-        }
-    }
-
+    public void afterHit(Entity attacker) {}
     public void afterCollision() {}
-
-    public void afterDeath() {
-        if (player == null) {
-            return;
-        }
-
-        float angle = me.angleWith(player) + 180.0f;
-        float offset = 30.0f;
-        me.setPiecesRecoil(angle - offset, angle + offset, 0.1f, 1.0f);
-    }
-
-    protected boolean updateVictim() {
-        if (player == null) {
-            return false;
-        }
-
-        if (me.isDead()) {
-            return false;
-        }
-
-        if (me.inCombat()) {
-            return true;
-        } else {
-            if (me.distanceTo(player) < player.getGame().getAggroRange()) {
-                me.startCombat(player);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+    public void afterDeath() {}
 }

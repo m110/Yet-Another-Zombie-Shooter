@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.BoomerAI;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Boomer extends HostileEntity {
+public class Boomer extends CombatEntity {
 
     private static final String name;
     private static final TextureRegion texture;

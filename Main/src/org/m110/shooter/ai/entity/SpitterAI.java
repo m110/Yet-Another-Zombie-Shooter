@@ -2,62 +2,79 @@ package org.m110.shooter.ai.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.timers.IntervalTimer;
+import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.bullets.GooBullet;
+import org.m110.shooter.entities.enemies.CombatEntity;
 
 import java.util.Iterator;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class SpitterAI extends AI {
+public class SpitterAI extends CombatAI {
 
-    public class Goo {
+    public class Goo extends Actor {
         private final Entity victim;
-        private final float x;
-        private final float y;
         private float radius = 1.0f;
         private boolean active = true;
+        private boolean growing = true;
+        private float growStep = 0.5f;
 
         private final IntervalTimer growTimer;
-
         private final IntervalTimer damageTimer;
-        private int damage = 5;
+        private int damage = me.getDamage();
 
         public Goo(Entity victim, float x, float y) {
             this.victim = victim;
-            this.x = x;
-            this.y = y;
+            setX(x);
+            setY(y);
             growTimer = new IntervalTimer(0.005f);
             damageTimer = new IntervalTimer(0.5f);
             damageTimer.disable();
         }
 
-        public void draw(SpriteBatch batch, ShapeRenderer renderer) {
+        @Override
+        public void draw(SpriteBatch batch, float parentAlpha) {
             if (!active) {
                 return;
             }
 
+            batch.end();
+            renderer.setProjectionMatrix(batch.getProjectionMatrix());
             renderer.begin(ShapeRenderer.ShapeType.FilledCircle);
             renderer.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-            renderer.filledCircle(x, y, radius);
+            renderer.filledCircle(getX(), getY(), radius);
             renderer.end();
+            batch.begin();
         }
 
+        @Override
         public void act(float delta) {
+            System.out.println("ada");
             if (!active) {
                 return;
             }
 
             growTimer.update(delta);
             if (growTimer.ready()) {
-                radius += 0.5f;
+                if (growing) {
+                    radius += growStep;
+                } else {
+                    radius -= growStep;
+                }
 
-                if (radius > 80.0f) {
+                if (radius < 0.0f) {
                     active = false;
                     return;
+                }
+
+                if (radius > 80.0f) {
+                    growStep = 0.2f;
+                    growing = false;
                 }
 
                 growTimer.reset();
@@ -67,18 +84,18 @@ public class SpitterAI extends AI {
                 damageTimer.update(delta);
                 if (damageTimer.ready()) {
                     victim.takenDamage(damage, me);
-                    damage += 5;
+                    damage += me.getDamage();
                     damageTimer.reset();
                 }
             } else {
-                damage = 5;
+                damage = me.getDamage();
                 damageTimer.disable();
             }
         }
 
         private boolean intersects() {
-            float distX = Math.abs(x - victim.getWorldX());
-            float distY = Math.abs(y - victim.getWorldY());
+            float distX = Math.abs(getX() - victim.getWorldX());
+            float distY = Math.abs(getY() - victim.getWorldY());
 
             if (distX > (victim.getWidth() / 2.0f + radius)) {
                 return false;
@@ -110,15 +127,15 @@ public class SpitterAI extends AI {
     private final Array<GooBullet> bullets;
     private final Array<Goo> goos;
 
-    private final IntervalTimer spitTimer;
+    private final RandomIntervalTimer spitTimer;
 
     private final ShapeRenderer renderer;
 
-    public SpitterAI(Entity me) {
+    public SpitterAI(CombatEntity me) {
         super(me);
         bullets = new Array<>();
         goos = new Array<>();
-        spitTimer = new IntervalTimer(3.0f);
+        spitTimer = new RandomIntervalTimer(1.5f, 3.0f);
         renderer = new ShapeRenderer();
     }
 
@@ -127,9 +144,8 @@ public class SpitterAI extends AI {
         Iterator<GooBullet> it = bullets.iterator();
         while (it.hasNext()) {
             GooBullet bullet = it.next();
-            bullet.act(delta);
             if (!bullet.isMoving()) {
-                goos.add(new Goo(me.getVictim(), bullet.getX()+bullet.getOriginX(), bullet.getY()+bullet.getOriginY()));
+                spawnGoo(bullet.getX()+bullet.getOriginX(), bullet.getY()+bullet.getOriginY());
                 bullet.remove();
                 it.remove();
             }
@@ -138,8 +154,8 @@ public class SpitterAI extends AI {
         Iterator<Goo> itr = goos.iterator();
         while (itr.hasNext()) {
             Goo goo = itr.next();
-            goo.act(delta);
             if (!goo.isActive()) {
+                goo.remove();
                 itr.remove();
             }
         }
@@ -161,18 +177,16 @@ public class SpitterAI extends AI {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
-        batch.end();
-        renderer.setProjectionMatrix(batch.getProjectionMatrix());
-        for (Goo goo : goos) {
-            goo.draw(batch, renderer);
-        }
-        batch.begin();
-    }
-
-    @Override
     public void afterDeath() {
         super.afterDeath();
-        goos.add(new Goo(me.getVictim(), me.getWorldX(), me.getWorldY()));
+        spawnGoo(me.getWorldX(), me.getWorldY());
     }
+
+    private Goo spawnGoo(float x, float y) {
+        Goo goo = new Goo(me.getVictim(), x, y);
+        goos.add(goo);
+        me.getGame().addBackgroundActor(goo);
+        return goo;
+    }
+
 }

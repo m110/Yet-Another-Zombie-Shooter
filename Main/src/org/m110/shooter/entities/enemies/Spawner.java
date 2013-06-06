@@ -1,7 +1,5 @@
 package org.m110.shooter.entities.enemies;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,13 +7,14 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityProto;
 
 import java.util.Iterator;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Spawner extends HostileEntity {
+public class Spawner extends CombatEntity {
 
     private static final String name;
     private static final TextureRegion texture;

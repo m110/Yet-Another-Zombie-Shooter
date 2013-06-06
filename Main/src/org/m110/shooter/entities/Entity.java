@@ -37,8 +37,9 @@ public abstract class Entity extends Actor {
         private static final float finalY = 30.0f;
         private final BitmapFont font = Shooter.getInstance().getSmallFont();
 
-        public DamageIndicator(int damage) {
-            this.damage = Integer.toString(damage);
+        public DamageIndicator(int damage, boolean critical) {
+            this.damage = Integer.toString(damage) + (critical ? " CRITICAL! " : "");
+
             timer = new CountdownTimer(duration);
 
             x = getWorldX() - font.getSpaceWidth() * this.damage.length() / 2.0f
@@ -75,8 +76,8 @@ public abstract class Entity extends Actor {
 
         public Piece(TextureRegion texture) {
             this.texture = texture;
-            offsetX = MathUtils.random(-getOriginX()/2, getOriginX()/2);
-            offsetY = MathUtils.random(-getOriginY()/2, getOriginY()/2);
+            offsetX = MathUtils.random(-getOriginX() / 2.0f, getOriginX() / 2.0f);
+            offsetY = MathUtils.random(-getOriginY() / 2.0f, getOriginY() / 2.0f);
             rotation = MathUtils.random(0.0f, 360.0f);
             updatePosition();
         }
@@ -128,21 +129,15 @@ public abstract class Entity extends Actor {
     private IntervalTimer damageSoundTimer = new IntervalTimer(0.5f);
 
     // Stats
-    private int maxHealth = 100;
-    private int health = maxHealth;
-    private float velocity = 1.0f;
-    private float bonusVelocity = 0.0f;
+    private int maxHealth;
+    private int health;
+    private float velocity;
+    private float bonusVelocity;
 
     private final String name;
 
     private State state;
 
-    // Combat system
-    private float attackInterval;
-    private float attackTime;
-    private int attackDamage;
-
-    private Entity victim = null;
     protected AI ai = NoneAI.getInstance();
 
     private Array<DamageIndicator> indicators;
@@ -177,8 +172,8 @@ public abstract class Entity extends Actor {
         final float width = texture.getRegionWidth();
         final float height = texture.getRegionHeight();
 
-        float stepH = height / 4.0f;
-        float stepW = width / 4.0f;
+        float stepH = height / MathUtils.random(4, 5);
+        float stepW = width / MathUtils.random(4, 5);
         for (int i = 0; i < height; i += stepH) {
             for (int j = 0; j < width; j += stepW) {
                 regions.add(new TextureRegion(texture, j, i, (int) stepW, (int) stepH));
@@ -188,6 +183,14 @@ public abstract class Entity extends Actor {
         return regions;
     }
 
+    /**
+     * Creates new entity
+     * @param texture
+     * @param fleshTextures
+     * @param name
+     * @param startX
+     * @param startY
+     */
     public Entity(TextureRegion texture, Array<TextureRegion> fleshTextures, String name, float startX, float startY) {
         this.game = Shooter.getInstance().getGame();
         this.name = name;
@@ -210,30 +213,17 @@ public abstract class Entity extends Actor {
         }
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public float getHealthPercent() {
-        return (float) health / maxHealth;
-    }
-
+    /**
+     * Entity's acting handled here.
+     * @param delta time since last update.
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        if (inCombat()) {
-            if (victim.isDead()) {
-                stopCombat();
-            }
-        }
-
         ai.act(delta);
 
-        if (attackTime > 0) {
-            attackTime -= delta;
-        }
-
+        // Update flesh piecs
         if (isDead()) {
             for (Piece piece : pieces) {
                 piece.act(delta);
@@ -244,6 +234,15 @@ public abstract class Entity extends Actor {
         updateIndicators(delta);
     }
 
+    public void beforeDraw(SpriteBatch batch) {
+
+    }
+
+    /**
+     * Draws the entity on stage.
+     * @param batch
+     * @param parentAlpha
+     */
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         ai.draw(batch);
@@ -265,39 +264,38 @@ public abstract class Entity extends Actor {
         renderer.end();
         batch.begin();
 
+        // Draw flesh pieces on top
         if (isDead()) {
             for (Piece piece : pieces) {
                 piece.draw(batch);
             }
         }
 
+        // Draw damage indicators
         for (DamageIndicator indicator : indicators) {
             indicator.draw(batch);
         }
     }
 
     public void takenDamage(int damage, Entity attacker) {
-        health -= damage;
-        playDamageSound();
+        takenDamage(damage, attacker, false);
+    }
 
-        indicators.add(new DamageIndicator(damage));
+    public void takenDamage(int damage, Entity attacker, boolean critical) {
+        if (critical) {
+            damage *= 2;
+        }
+
+        health -= damage;
+
+        indicators.add(new DamageIndicator(damage, critical));
 
         ai.afterHit(attacker);
 
         if (health <= 0) {
             die();
-        }
-    }
-
-    public void dealDamage(Entity victim) {
-        dealDamage(victim, attackDamage);
-    }
-
-    public void dealDamage(Entity victim, int damage) {
-        if (attackTime <= 0) {
-            playAttackSound();
-            victim.takenDamage(damage, this);
-            attackTime = attackInterval;
+        } else {
+            playDamageSound();
         }
     }
 
@@ -314,6 +312,11 @@ public abstract class Entity extends Actor {
         ai.afterDeath();
     }
 
+    /**
+     * Moves entity to given point, checking collisions.
+     * @param newX
+     * @param newY
+     */
     public void move(float newX, float newY) {
         if (!checkCollisions(newX - getOriginX(), newY - getOriginY())) {
             MoveToAction moveAction = new MoveToAction();
@@ -338,28 +341,7 @@ public abstract class Entity extends Actor {
     }
 
     public boolean isInMeleeRange(Entity who) {
-        if (!inCombat()) {
-            return false;
-        }
-
         return distanceTo(who) < getWidth()*0.65f + who.getWidth()*0.65f;
-    }
-
-    public void attackChase() {
-        if (isInMeleeRange(victim)) {
-            dealDamage(victim);
-        } else {
-            moveChase();
-        }
-    }
-
-    public void moveChase() {
-        moveChase(victim.getWorldX(), victim.getWorldY());
-    }
-
-    public void moveChase(float x, float y) {
-        lookAt(x, y);
-        moveForward();
     }
 
     public void moveForward() {
@@ -428,6 +410,15 @@ public abstract class Entity extends Actor {
             || game.collidesWithEnemy(newX, newY, this);
     }
 
+    public void pushAwayFrom(Entity entity, float pushbackPower) {
+        float ex = entity.getWorldX();
+        float ey = entity.getWorldY();
+
+        float dx = Math.signum(getWorldX() - ex);
+        float dy = Math.signum(getWorldY() - ey);
+        move(ex + pushbackPower * dx, ey + pushbackPower * dy);
+    }
+
     protected void updateIndicators(float delta) {
         Iterator<DamageIndicator> it = indicators.iterator();
         while (it.hasNext()) {
@@ -475,22 +466,6 @@ public abstract class Entity extends Actor {
         return bonusVelocity;
     }
 
-    public Entity getVictim() {
-        return victim;
-    }
-
-    public void startCombat(Entity victim) {
-        this.victim = victim;
-    }
-
-    public void stopCombat() {
-        victim = null;
-    }
-
-    public boolean inCombat() {
-        return victim != null;
-    }
-
     public void playAttackSound() {
         if (attackSound != null) {
             attackSound.play();
@@ -528,6 +503,14 @@ public abstract class Entity extends Actor {
         this.deathSound = deathSound;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public float getHealthPercent() {
+        return (float) health / maxHealth;
+    }
+
     public void addHealth(int health) {
         if (this.health + health > maxHealth) {
             this.health = maxHealth;
@@ -545,13 +528,5 @@ public abstract class Entity extends Actor {
     protected void setBaseHealth(int baseHealth) {
         maxHealth = baseHealth;
         health = maxHealth;
-    }
-
-    protected void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
-    protected void setAttackInterval(float attackInterval) {
-        this.attackInterval = attackInterval;
     }
 }

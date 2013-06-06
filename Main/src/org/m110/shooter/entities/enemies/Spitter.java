@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.SpitterAI;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.EntityProto;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class Spitter extends HostileEntity {
+public class Spitter extends CombatEntity {
 
     private static final String name;
     private static final TextureRegion texture;

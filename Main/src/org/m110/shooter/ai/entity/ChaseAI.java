@@ -2,17 +2,17 @@ package org.m110.shooter.ai.entity;
 
 import com.badlogic.gdx.math.MathUtils;
 import org.m110.shooter.core.timers.IntervalTimer;
-import org.m110.shooter.entities.Entity;
+import org.m110.shooter.entities.enemies.CombatEntity;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class BasicAI extends AI {
+public class ChaseAI extends CombatAI {
 
     private final IntervalTimer wanderTimer;
     private final float wanderRange;
 
-    public BasicAI(Entity me) {
+    public ChaseAI(CombatEntity me) {
         super(me);
         wanderTimer = new IntervalTimer(3.0f);
         wanderRange = 50.0f;
