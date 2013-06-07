@@ -15,25 +15,32 @@ public class StreakSystem {
     private int kills = 0;
     private int totalKills = 0;
     private int bestStreak = 0;
+    private final float startTime = 0.8f;
     private final CountdownTimer timer;
 
     private final Array<Notification> notifications;
 
+    private final Sound firstBlood;
     private final Sound doubleKill;
     private final Sound tripleKill;
     private final Sound multiKill;
+    private final Sound rampage;
+    private final Sound killingSpree;
 
     private final float notificationX = 20.0f;
     private final float notificationY = Gdx.graphics.getHeight() - 100.0f;
 
     public StreakSystem() {
-        timer = new CountdownTimer(1.0f);
+        timer = new CountdownTimer(startTime);
         timer.disable();
         notifications = new Array<>();
 
+        firstBlood = Gdx.audio.newSound(Gdx.files.internal("audio/firstblood.ogg"));
         doubleKill = Gdx.audio.newSound(Gdx.files.internal("audio/doublekill.ogg"));
         tripleKill = Gdx.audio.newSound(Gdx.files.internal("audio/triplekill.ogg"));
         multiKill = Gdx.audio.newSound(Gdx.files.internal("audio/multikill.ogg"));
+        rampage = Gdx.audio.newSound(Gdx.files.internal("audio/rampage.ogg"));
+        killingSpree = Gdx.audio.newSound(Gdx.files.internal("audio/killingspree.ogg"));
     }
 
     public void draw(SpriteBatch batch) {
@@ -63,8 +70,12 @@ public class StreakSystem {
     }
 
     public void addKill() {
+        if (totalKills == 0) {
+            firstBlood.play();
+        }
+
+        timer.reset(startTime + 0.1f * kills);
         kills++;
-        timer.reset();
 
         totalKills++;
 
@@ -84,6 +95,26 @@ public class StreakSystem {
             case 5:
                 multiKill.play();
                 addNotification("Multi kill!");
+                break;
+            case 6:
+                rampage.play();
+                addNotification("Rampage!");
+                break;
+            case 7:
+                killingSpree.play();
+                addNotification("Killing spree!");
+                break;
+            case 9:
+                addNotification("Dominating!");
+                break;
+            case 11:
+                addNotification("Unstoppable!");
+                break;
+            case 13:
+                addNotification("Mega kill!");
+                break;
+            case 15:
+                addNotification("Ultra kill!");
                 break;
         }
     }

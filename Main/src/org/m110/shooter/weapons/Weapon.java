@@ -336,6 +336,7 @@ public class Weapon {
             activeMagazine = null;
         }
 
+        reloadTimer.reset();
         return result;
     }
 

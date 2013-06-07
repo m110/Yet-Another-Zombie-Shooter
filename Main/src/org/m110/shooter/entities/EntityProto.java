@@ -13,8 +13,8 @@ public enum EntityProto {
     ZOMBIE(new Builder().points(1).health(20).damage(1, 5).velocity(4.0f).attackInterval(0.8f)),
     BOOMER(new Builder().points(10).health(200).damage(50, 75).velocity(2.0f).attackInterval(0.0f)),
     CHARGER(new Builder().points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
-    SPAWNER(new Builder().points(15).health(150).damage(0).velocity(0.0f)),
-    SPITTER(new Builder().points(5).health(120).damage(5).velocity(0.0f));
+    SPITTER(new Builder().points(5).health(120).damage(5).velocity(0.0f)),
+    SPAWNER(new Builder().points(15).health(150).damage(0).velocity(0.0f));
 
     public final int points;
     public final int health;

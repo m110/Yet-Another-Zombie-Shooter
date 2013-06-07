@@ -16,13 +16,13 @@ public class Crate extends Pickup {
         super(name + "_crate", x, y);
         this.bullets = bullets;
         weapon = Weapon.createInstance(WeaponProto.getByName(name));
+        if (bullets > 0) {
+            weapon.setActiveMagazineAmmo(bullets);
+        }
     }
 
     @Override
     public boolean pickUp(Player player) {
-        if (bullets > 0) {
-            weapon.setActiveMagazineAmmo(bullets);
-        }
         return player.addWeapon(weapon);
     }
 }

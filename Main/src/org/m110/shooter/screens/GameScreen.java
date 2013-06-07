@@ -365,8 +365,8 @@ public class GameScreen implements Screen {
             mediumFont.setColor(Color.WHITE);
             mediumFont.draw(batch, "Time: " + getTimeString(), 330, 390);
             mediumFont.draw(batch, "Score: " + score, 330, 370);
-            mediumFont.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 340);
-            mediumFont.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 320);
+            mediumFont.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 340);
+            mediumFont.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 320);
             mediumFont.draw(batch, "Press ENTER to continue...", 280, 290);
             batch.end();
         }

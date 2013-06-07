@@ -40,7 +40,7 @@ public class PickupFactory {
             case CRATE:
                 weaponProto = WeaponProto.getRandom();
                 ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-                return new Ammo(weaponProto.name, x, y, ammo);
+                return new Crate(weaponProto.name, x, y, ammo);
             case MEDPACK:
                 return new Medpack(x, y);
             case ADRENALINE:
@@ -48,6 +48,22 @@ public class PickupFactory {
             default:
                 throw new IllegalArgumentException("No such PickupType: " + type);
         }
+    }
+
+    public static Pickup createAmmoOrCrate(float x, float y) {
+        PickupType type = MathUtils.random(1) == 0 ? PickupType.AMMO : PickupType.CRATE;
+        switch (type) {
+            case AMMO:
+                WeaponProto weaponProto = WeaponProto.getRandom();
+                int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+                return new Ammo(weaponProto.name, x, y, ammo);
+            case CRATE:
+                weaponProto = WeaponProto.getRandom();
+                ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+                return new Crate(weaponProto.name, x, y, ammo);
+        }
+        System.out.println("dad");
+        return null;
     }
 
     private static Integer getIntegerProperty(TiledObject object, String property) {

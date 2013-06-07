@@ -16,6 +16,6 @@ public enum PickupType {
         Collections.unmodifiableList(Arrays.asList(values()));
 
     public static PickupType getRandom()  {
-        return VALUES.get(MathUtils.random(VALUES.size()-3)); // todo zmien to
+        return VALUES.get(MathUtils.random(VALUES.size()-1)); // todo zmien to
     }
 }

@@ -39,6 +39,11 @@ public class CountdownTimer extends Timer {
         done = false;
     }
 
+    public void reset(float time) {
+        this.time = time;
+        done = false;
+    }
+
     @Override
     public boolean ready() {
         return done;

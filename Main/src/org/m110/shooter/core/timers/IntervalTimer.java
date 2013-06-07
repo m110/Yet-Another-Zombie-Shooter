@@ -24,6 +24,10 @@ public class IntervalTimer extends Timer {
         time = interval;
     }
 
+    public void reset(float time) {
+        this.time = time;
+    }
+
     @Override
     public boolean ready() {
         return time <= 0.0f;

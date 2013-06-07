@@ -315,9 +315,7 @@ public class Player extends Entity {
     public boolean addWeapon(Weapon weapon) {
         if (weapons.containsKey(weapon.getProto().slot)) {
             if (weapon.getProto() == weapons.get(weapon.getProto().slot).getProto()) {
-                weapons.get(weapon.getProto().slot).setActiveMagazineAmmo(weapon.getActiveMagazine().getBullets());
-                weapon.playReloadSound();
-                return true;
+                return weapons.get(weapon.getProto().slot).addMagazine(weapon.getActiveMagazine().getBullets());
             } else {
                 // Don't add the weapon, because different one occupies the slot.
                 return false;
