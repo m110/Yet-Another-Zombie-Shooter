@@ -21,6 +21,7 @@ import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.core.StreakSystem;
 import org.m110.shooter.core.timers.IntervalTimer;
+import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.bullets.GooBullet;
 import org.m110.shooter.entities.enemies.CombatEntity;
 import org.m110.shooter.entities.terrain.Dummy;
@@ -495,8 +496,14 @@ public class GameScreen implements Screen {
         return entity;
     }
 
+    public Entity spawnEntity(EntityProto proto, float x, float y) {
+        CombatEntity entity = EntityFactory.createEntity(proto, x, y);
+        addEntity(entity);
+        return entity;
+    }
+
     public Entity spawnRandomEntity(float x, float y) {
-        CombatEntity entity = EntityFactory.createRandomEntity(x, y);
+        CombatEntity entity = EntityFactory.createEntity(EntityProto.getRandom(), x, y);
         addEntity(entity);
         return entity;
     }

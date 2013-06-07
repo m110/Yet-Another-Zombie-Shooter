@@ -15,27 +15,25 @@ public class EntityFactory {
             case "boomer": return new Boomer(x, y);
             case "charger": return new Charger(x, y);
             case "spawner":
-                String entity = object.properties.get("entity");
+                EntityProto spawnProto = EntityProto.getByName(object.properties.get("entity"));
                 float interval = Float.parseFloat(object.properties.get("interval"));
                 int maxEntities = Integer.parseInt(object.properties.get("max"));
-                return new Spawner(x, y, entity, interval, maxEntities);
+                return new Spawner(spawnProto, x, y, interval, maxEntities);
             case "spitter": return new Spitter(x, y);
             default:
                 throw new IllegalArgumentException("No such Entity: " + object.name);
         }
     }
 
-    public static CombatEntity createRandomEntity(float x, float y) {
-        EntityProto type = EntityProto.getRandom();
-        switch (type) {
-            case ZOMBIE:
-            case SPAWNER: // Just to increase chances...
-                return new Zombie(x ,y);
+    public static CombatEntity createEntity(EntityProto proto, float x, float y) {
+        switch (proto) {
+            case ZOMBIE: return new Zombie(x, y);
             case BOOMER: return new Boomer(x, y);
             case CHARGER: return new Charger(x, y);
             case SPITTER: return new Spitter(x, y);
+            case SPAWNER: return new Zombie(x, y); //return new Spawner(x, y,);
             default:
-                return null;
+                throw new IllegalArgumentException("No such EntityProto: " + proto);
         }
     }
 }

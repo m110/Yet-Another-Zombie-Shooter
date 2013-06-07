@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
+import org.m110.shooter.entities.EntityFactory;
 import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.enemies.Spawner;
 import org.m110.shooter.entities.terrain.Dummy;
@@ -68,11 +69,11 @@ public class SurvivalAI extends GameAI {
             if (challengeCounter % 5 == 0) {
                 if (MathUtils.random(1) == 0) {
                     for (int i = 0; i < 3; i++) {
-                        Shooter.getInstance().getGame().spawnRandomEntity(
-                                x + MathUtils.random(-30.0f, 30.0f), y + MathUtils.random(-30.0f, 30.0f));
+                        game.spawnRandomEntity(x + 10 + MathUtils.random(-30.0f, 30.0f),
+                                               y + 10 + MathUtils.random(-30.0f, 30.0f));
                     }
                 } else {
-                    Spawner spawner = new Spawner(x, y, EntityProto.getRandomWithoutSpawner().toString().toLowerCase(),
+                    Spawner spawner = new Spawner(EntityProto.getRandomWithoutSpawner(), x, y,
                                                   MathUtils.random(1.0f, 3.0f), MathUtils.random(5, 10));
                     Shooter.getInstance().getGame().addEntity(spawner);
                 }

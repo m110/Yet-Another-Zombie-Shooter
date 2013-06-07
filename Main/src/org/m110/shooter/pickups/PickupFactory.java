@@ -31,7 +31,7 @@ public class PickupFactory {
     }
 
     public static Pickup createRandomPickup(float x, float y) {
-        PickupType type = PickupType.getRandom();
+        PickupProto type = PickupProto.getRandom();
         switch (type) {
             case AMMO:
                 WeaponProto weaponProto = WeaponProto.getRandom();
@@ -46,12 +46,12 @@ public class PickupFactory {
             case ADRENALINE:
                 return new Adrenaline(x, y);
             default:
-                throw new IllegalArgumentException("No such PickupType: " + type);
+                throw new IllegalArgumentException("No such PickupProto: " + type);
         }
     }
 
     public static Pickup createAmmoOrCrate(float x, float y) {
-        PickupType type = MathUtils.random(1) == 0 ? PickupType.AMMO : PickupType.CRATE;
+        PickupProto type = MathUtils.random(1) == 0 ? PickupProto.AMMO : PickupProto.CRATE;
         switch (type) {
             case AMMO:
                 WeaponProto weaponProto = WeaponProto.getRandom();

@@ -153,7 +153,7 @@ public enum WeaponProto {
 
     public static WeaponProto getByName(String name) {
         for (WeaponProto weaponProto : values()) {
-            if (weaponProto.name.equals(name)) {
+            if (weaponProto.name.equalsIgnoreCase(name)) {
                 return weaponProto;
             }
         }

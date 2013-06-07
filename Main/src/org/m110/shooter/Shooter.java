@@ -54,10 +54,8 @@ public class Shooter extends Game {
     public void create() {
         smallFont = new BitmapFont(Gdx.files.internal("fonts/small.fnt"),
                                    Gdx.files.internal("fonts/small.png"), false);
-
         mediumFont = new BitmapFont(Gdx.files.internal("fonts/medium.fnt"),
                                    Gdx.files.internal("fonts/medium.png"), false);
-
         largeFont = new BitmapFont(Gdx.files.internal("fonts/large.fnt"),
                                     Gdx.files.internal("fonts/large.png"), false);
 

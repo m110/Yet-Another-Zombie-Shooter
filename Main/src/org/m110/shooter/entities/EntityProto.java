@@ -1,6 +1,7 @@
 package org.m110.shooter.entities;
 
 import com.badlogic.gdx.math.MathUtils;
+import org.m110.shooter.core.CoreUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,12 +11,13 @@ import java.util.List;
  * @author m1_10sz <m110@m110.pl>
  */
 public enum EntityProto {
-    ZOMBIE(new Builder().points(1).health(20).damage(1, 5).velocity(4.0f).attackInterval(0.8f)),
-    BOOMER(new Builder().points(10).health(200).damage(50, 75).velocity(2.0f).attackInterval(0.0f)),
-    CHARGER(new Builder().points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
-    SPITTER(new Builder().points(5).health(120).damage(5).velocity(0.0f)),
-    SPAWNER(new Builder().points(15).health(150).damage(0).velocity(0.0f));
+    ZOMBIE(new Builder("zombie").points(1).health(20).damage(1, 5).velocity(4.0f).attackInterval(0.8f)),
+    BOOMER(new Builder("boomer").points(10).health(200).damage(50, 75).velocity(2.0f).attackInterval(0.0f)),
+    CHARGER(new Builder("charger").points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
+    SPITTER(new Builder("spitter").points(5).health(120).damage(5).velocity(0.0f)),
+    SPAWNER(new Builder("spawner").points(15).health(150).damage(0).velocity(0.0f));
 
+    public final String name;
     public final int points;
     public final int health;
     public final int minDamage;
@@ -25,12 +27,17 @@ public enum EntityProto {
 
     public static class Builder {
 
+        private final String name;
         private int points = 1;
         private int health = 100;
         private int minDamage = 1;
         private int maxDamage = 1;
         private float velocity = 1.0f;
         private float attackInterval = 1.0f;
+
+        public Builder(String name) {
+            this.name = name;
+        }
 
         public Builder points(int points) {
             this.points = points;
@@ -64,6 +71,7 @@ public enum EntityProto {
     }
 
     EntityProto(Builder builder) {
+        name = builder.name;
         points = builder.points;
         health = builder.health;
         minDamage = builder.minDamage;
@@ -75,11 +83,24 @@ public enum EntityProto {
     private static final List<EntityProto> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
 
+    public static EntityProto getByName(String name) {
+        for (EntityProto entityProto : values()) {
+            if (entityProto.name.equalsIgnoreCase(name)) {
+                return entityProto;
+            }
+        }
+        throw new IllegalArgumentException("No such EntityProto: " + name);
+    }
+
     public static EntityProto getRandom()  {
         return VALUES.get(MathUtils.random(VALUES.size()-1));
     }
 
     public static EntityProto getRandomWithoutSpawner()  {
-        return VALUES.get(MathUtils.random(VALUES.size()-2));
+        return getRandom(ZOMBIE, BOOMER, CHARGER, SPITTER);
+    }
+
+    public static EntityProto getRandom(EntityProto... entityProtos) {
+        return entityProtos[MathUtils.random(entityProtos.length-1)];
     }
 }

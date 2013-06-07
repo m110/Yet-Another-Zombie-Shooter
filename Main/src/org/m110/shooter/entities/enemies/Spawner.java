@@ -20,7 +20,7 @@ public class Spawner extends CombatEntity {
     private static final TextureRegion texture;
     private static final Array<TextureRegion> fleshTextures;
 
-    private final String entity;
+    private final EntityProto spawnProto;
     private final int maxEntities;
     private IntervalTimer spawnTimer;
 
@@ -32,9 +32,9 @@ public class Spawner extends CombatEntity {
         fleshTextures = Entity.loadFleshTextures(texture);
     }
 
-    public Spawner(float startX, float startY, String entity, float interval, int maxEntities) {
+    public Spawner(EntityProto spawnProto, float startX, float startY, float interval, int maxEntities) {
         super(EntityProto.SPAWNER, texture, fleshTextures, name, startX, startY, null, null, null);
-        this.entity = entity;
+        this.spawnProto = spawnProto;
         this.maxEntities = maxEntities;
         spawnTimer = new IntervalTimer(interval);
         entities = new Array<>();
@@ -68,8 +68,6 @@ public class Spawner extends CombatEntity {
         float dist = getWidth() * 3.0f;
         float x = getWorldX() + (float) Math.cos(Math.toRadians(MathUtils.random(0.0f, 360.0f))) * dist;
         float y = getWorldY() + (float) Math.sin(Math.toRadians(MathUtils.random(0.0f, 360.0f))) * dist;
-        TiledObject object = new TiledObject();
-        object.name = entity;
-        entities.add(Shooter.getInstance().getGame().spawnEntity(object, x, y));
+        entities.add(Shooter.getInstance().getGame().spawnEntity(spawnProto, x, y));
     }
 }
