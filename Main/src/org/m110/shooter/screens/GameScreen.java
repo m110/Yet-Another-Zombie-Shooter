@@ -35,6 +35,7 @@ import org.m110.shooter.input.GameOverInput;
 import org.m110.shooter.pickups.Pickup;
 import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.screens.menu.Menu;
+import org.m110.shooter.screens.menu.MenuAction;
 import org.m110.shooter.screens.menu.MenuItem;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponSlot;
@@ -127,21 +128,21 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
 
         // Pause menu
-        pauseMenu = new Menu(Gdx.graphics.getWidth() / 2.0f - 100.0f, Gdx.graphics.getHeight() / 2.0f + 100.0f);
-        pauseMenu.addMenuItem(new MenuItem("Resume") {
+        pauseMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
+        pauseMenu.addMenuItem("Resume", new MenuAction() {
             @Override
             public void action() {
                 setPaused(false);
                 Gdx.input.setCursorCatched(true);
             }
         });
-        pauseMenu.addMenuItem(new MenuItem("How to play") {
+        pauseMenu.addMenuItem("How to play", new MenuAction() {
             @Override
             public void action() {
                 Shooter.getInstance().showHowToPlay();
             }
         });
-        pauseMenu.addMenuItem(new MenuItem("Quit") {
+        pauseMenu.addMenuItem("Quit", new MenuAction() {
             @Override
             public void action() {
                 Shooter.getInstance().showMainMenu();

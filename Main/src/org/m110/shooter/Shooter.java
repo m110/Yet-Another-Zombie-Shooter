@@ -29,6 +29,7 @@ public class Shooter extends Game {
     private BitmapFont smallFont;
     private BitmapFont mediumFont;
     private BitmapFont largeFont;
+    private BitmapFont bigFont;
 
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
@@ -58,6 +59,8 @@ public class Shooter extends Game {
                                    Gdx.files.internal("fonts/medium.png"), false);
         largeFont = new BitmapFont(Gdx.files.internal("fonts/large.fnt"),
                                     Gdx.files.internal("fonts/large.png"), false);
+        bigFont = new BitmapFont(Gdx.files.internal("fonts/big.fnt"),
+                                    Gdx.files.internal("fonts/big.png"), false);
 
         Gdx.input.setCursorCatched(true);
 
@@ -171,5 +174,9 @@ public class Shooter extends Game {
 
     public BitmapFont getLargeFont() {
         return largeFont;
+    }
+
+    public BitmapFont getBigFont() {
+        return bigFont;
     }
 }

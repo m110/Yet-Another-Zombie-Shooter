@@ -303,7 +303,12 @@ public abstract class Entity extends Actor {
         health = 0;
         state = State.DEAD;
         playDeathSound();
+
+        // Make sure the body lies on the bottom
         setZIndex(0);
+
+        // Set random rotation of the dead texture
+        setRotation(MathUtils.random(0.0f, 360.0f));
 
         for (Piece piece : pieces) {
             piece.updatePosition();

@@ -21,6 +21,7 @@ public class Menu extends InputAdapter {
     private MenuItem activeItem;
     private float startX;
     private float startY;
+    private float currentY;
     private int maxWidth = 0;
 
     // Sounds
@@ -41,46 +42,19 @@ public class Menu extends InputAdapter {
     public Menu(float x, float y) {
         this.startX = x;
         this.startY = y;
+        currentY = y;
         items = new Array<>();
         activeItem = null;
         this.renderer = new ShapeRenderer();
     }
 
     public void draw(SpriteBatch batch, float delta) {
-        BitmapFont font = Shooter.getInstance().getLargeFont();
-
-        Gdx.gl.glEnable(GL10.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        renderer.setColor(new Color(0.25f, 0.25f, 0.25f, 0.7f));
-        float height = (items.size * font.getSpaceWidth()) + (items.size * spacing);
-        renderer.filledRect(startX - 60, startY - height + 20, maxWidth * font.getSpaceWidth() + 80, height);
-        renderer.end();
-
-        float y = startY;
-        font.setColor(color);
-        batch.setColor(color);
-        renderer.setColor(color);
         renderer.setProjectionMatrix(batch.getProjectionMatrix());
         renderer.setTransformMatrix(batch.getTransformMatrix());
-        batch.begin();
         for (MenuItem item : items) {
-            font.draw(batch, item.getCaption(), startX, y);
-            if (item == activeItem) {
-                batch.end();
-                drawArrow(y);
-                batch.begin();
-            }
-            y -= spacing;
+            boolean active = item == activeItem;
+            item.draw(batch, renderer, active);
         }
-        batch.end();
-        Gdx.gl.glDisable(GL10.GL_BLEND);
-    }
-
-    public void drawArrow(float y) {
-        renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        renderer.filledRect(startX - 50.0f, y - 20.0f, 40.0f, 20.0f);
-        renderer.end();
     }
 
     public void alignToCenter() {
@@ -93,7 +67,10 @@ public class Menu extends InputAdapter {
         startY = y + height / 2.0f;
     }
 
-    public void addMenuItem(MenuItem menuItem) {
+    public void addMenuItem(String caption, MenuAction action) {
+        MenuItem menuItem = new MenuItem(caption, action, startX, currentY);
+        currentY -= spacing;
+
         items.add(menuItem);
         if (activeItem == null) {
             activeItem = menuItem;
