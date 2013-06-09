@@ -449,8 +449,15 @@ public class GameScreen implements Screen {
         while (it.hasNext()) {
             CombatEntity enemy = it.next();
             if (enemy.isDead()) {
-                score += enemy.getPoints();
+                int points = enemy.getPoints();
+
+                if (streakSystem.getKills() > 1) {
+                    points *= streakSystem.getKills();
+                }
+
+                score += points;
                 streakSystem.addKill();
+                enemy.setPointsEarned(points);
                 it.remove();
             }
         }

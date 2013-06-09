@@ -1,9 +1,13 @@
 package org.m110.shooter.entities.enemies;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import org.m110.shooter.Shooter;
+import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
@@ -15,6 +19,9 @@ public abstract class CombatEntity extends Entity {
 
     private final EntityProto proto;
     private final int points;
+
+    private int pointsEarned = 0;
+    private final CountdownTimer pointsEarnedTimer;
 
     private Entity victim = null;
 
@@ -35,6 +42,21 @@ public abstract class CombatEntity extends Entity {
         setDeathSound(deathSound);
 
         attackTimer = new IntervalTimer(proto.attackInterval);
+        pointsEarnedTimer = new CountdownTimer(2.0f);
+        pointsEarnedTimer.disable();
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        if (pointsEarned > 0 && !pointsEarnedTimer.ready()) {
+            BitmapFont font = Shooter.getInstance().getLargeFont();
+            font.setColor(1.0f, 1.0f, 1.0f, Math.min(Math.max(pointsEarnedTimer.getTimeLeft(), 0.0f), 1.0f));
+            font.draw(batch, ""+pointsEarned, getWorldX() - font.getBounds(""+pointsEarned).width / 2.0f,
+                    getY() + getHeight() + getHeight() *
+                    (2.0f - pointsEarnedTimer.getTimeLeft()));
+        }
     }
 
     @Override
@@ -48,6 +70,13 @@ public abstract class CombatEntity extends Entity {
         }
 
         attackTimer.update(delta);
+        pointsEarnedTimer.update(delta);
+    }
+
+    @Override
+    public void die() {
+        super.die();
+        pointsEarnedTimer.reset();
     }
 
     @Override
@@ -111,5 +140,9 @@ public abstract class CombatEntity extends Entity {
 
     public boolean inCombat() {
         return victim != null;
+    }
+
+    public void setPointsEarned(int pointsEarned) {
+        this.pointsEarned = pointsEarned;
     }
 }
