@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.weapons.magazines.Magazine;
 
 /**
@@ -55,7 +56,7 @@ public class Shotgun extends Weapon {
         renderer.filledRect(x, y, activeMagazine.getBulletsPercent() * 120, 18);
         renderer.end();
 
-        BitmapFont font = Shooter.getInstance().getMediumFont();
+        BitmapFont font = Font.medium;
         batch.begin();
         font.draw(batch, activeMagazine.getBullets() + " / " + mainMagazine.getBullets(), x, y + 40);
         batch.end();

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.entities.bullets.BulletFactory;
@@ -245,7 +246,7 @@ public class Weapon {
      * @param batch
      */
     public void drawMagazines(float x, float y, ShapeRenderer renderer, SpriteBatch batch) {
-        BitmapFont font = Shooter.getInstance().getSmallFont();
+        BitmapFont font = Font.small;
         font.setColor(Color.WHITE);
         for (Magazine magazine : magazines) {
             if (magazine == activeMagazine) {

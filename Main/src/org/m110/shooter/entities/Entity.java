@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.ai.entity.NoneAI;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.screens.GameScreen;
@@ -35,7 +36,7 @@ public abstract class Entity extends Actor {
 
         private static final float duration = 1f;
         private static final float finalY = 30.0f;
-        private final BitmapFont font = Shooter.getInstance().getSmallFont();
+        private final BitmapFont font = Font.small;
 
         public DamageIndicator(int damage, boolean critical) {
             this.damage = Integer.toString(damage) + (critical ? " CRITICAL! " : "");

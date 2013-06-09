@@ -50,7 +50,7 @@ public class StreakSystem {
         }
 
         if (kills > 1) {
-            Shooter.getInstance().getMediumFont().draw(batch, "Kill streak: " + kills,
+            Font.medium.draw(batch, "Kill streak: " + kills,
                 Gdx.graphics.getWidth() - 160.0f, Gdx.graphics.getHeight() - 100.0f);
         }
         batch.end();

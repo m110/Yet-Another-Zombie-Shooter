@@ -4,9 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.timers.CountdownTimer;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.entities.Player;
 import org.m110.shooter.input.MainInput;
 import org.m110.shooter.screens.GameScreen;
@@ -25,11 +25,6 @@ public class Shooter extends Game {
     public static final String VERSION = "0.1.13";
 
     private static Shooter INSTANCE = null;
-
-    private BitmapFont smallFont;
-    private BitmapFont mediumFont;
-    private BitmapFont largeFont;
-    private BitmapFont bigFont;
 
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
@@ -53,14 +48,6 @@ public class Shooter extends Game {
 
     @Override
     public void create() {
-        smallFont = new BitmapFont(Gdx.files.internal("fonts/small.fnt"),
-                                   Gdx.files.internal("fonts/small.png"), false);
-        mediumFont = new BitmapFont(Gdx.files.internal("fonts/medium.fnt"),
-                                   Gdx.files.internal("fonts/medium.png"), false);
-        largeFont = new BitmapFont(Gdx.files.internal("fonts/large.fnt"),
-                                    Gdx.files.internal("fonts/large.png"), false);
-        bigFont = new BitmapFont(Gdx.files.internal("fonts/big.fnt"),
-                                    Gdx.files.internal("fonts/big.png"), false);
 
         Gdx.input.setCursorCatched(true);
 
@@ -140,8 +127,10 @@ public class Shooter extends Game {
 
     @Override
     public void dispose() {
-        smallFont.dispose();
-        mediumFont.dispose();
+        Font.small.dispose();
+        Font.medium.dispose();
+        Font.large.dispose();
+        Font.big.dispose();
     }
 
     public void addTimer(CountdownTimer timer) {
@@ -162,21 +151,5 @@ public class Shooter extends Game {
 
     public void removeInput(InputProcessor inputProcessor) {
         inputMultiplexer.removeProcessor(inputProcessor);
-    }
-
-    public BitmapFont getSmallFont() {
-        return smallFont;
-    }
-
-    public BitmapFont getMediumFont() {
-        return mediumFont;
-    }
-
-    public BitmapFont getLargeFont() {
-        return largeFont;
-    }
-
-    public BitmapFont getBigFont() {
-        return bigFont;
     }
 }

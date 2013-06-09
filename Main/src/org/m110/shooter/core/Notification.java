@@ -17,7 +17,7 @@ public class Notification {
     private float y;
 
     private static final float duration = 5.0f;
-    private final BitmapFont font = Shooter.getInstance().getMediumFont();
+    private final BitmapFont font = Font.medium;
 
     public Notification(String message, float x, float y) {
         this.message = message;

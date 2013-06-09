@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -59,9 +60,9 @@ public class Menu extends InputAdapter {
         float x = Gdx.graphics.getWidth() / 2.0f;
         float y = Gdx.graphics.getHeight() / 2.0f;
 
-        float height = (items.size * Shooter.getInstance().getLargeFont().getSpaceWidth()) + (items.size * spacing);
+        float height = (items.size * Font.large.getSpaceWidth()) + (items.size * spacing);
 
-        startX = x - (maxWidth * Shooter.getInstance().getLargeFont().getSpaceWidth()) / 2.0f + 40.0f;
+        startX = x - (maxWidth * Font.large.getSpaceWidth()) / 2.0f + 40.0f;
         startY = y + height / 2.0f;
     }
 

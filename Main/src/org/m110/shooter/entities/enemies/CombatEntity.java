@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
@@ -51,7 +52,7 @@ public abstract class CombatEntity extends Entity {
         super.draw(batch, parentAlpha);
 
         if (pointsEarned > 0 && !pointsEarnedTimer.ready()) {
-            BitmapFont font = Shooter.getInstance().getLargeFont();
+            BitmapFont font = Font.large;
             font.setColor(1.0f, 1.0f, 1.0f, Math.min(Math.max(pointsEarnedTimer.getTimeLeft(), 0.0f), 1.0f));
             font.draw(batch, ""+pointsEarned, getWorldX() - font.getBounds(""+pointsEarned).width / 2.0f,
                     getY() + getHeight() + getHeight() *

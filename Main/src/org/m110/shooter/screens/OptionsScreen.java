@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -36,12 +37,12 @@ public class OptionsScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        BitmapFont font = Shooter.getInstance().getLargeFont();
+        BitmapFont font = Font.large;
 
         batch.begin();
         font.setColor(Color.WHITE);
         font.draw(batch, "Coming soon... :>", 100, Gdx.graphics.getHeight() * 0.8f);
-        Shooter.getInstance().getMediumFont().draw(batch, "Press ENTER to continue...", 300, Gdx.graphics.getHeight() * 0.1f);
+        Font.medium.draw(batch, "Press ENTER to continue...", 300, Gdx.graphics.getHeight() * 0.1f);
         batch.end();
     }
 

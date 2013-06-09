@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Font;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -34,7 +34,7 @@ public class MenuItem {
     public void draw(SpriteBatch batch, ShapeRenderer renderer, boolean active) {
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        BitmapFont font = Shooter.getInstance().getLargeFont();
+        BitmapFont font = Font.large;
         if (active) {
             renderer.setColor(1.0f, 1.0f, 1.0f, 0.7f);
         } else {

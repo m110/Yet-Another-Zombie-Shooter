@@ -19,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.core.Font;
 import org.m110.shooter.core.StreakSystem;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
@@ -108,9 +109,9 @@ public class GameScreen implements Screen {
     private static final BitmapFont largeFont;
 
     static {
-        smallFont = Shooter.getInstance().getSmallFont();
-        mediumFont = Shooter.getInstance().getMediumFont();
-        largeFont = Shooter.getInstance().getLargeFont();
+        smallFont = Font.small;
+        mediumFont = Font.medium;
+        largeFont = Font.large;
     }
 
     public GameScreen(String levelID, Player player) {
