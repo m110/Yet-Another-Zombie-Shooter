@@ -265,11 +265,10 @@ public class GameScreen implements Screen {
         centerCamera();
 
         // Render background
-        tileMapRenderer.render(camera, new int[]{0,1});
+        tileMapRenderer.render(camera, new int[]{0});
         // Render stage
         stage.draw();
         // Render walls
-        //centerCamera();
         tileMapRenderer.render(camera, new int[]{1});
         // Draw HUD
         batch.begin();
@@ -486,6 +485,7 @@ public class GameScreen implements Screen {
         }
 
         camera.position.set(x, y, 0);
+        camera.update();
     }
 
     /**
