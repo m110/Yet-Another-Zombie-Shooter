@@ -20,6 +20,7 @@ import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.core.Font;
+import org.m110.shooter.core.LevelType;
 import org.m110.shooter.core.StreakSystem;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
@@ -47,6 +48,7 @@ import java.util.Iterator;
  */
 public class GameScreen implements Screen {
 
+    private final LevelType levelType;
     private final String levelID;
 
     /**
@@ -114,7 +116,8 @@ public class GameScreen implements Screen {
         largeFont = Font.large;
     }
 
-    public GameScreen(String levelID, Player player) {
+    public GameScreen(LevelType levelType, String levelID, Player player) {
+        this.levelType = levelType;
         this.levelID = levelID;
         this.player = player;
 
@@ -194,12 +197,10 @@ public class GameScreen implements Screen {
         player.updateGame(this);
 
         // Check AI
-        if (map.properties.containsKey("ai")) {
-            switch (map.properties.get("ai")) {
-                case "survival":
-                    ai = new SurvivalAI();
-                    break;
-            }
+        switch (levelType) {
+            case SURVIVAL:
+                ai = new SurvivalAI();
+                break;
         }
 
         // Load map objects

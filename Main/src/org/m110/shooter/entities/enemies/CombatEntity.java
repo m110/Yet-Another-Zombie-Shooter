@@ -22,7 +22,7 @@ public abstract class CombatEntity extends Entity {
     private final int points;
 
     private int pointsEarned = 0;
-    private final CountdownTimer pointsEarnedTimer;
+    protected final CountdownTimer pointsEarnedTimer;
 
     private Entity victim = null;
 

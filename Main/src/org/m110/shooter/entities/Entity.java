@@ -226,9 +226,7 @@ public abstract class Entity extends Actor {
 
         // Update flesh piecs
         if (isDead()) {
-            for (Piece piece : pieces) {
-                piece.act(delta);
-            }
+            updatePieces(delta);
         }
 
         damageSoundTimer.update(delta);
@@ -433,6 +431,12 @@ public abstract class Entity extends Actor {
             if (indicator.isDone()) {
                 it.remove();
             }
+        }
+    }
+
+    protected void updatePieces(float delta) {
+        for (Piece piece : pieces) {
+            piece.act(delta);
         }
     }
 

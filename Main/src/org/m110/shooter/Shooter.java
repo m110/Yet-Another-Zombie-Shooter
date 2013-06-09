@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Array;
+import org.m110.shooter.core.LevelType;
 import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.entities.Player;
@@ -15,6 +16,8 @@ import org.m110.shooter.screens.MenuScreen;
 import org.m110.shooter.screens.OptionsScreen;
 
 import java.util.Iterator;
+
+import static org.m110.shooter.screens.GameScreen.*;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -33,7 +36,7 @@ public class Shooter extends Game {
 
     private InputMultiplexer inputMultiplexer;
 
-    private Player player;
+    private Player player = null;
 
     private Array<CountdownTimer> timers;
 
@@ -48,14 +51,12 @@ public class Shooter extends Game {
 
     @Override
     public void create() {
-
         Gdx.input.setCursorCatched(true);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new MainInput());
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        player = new Player();
 
         timers = new Array<>();
 
@@ -82,8 +83,16 @@ public class Shooter extends Game {
         super.render();
     }
 
-    public void loadLevel(String levelID) {
-        gameScreen = new GameScreen(levelID, player);
+    /**
+     * Loads level of given ID.
+     * @param levelID
+     */
+    public void loadLevel(LevelType levelType, String levelID) {
+        if (player == null) {
+            player = new Player();
+        }
+
+        gameScreen = new GameScreen(levelType, levelID, player);
         gameScreen.loadLevel();
         setScreen(gameScreen);
     }
@@ -95,7 +104,7 @@ public class Shooter extends Game {
         if (gameScreen != null) {
             gameScreen.dispose();
             gameScreen = null;
-            player = new Player();
+            player = null;
         }
     }
 

@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Font;
+import org.m110.shooter.core.LevelType;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuAction;
+
+import static org.m110.shooter.screens.GameScreen.*;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -27,13 +30,13 @@ public class MenuScreen implements Screen {
         menu.addMenuItem("Campaign", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().loadLevel("1");
+                Shooter.getInstance().loadLevel(LevelType.CAMPAIGN, "1");
             }
         });
         menu.addMenuItem("Survival", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().loadLevel("survival");
+                Shooter.getInstance().loadLevel(LevelType.SURVIVAL, "survival");
             }
         });
         menu.addMenuItem("How to play", new MenuAction() {
