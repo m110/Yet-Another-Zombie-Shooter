@@ -358,10 +358,11 @@ public class GameScreen implements Screen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             batch.begin();
+            largeFont.setColor(1.0f, 1.0f, 1.0f, 0.7f);
             if (player.isDead()) {
-                largeFont.draw(batch, "G A M E   O V E R", 260, 420);
+                largeFont.draw(batch, "G A M E   O V E R", 260, 450);
             } else {
-                largeFont.draw(batch, "L E V E L   C O M P L E T E", 200, 420);
+                largeFont.draw(batch, "L E V E L   C O M P L E T E", 200, 450);
             }
 
             mediumFont.setColor(Color.WHITE);

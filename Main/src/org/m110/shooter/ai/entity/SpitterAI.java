@@ -172,6 +172,8 @@ public class SpitterAI extends CombatAI {
             me.getStage().addActor(bullet);
             bullets.add(bullet);
             spitTimer.reset();
+        } else {
+            me.moveForward();
         }
     }
 

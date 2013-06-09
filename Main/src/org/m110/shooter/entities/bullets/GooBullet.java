@@ -21,7 +21,7 @@ public class GooBullet extends Bullet {
         super(texture,
                 me.getWorldX() + (float)Math.cos(Math.toRadians(me.getRotation()))*(me.getWidth()*0.9f),
                 me.getWorldY() + (float)Math.sin(Math.toRadians(me.getRotation()))*(me.getHeight()*0.9f),
-                me.angleWith(target), -5.0f, 0, 0);
+                me.angleWith(target), -3.0f, 0, 0);
 
         targetX = target.getWorldX();
         targetY = target.getWorldY();
