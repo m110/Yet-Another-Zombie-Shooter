@@ -6,10 +6,8 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
-import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuAction;
-import org.m110.shooter.screens.menu.MenuItem;
 
 /**
  * @author m1_10sz <m110@m110.pl>

@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.Player;
-import org.m110.shooter.weapons.WeaponProto;
 import org.m110.shooter.weapons.WeaponSlot;
 
 /**

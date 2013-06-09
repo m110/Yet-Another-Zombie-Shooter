@@ -1,7 +1,6 @@
 package org.m110.shooter.weapons;
 
 import com.badlogic.gdx.math.MathUtils;
-import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.entities.bullets.BulletType;
 
 import java.util.Arrays;

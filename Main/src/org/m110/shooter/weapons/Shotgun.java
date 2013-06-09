@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.weapons.magazines.Magazine;
-import org.m110.shooter.weapons.magazines.MagazineSlot;
 
 /**
  * @author m1_10sz <m110@m110.pl>

@@ -3,7 +3,6 @@ package org.m110.shooter.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,7 +10,8 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;
-import org.m110.shooter.weapons.*;
+import org.m110.shooter.weapons.Weapon;
+import org.m110.shooter.weapons.WeaponSlot;
 import org.m110.shooter.weapons.magazines.Magazine;
 
 import java.util.EnumSet;

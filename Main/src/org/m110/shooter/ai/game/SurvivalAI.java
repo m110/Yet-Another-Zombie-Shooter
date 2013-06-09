@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
-import org.m110.shooter.entities.EntityFactory;
 import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.enemies.Spawner;
 import org.m110.shooter.entities.terrain.Dummy;

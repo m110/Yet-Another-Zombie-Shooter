@@ -1,7 +1,5 @@
 package org.m110.shooter.core.timers;
 
-import com.badlogic.gdx.Gdx;
-
 /**
  * @author m1_10sz <m110@m110.pl>
  */

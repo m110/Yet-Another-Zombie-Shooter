@@ -1,7 +1,6 @@
 package org.m110.shooter.entities;
 
 import com.badlogic.gdx.math.MathUtils;
-import org.m110.shooter.core.CoreUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
