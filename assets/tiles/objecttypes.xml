@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<objecttypes>
- <objecttype name="node" color="#00a41b"/>
- <objecttype name="entity" color="#ff0000"/>
- <objecttype name="terrain" color="#f20af9"/>
- <objecttype name="ammo" color="#4cfe00"/>
- <objecttype name="crate" color="#f9d000"/>
-</objecttypes>

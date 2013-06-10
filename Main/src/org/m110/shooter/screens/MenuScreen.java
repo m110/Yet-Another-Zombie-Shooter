@@ -7,62 +7,100 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Font;
-import org.m110.shooter.core.LevelType;
+import org.m110.shooter.core.Map;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuAction;
-
-import static org.m110.shooter.screens.GameScreen.*;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public class MenuScreen implements Screen {
 
-    private final Menu menu;
+    private final Menu mainMenu;
+    private final Menu campaignMenu;
+    private final Menu survivalMenu;
     private final SpriteBatch batch;
     private final ShapeRenderer renderer;
 
+    private Menu activeMenu;
+
     public MenuScreen() {
-        menu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
+        mainMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
+        campaignMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
+        survivalMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
+
         batch = new SpriteBatch();
         renderer = new ShapeRenderer();
 
-        menu.addMenuItem("Campaign", new MenuAction() {
+        mainMenu.addMenuItem("Campaign", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().loadLevel(LevelType.CAMPAIGN, "1");
+                setActiveMenu(campaignMenu);
             }
         });
-        menu.addMenuItem("Survival", new MenuAction() {
+        mainMenu.addMenuItem("Survival", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().loadLevel(LevelType.SURVIVAL, "survival");
+                setActiveMenu(survivalMenu);
             }
         });
-        menu.addMenuItem("How to play", new MenuAction() {
+        mainMenu.addMenuItem("How to play", new MenuAction() {
             @Override
             public void action() {
                 Shooter.getInstance().showHowToPlay();
             }
         });
-        menu.addMenuItem("Options", new MenuAction() {
+        mainMenu.addMenuItem("Options", new MenuAction() {
             @Override
             public void action() {
                 Shooter.getInstance().showOptions();
             }
         });
-        menu.addMenuItem("Quit", new MenuAction() {
+        mainMenu.addMenuItem("Quit", new MenuAction() {
             @Override
             public void action() {
                 Shooter.getInstance().exitWithDelay(0.5f);
             }
         });
+
+        for (final Map map : Shooter.getInstance().getCampaignMaps()) {
+            campaignMenu.addMenuItem(map.getName(), new MenuAction() {
+                @Override
+                public void action() {
+                Shooter.getInstance().loadLevel(map, 1);
+                }
+            });
+        }
+        campaignMenu.addMenuItem("Back", new MenuAction() {
+            @Override
+            public void action() {
+                setActiveMenu(mainMenu);
+            }
+        });
+
+        for (final Map map : Shooter.getInstance().getSurvivalMaps()) {
+            survivalMenu.addMenuItem(map.getName(), new MenuAction() {
+                @Override
+                public void action() {
+                Shooter.getInstance().loadLevel(map, 1);
+                }
+            });
+        }
+        survivalMenu.addMenuItem("Back", new MenuAction() {
+            @Override
+            public void action() {
+                setActiveMenu(mainMenu);
+
+            }
+        });
+
+        activeMenu = mainMenu;
     }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        menu.draw(batch, delta);
+        activeMenu.draw(batch, delta);
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         batch.begin();
@@ -81,18 +119,24 @@ public class MenuScreen implements Screen {
         Gdx.gl.glDisable(GL10.GL_BLEND);
     }
 
+    protected void setActiveMenu(Menu activeMenu) {
+        Shooter.getInstance().removeInput(this.activeMenu);
+        this.activeMenu = activeMenu;
+        Shooter.getInstance().addInput(this.activeMenu);
+    }
+
     @Override
     public void resize(int width, int height) {
     }
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(menu);
+        Shooter.getInstance().addInput(activeMenu);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(menu);
+        Shooter.getInstance().removeInput(activeMenu);
     }
 
     @Override

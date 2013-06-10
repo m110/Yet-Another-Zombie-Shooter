@@ -20,7 +20,7 @@ import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.core.Font;
-import org.m110.shooter.core.LevelType;
+import org.m110.shooter.core.Map;
 import org.m110.shooter.core.StreakSystem;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
@@ -48,8 +48,8 @@ import java.util.Iterator;
  */
 public class GameScreen implements Screen {
 
-    private final LevelType levelType;
-    private final String levelID;
+    private final Map map;
+    private final int level;
 
     /**
      * Scene2D Stage, handles entities.
@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
      * Tiled map related stuff.
      */
     private final TileMapRenderer tileMapRenderer;
-    private final TiledMap map;
+    private final TiledMap tiledMap;
     private final TileAtlas atlas;
 
     private final TiledLayer collisions;
@@ -106,19 +106,9 @@ public class GameScreen implements Screen {
 
     private float aggroRange = 350.0f;
 
-    private static final BitmapFont smallFont;
-    private static final BitmapFont mediumFont;
-    private static final BitmapFont largeFont;
-
-    static {
-        smallFont = Font.small;
-        mediumFont = Font.medium;
-        largeFont = Font.large;
-    }
-
-    public GameScreen(LevelType levelType, String levelID, Player player) {
-        this.levelType = levelType;
-        this.levelID = levelID;
+    public GameScreen(Map map, int level, Player player) {
+        this.map = map;
+        this.level = level;
         this.player = player;
 
         // Initialize camera
@@ -161,10 +151,10 @@ public class GameScreen implements Screen {
         topHUD = new Texture(Gdx.files.internal("images/top_hud.png"));
 
         // Tile map
-        map = TiledLoader.createMap(Gdx.files.internal("data/level"+levelID+".tmx"));
-        atlas = new TileAtlas(map, Gdx.files.internal("data/"));
-        tileMapRenderer = new TileMapRenderer(map, atlas, map.tileWidth, map.tileHeight);
-        collisions = map.layers.get(1);
+        tiledMap = map.getTiledMap(level);
+        atlas = map.getAtlas();
+        tileMapRenderer = new TileMapRenderer(tiledMap, atlas, tiledMap.tileWidth, tiledMap.tileHeight);
+        collisions = tiledMap.layers.get(1);
 
         mapWidth = tileMapRenderer.getMapWidthUnits();
         mapHeight = tileMapRenderer.getMapHeightUnits();
@@ -197,14 +187,14 @@ public class GameScreen implements Screen {
         player.updateGame(this);
 
         // Check AI
-        switch (levelType) {
+        switch (map.getMapType()) {
             case SURVIVAL:
                 ai = new SurvivalAI();
                 break;
         }
 
         // Load map objects
-        for (TiledObject object : map.objectGroups.get(0).objects) {
+        for (TiledObject object : tiledMap.objectGroups.get(0).objects) {
             final float objX = object.x;
             final float objY = mapHeight - object.y;
             switch (object.type) {
@@ -274,21 +264,32 @@ public class GameScreen implements Screen {
         // Draw HUD
         batch.begin();
 
+        float scoreX = -70.0f;
+        float scoreY = Gdx.graphics.getHeight() - 40.0f;
+        batch.draw(rightHUD, scoreX, scoreY);
+        Font.large.setColor(1.0f, 1.0f, 1.0f, 0.7f);
+        Font.large.draw(batch, String.format("%08d", score), 10.0f, scoreY + Font.large.getLineHeight() + 5.0f);
+
+        // Bonus multiplier
+        if (streakSystem.getKills() > 1) {
+            Font.large.draw(batch, "x"+streakSystem.getKills(), 200.0f, scoreY + Font.large.getLineHeight() + 5.0f);
+        }
+
         float topX = Gdx.graphics.getWidth() - 175;
         float topY = Gdx.graphics.getHeight() - 90;
         batch.draw(topHUD, topX, topY);
-        mediumFont.setColor(Color.WHITE);
-        mediumFont.draw(batch, "Level: " + levelID, topX + 15.0f, topY + 65.0f);
-        mediumFont.draw(batch, "Time: " + getTimeString(), topX + 15.0f, topY + 45.0f);
-        mediumFont.draw(batch, "Score: " + score, topX + 15.0f, topY + 25.0f);
+        Font.medium.setColor(Color.WHITE);
+        Font.medium.draw(batch, "Map: " + map.getName(), topX + 15.0f, topY + 65.0f);
+        Font.medium.draw(batch, "Level: " + level, topX + 15.0f, topY + 45.0f);
+        Font.medium.draw(batch, "Time: " + getTimeString(), topX + 15.0f, topY + 25.0f);
 
         float leftX = 20;
         float leftY = 10;
         batch.draw(leftHUD, leftX, leftY);
 
         // Health and stamina
-        mediumFont.draw(batch, "" + player.getHealth(), leftX + 210, leftY + 62);
-        mediumFont.draw(batch, "" + player.getStamina(), leftX + 210, leftY + 32);
+        Font.medium.draw(batch, "" + player.getHealth(), leftX + 210, leftY + 62);
+        Font.medium.draw(batch, "" + player.getStamina(), leftX + 210, leftY + 32);
 
         // Health and stamina bars
         batch.end();
@@ -307,7 +308,7 @@ public class GameScreen implements Screen {
         Weapon weapon = player.getActiveWeapon();
         if (weapon != null) {
             batch.draw(weapon.getTexture(), rightX + 15.0f, rightY + 15.0f);
-            mediumFont.draw(batch, weapon.getMode().name, rightX + 18.0f, rightY + 75.0f);
+            Font.medium.draw(batch, weapon.getMode().name, rightX + 18.0f, rightY + 75.0f);
             batch.end();
 
             // Draw magazines
@@ -358,19 +359,19 @@ public class GameScreen implements Screen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
 
             batch.begin();
-            largeFont.setColor(1.0f, 1.0f, 1.0f, 0.7f);
+            Font.large.setColor(1.0f, 1.0f, 1.0f, 0.7f);
             if (player.isDead()) {
-                largeFont.draw(batch, "G A M E   O V E R", 260, 450);
+                Font.large.draw(batch, "G A M E   O V E R", 260, 450);
             } else {
-                largeFont.draw(batch, "L E V E L   C O M P L E T E", 200, 450);
+                Font.large.draw(batch, "L E V E L   C O M P L E T E", 200, 450);
             }
 
-            mediumFont.setColor(Color.WHITE);
-            mediumFont.draw(batch, "Time: " + getTimeString(), 330, 390);
-            mediumFont.draw(batch, "Score: " + score, 330, 370);
-            mediumFont.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 340);
-            mediumFont.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 320);
-            mediumFont.draw(batch, "Press ENTER to continue...", 280, 290);
+            Font.medium.setColor(Color.WHITE);
+            Font.medium.draw(batch, "Time: " + getTimeString(), 330, 390);
+            Font.medium.draw(batch, "Score: " + score, 330, 370);
+            Font.medium.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 340);
+            Font.medium.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 320);
+            Font.medium.draw(batch, "Press ENTER to continue...", 280, 290);
             batch.end();
         }
 

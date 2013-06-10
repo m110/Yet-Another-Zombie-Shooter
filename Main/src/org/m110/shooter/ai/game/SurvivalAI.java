@@ -73,7 +73,7 @@ public class SurvivalAI extends GameAI {
                     }
                 } else {
                     Spawner spawner = new Spawner(EntityProto.getRandomWithoutSpawner(), x, y,
-                                                  MathUtils.random(1.0f, 3.0f), MathUtils.random(5, 10));
+                                                  MathUtils.random(1.0f, 3.0f), MathUtils.random(3, 5));
                     Shooter.getInstance().getGame().addEntity(spawner);
                 }
             } else {

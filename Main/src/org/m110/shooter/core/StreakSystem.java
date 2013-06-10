@@ -48,11 +48,6 @@ public class StreakSystem {
         for (Notification notification : notifications) {
             notification.draw(batch);
         }
-
-        if (kills > 1) {
-            Font.medium.draw(batch, "Kill streak: " + kills,
-                Gdx.graphics.getWidth() - 160.0f, Gdx.graphics.getHeight() - 100.0f);
-        }
         batch.end();
     }
 
