@@ -83,13 +83,11 @@ public class GameScreen implements Screen {
     private final Texture rightHUD;
     private final Texture topHUD;
 
-    private final float mapWidth;
-    private final float mapHeight;
-
     private final Group entitiesGroup;
     private final Group pickupsGroup;
     private final Group backgroundGroup;
 
+    private final Array<Dummy> endNodes;
     private final Array<CombatEntity> entities;
     private final Array<Pickup> pickups;
     private final Array<Fence> fences;
@@ -156,9 +154,6 @@ public class GameScreen implements Screen {
         tileMapRenderer = new TileMapRenderer(tiledMap, atlas, tiledMap.tileWidth, tiledMap.tileHeight);
         collisions = tiledMap.layers.get(1);
 
-        mapWidth = tileMapRenderer.getMapWidthUnits();
-        mapHeight = tileMapRenderer.getMapHeightUnits();
-
         stage = new Stage();
         stage.setCamera(camera);
 
@@ -171,6 +166,7 @@ public class GameScreen implements Screen {
         backgroundGroup.setZIndex(0);
         pickupsGroup.setZIndex(1);
 
+        endNodes = new Array<>();
         entities = new Array<>();
         pickups = new Array<>();
         fences = new Array<>();
@@ -196,7 +192,7 @@ public class GameScreen implements Screen {
         // Load map objects
         for (TiledObject object : tiledMap.objectGroups.get(0).objects) {
             final float objX = object.x;
-            final float objY = mapHeight - object.y;
+            final float objY = getMapHeight() - object.y;
             switch (object.type) {
                 case "node":
                     switch (object.name) {
@@ -210,7 +206,7 @@ public class GameScreen implements Screen {
                             stage.addListener(inputListener);
                             break;
                         case "end":
-
+                            endNodes.add(new Dummy(objX, objY, tiledMap.tileWidth, tiledMap.tileHeight));
                             break;
                     }
                     break;
@@ -427,10 +423,16 @@ public class GameScreen implements Screen {
 
         // Is player dead? (Game Over)
         if (player.isDead()) {
-            running = false;
-            stage.removeListener(inputListener);
-            stage.addListener(new GameOverInput());
+            gameOver();
             return;
+        }
+
+        // Check collision with end nodes
+        for (Dummy endNode : endNodes) {
+            if (collidesWith(player, endNode)) {
+                gameOver();
+                return;
+            }
         }
 
         // Check collision with pickups
@@ -495,6 +497,12 @@ public class GameScreen implements Screen {
 
         camera.position.set(x, y, 0);
         camera.update();
+    }
+
+    protected void gameOver() {
+        running = false;
+        stage.removeListener(inputListener);
+        stage.addListener(new GameOverInput());
     }
 
     /**
@@ -705,12 +713,20 @@ public class GameScreen implements Screen {
         return dummies;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     public float getMapWidth() {
-        return mapWidth;
+        return tileMapRenderer.getMapWidthUnits();
     }
 
     public float getMapHeight() {
-        return mapHeight;
+        return tileMapRenderer.getMapHeightUnits();
     }
 
     public float getAggroRange() {
