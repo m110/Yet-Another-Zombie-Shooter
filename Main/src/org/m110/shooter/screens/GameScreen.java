@@ -107,7 +107,7 @@ public class GameScreen implements Screen {
 
     private float aggroRange = 350.0f;
 
-    public GameScreen(Map map, int level, Player player) {
+    public GameScreen(final Map map, final int level, Player player) {
         this.map = map;
         this.level = level;
         this.player = player;
@@ -128,6 +128,12 @@ public class GameScreen implements Screen {
             public void action() {
                 setPaused(false);
                 Gdx.input.setCursorCatched(true);
+            }
+        });
+        pauseMenu.addMenuItem("Restart", new MenuAction() {
+            @Override
+            public void action() {
+                Shooter.getInstance().restartLevel(map, level);
             }
         });
         pauseMenu.addMenuItem("How to play", new MenuAction() {

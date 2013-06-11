@@ -169,6 +169,11 @@ public class Shooter extends Game {
         setScreen(gameScreen);
     }
 
+    public void restartLevel(Map map, int level) {
+        showMainMenu();
+        loadLevel(map, level);
+    }
+
     public void showMainMenu() {
         setScreen(menuScreen);
 
