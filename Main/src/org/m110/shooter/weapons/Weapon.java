@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.Bullet;
@@ -55,9 +56,9 @@ public class Weapon {
     private static final float burstFactor = 0.2f;
 
     static {
-        mainTexture = new Texture("images/weapons.png");
-        emptySound = Gdx.audio.newSound(Gdx.files.internal("audio/empty.ogg"));
-        dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal("audio/drop_magazine.ogg"));
+        mainTexture = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "weapons.png"));
+        emptySound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "empty.ogg"));
+        dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "drop_magazine.ogg"));
     }
 
     /**
@@ -84,9 +85,9 @@ public class Weapon {
 
         texture = new TextureRegion(mainTexture, proto.textureID * 48, 0, 48, 48);
 
-        readySound = Gdx.audio.newSound(Gdx.files.internal("audio/" + proto.name + "_ready.ogg"));
-        reloadSound = Gdx.audio.newSound(Gdx.files.internal("audio/" + proto.name + "_ready.ogg"));
-        fireSound = Gdx.audio.newSound(Gdx.files.internal("audio/" + proto.name + "_fire.ogg"));
+        readySound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_ready.ogg"));
+        reloadSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_ready.ogg"));
+        fireSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_fire.ogg"));
 
         cooldownTimer = new IntervalTimer(proto.cooldown);
         reloadTimer = new IntervalTimer(proto.reloadCooldown);

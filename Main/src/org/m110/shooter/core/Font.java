@@ -16,13 +16,13 @@ public class Font {
     public static final BitmapFont big;
 
     static  {
-        small = new BitmapFont(Gdx.files.internal("fonts/small.fnt"),
-                Gdx.files.internal("fonts/small.png"), false);
-        medium = new BitmapFont(Gdx.files.internal("fonts/medium.fnt"),
-                Gdx.files.internal("fonts/medium.png"), false);
-        large = new BitmapFont(Gdx.files.internal("fonts/large.fnt"),
-                Gdx.files.internal("fonts/large.png"), false);
-        big = new BitmapFont(Gdx.files.internal("fonts/big.fnt"),
-                Gdx.files.internal("fonts/big.png"), false);
+        small = new BitmapFont(Gdx.files.internal(Config.FONTS_DIR + "small.fnt"),
+                Gdx.files.internal(Config.FONTS_DIR + "small.png"), false);
+        medium = new BitmapFont(Gdx.files.internal(Config.FONTS_DIR + "medium.fnt"),
+                Gdx.files.internal(Config.FONTS_DIR + "medium.png"), false);
+        large = new BitmapFont(Gdx.files.internal(Config.FONTS_DIR + "large.fnt"),
+                Gdx.files.internal(Config.FONTS_DIR + "large.png"), false);
+        big = new BitmapFont(Gdx.files.internal(Config.FONTS_DIR + "big.fnt"),
+                Gdx.files.internal(Config.FONTS_DIR + "big.png"), false);
     }
 }

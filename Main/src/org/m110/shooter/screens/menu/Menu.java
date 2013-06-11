@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 
 /**
@@ -34,8 +35,8 @@ public class Menu extends InputAdapter {
     private final ShapeRenderer renderer;
 
     static {
-        choiceSound = Gdx.audio.newSound(Gdx.files.internal("audio/menu_choice.ogg"));
-        activeSound = Gdx.audio.newSound(Gdx.files.internal("audio/menu_active.ogg"));
+        choiceSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "menu_choice.ogg"));
+        activeSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "menu_active.ogg"));
     }
 
     public Menu(float x, float y) {

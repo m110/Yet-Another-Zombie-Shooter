@@ -35,12 +35,12 @@ public class StreakSystem {
         timer.disable();
         notifications = new Array<>();
 
-        firstBlood = Gdx.audio.newSound(Gdx.files.internal("audio/firstblood.ogg"));
-        doubleKill = Gdx.audio.newSound(Gdx.files.internal("audio/doublekill.ogg"));
-        tripleKill = Gdx.audio.newSound(Gdx.files.internal("audio/triplekill.ogg"));
-        multiKill = Gdx.audio.newSound(Gdx.files.internal("audio/multikill.ogg"));
-        rampage = Gdx.audio.newSound(Gdx.files.internal("audio/rampage.ogg"));
-        killingSpree = Gdx.audio.newSound(Gdx.files.internal("audio/killingspree.ogg"));
+        firstBlood = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "firstblood.ogg"));
+        doubleKill = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "doublekill.ogg"));
+        tripleKill = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "triplekill.ogg"));
+        multiKill = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "multikill.ogg"));
+        rampage = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "rampage.ogg"));
+        killingSpree = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "killingspree.ogg"));
     }
 
     public void draw(SpriteBatch batch) {

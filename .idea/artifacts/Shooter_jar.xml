@@ -8,7 +8,9 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/Desktop/libs/gdx-natives.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Desktop/libs/gdx-backend-lwjgl.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Desktop/libs/gdx-backend-lwjgl-natives.jar" path-in-jar="/" />
-      <element id="dir-copy" path="$PROJECT_DIR$/assets" />
+      <element id="directory" name="assets">
+        <element id="dir-copy" path="$PROJECT_DIR$/assets" />
+      </element>
     </root>
   </artifact>
 </component>

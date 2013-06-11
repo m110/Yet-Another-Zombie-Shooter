@@ -1,11 +1,13 @@
 package org.m110.shooter.entities.bullets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.WeaponProto;
@@ -40,7 +42,7 @@ public class Bullet extends Actor {
     protected boolean moving;
 
     protected static TextureRegion loadTexture(String name) {
-        return new TextureRegion(new Texture("images/bullet_" + name + ".png"));
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullet_" + name + ".png")));
     }
 
     public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int minDamage, int maxDamage) {

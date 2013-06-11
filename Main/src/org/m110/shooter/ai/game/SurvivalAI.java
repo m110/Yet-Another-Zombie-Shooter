@@ -65,8 +65,8 @@ public class SurvivalAI extends GameAI {
             if (challengeCounter % 5 == 0) {
                 if (MathUtils.random(1) == 0) {
                     for (int i = 0; i < 3; i++) {
-                        game.spawnRandomEntity(x + 10 + MathUtils.random(-30.0f, 30.0f),
-                                               y + 10 + MathUtils.random(-30.0f, 30.0f));
+                        game.spawnRandomEntity(x + 10 + MathUtils.random(-40.0f, 40.0f),
+                                               y + 10 + MathUtils.random(-40.0f, 40.0f));
                     }
                 } else {
                     Spawner spawner = new Spawner(EntityProto.getRandomWithoutSpawner(), x, y,

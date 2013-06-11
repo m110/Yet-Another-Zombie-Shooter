@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.ai.entity.NoneAI;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
@@ -145,12 +146,12 @@ public abstract class Entity extends Actor {
     private final Array<Piece> pieces;
 
     static {
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("images/dead.png")));
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "dead.png")));
     }
 
     protected static Sound loadSound(String name) {
         // Load sounds
-        FileHandle soundFile = Gdx.files.internal("audio/" + name + ".ogg");
+        FileHandle soundFile = Gdx.files.internal(Config.AUDIO_DIR + "" + name + ".ogg");
 
         if (soundFile.exists()) {
             return Gdx.audio.newSound(soundFile);
@@ -164,7 +165,7 @@ public abstract class Entity extends Actor {
     protected static Sound loadDeathSound(String name) { return loadSound(name + "_death"); }
 
     protected static TextureRegion loadTexture(String name) {
-        return new TextureRegion(new Texture(Gdx.files.internal("images/" + name + ".png")));
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + name + ".png")));
     }
 
     protected static Array<TextureRegion> loadFleshTextures(TextureRegion texture) {

@@ -34,6 +34,8 @@ public class Shooter extends Game {
 
     private static Shooter INSTANCE = null;
 
+    private final Properties properties;
+
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
     private HowToPlayScreen howToPlayScreen;
@@ -48,6 +50,7 @@ public class Shooter extends Game {
     private final Array<CountdownTimer> timers;
 
     private Shooter() {
+        properties = new Properties();
         campaignMaps = new Array<>();
         survivalMaps = new Array<>();
         timers = new Array<>();
@@ -64,6 +67,16 @@ public class Shooter extends Game {
     public void create() {
         Gdx.input.setCursorCatched(true);
 
+        // Try to load properties file
+        File propertiesFile = new File("assets/game.properties");
+        if (propertiesFile.exists()) {
+            try {
+                properties.load(new FileInputStream("assets/game.properties"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new MainInput());
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -77,7 +90,11 @@ public class Shooter extends Game {
         optionsScreen = new OptionsScreen();
 
         // Start first screen
-        setScreen(menuScreen);
+        if (properties.getProperty("player") != null) {
+            setScreen(menuScreen);
+        } else {
+            setScreen(howToPlayScreen);
+        }
     }
 
     public void loadMaps() {

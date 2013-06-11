@@ -19,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.Map;
 import org.m110.shooter.core.StreakSystem;
@@ -141,13 +142,13 @@ public class GameScreen implements Screen {
             }
         });
         pauseMenu.alignToCenter();
-        pauseSound = Gdx.audio.newSound(Gdx.files.internal("audio/pause.ogg"));
+        pauseSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "pause.ogg"));
 
         // Textures
-        crosshair = new Texture(Gdx.files.internal("images/crosshair.png"));
-        leftHUD = new Texture(Gdx.files.internal("images/left_hud.png"));
-        rightHUD = new Texture(Gdx.files.internal("images/right_hud.png"));
-        topHUD = new Texture(Gdx.files.internal("images/top_hud.png"));
+        crosshair = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "crosshair.png"));
+        leftHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "left_hud.png"));
+        rightHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "right_hud.png"));
+        topHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "top_hud.png"));
 
         // Tile map
         tiledMap = map.getTiledMap(level);
