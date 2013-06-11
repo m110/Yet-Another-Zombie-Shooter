@@ -19,7 +19,7 @@ public abstract class Pickup extends Actor {
 
     public Pickup(String name, float x, float y) {
         this.name = name;
-        texture = new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "" + name + ".png")));
+        texture = new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "pickups/" + name + ".png")));
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
         setOrigin(getWidth() / 2, getHeight() / 2);

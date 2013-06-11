@@ -145,10 +145,10 @@ public class GameScreen implements Screen {
         pauseSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "pause.ogg"));
 
         // Textures
-        crosshair = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "crosshair.png"));
-        leftHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "left_hud.png"));
-        rightHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "right_hud.png"));
-        topHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "top_hud.png"));
+        crosshair = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/crosshair.png"));
+        leftHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/left.png"));
+        rightHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/right.png"));
+        topHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/top.png"));
 
         // Tile map
         tiledMap = map.getTiledMap(level);

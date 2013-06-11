@@ -13,7 +13,7 @@ public class Crate extends Pickup {
     private final Weapon weapon;
 
     public Crate(String name, float x, float y, int bullets) {
-        super(name + "_crate", x, y);
+        super("crates/" + name, x, y);
         this.bullets = bullets;
         weapon = Weapon.createInstance(WeaponProto.getByName(name));
         if (bullets > 0) {

@@ -56,7 +56,7 @@ public class Weapon {
     private static final float burstFactor = 0.2f;
 
     static {
-        mainTexture = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "weapons.png"));
+        mainTexture = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/weapons.png"));
         emptySound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "empty.ogg"));
         dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "drop_magazine.ogg"));
     }

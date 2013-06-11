@@ -42,7 +42,7 @@ public class Bullet extends Actor {
     protected boolean moving;
 
     protected static TextureRegion loadTexture(String name) {
-        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullet_" + name + ".png")));
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullets/" + name + ".png")));
     }
 
     public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int minDamage, int maxDamage) {

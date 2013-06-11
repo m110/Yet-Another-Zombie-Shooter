@@ -13,7 +13,7 @@ public class Ammo extends Pickup {
     private final int bullets;
 
     public Ammo(String name, float x, float y, int bullets) {
-        super(name + "_ammo", x, y);
+        super("ammo/" + name, x, y);
         proto = WeaponProto.getByName(name);
 
         if (bullets == 0) {
