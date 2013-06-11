@@ -33,14 +33,8 @@ public class PickupFactory {
     public static Pickup createRandomPickup(float x, float y) {
         PickupProto type = PickupProto.getRandom();
         switch (type) {
-            case AMMO:
-                WeaponProto weaponProto = WeaponProto.getRandom();
-                int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-                return new Ammo(weaponProto.name, x, y, ammo);
-            case CRATE:
-                weaponProto = WeaponProto.getRandom();
-                ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-                return new Crate(weaponProto.name, x, y, ammo);
+            case AMMO: return createRandomAmmo(x, y);
+            case CRATE: return createRandomCrate(x, y);
             case MEDPACK:
                 return new Medpack(x, y);
             case ADRENALINE:
@@ -53,17 +47,22 @@ public class PickupFactory {
     public static Pickup createAmmoOrCrate(float x, float y) {
         PickupProto type = MathUtils.random(1) == 0 ? PickupProto.AMMO : PickupProto.CRATE;
         switch (type) {
-            case AMMO:
-                WeaponProto weaponProto = WeaponProto.getRandom();
-                int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-                return new Ammo(weaponProto.name, x, y, ammo);
-            case CRATE:
-                weaponProto = WeaponProto.getRandom();
-                ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-                return new Crate(weaponProto.name, x, y, ammo);
+            case AMMO: return createRandomAmmo(x, y);
+            case CRATE: return createRandomCrate(x, y);
         }
-        System.out.println("dad");
         return null;
+    }
+
+    public static Pickup createRandomAmmo(float x, float y) {
+        WeaponProto weaponProto = WeaponProto.getRandom();
+        int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+        return new Ammo(weaponProto.name, x, y, ammo);
+    }
+
+    public static Pickup createRandomCrate(float x, float y) {
+        WeaponProto weaponProto = WeaponProto.getRandom();
+        int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
+        return new Crate(weaponProto.name, x, y, ammo);
     }
 
     private static Integer getIntegerProperty(TiledObject object, String property) {

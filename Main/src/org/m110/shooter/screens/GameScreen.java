@@ -87,6 +87,7 @@ public class GameScreen implements Screen {
     private final Group pickupsGroup;
     private final Group backgroundGroup;
 
+    private Dummy startNode;
     private final Array<Dummy> endNodes;
     private final Array<CombatEntity> entities;
     private final Array<Pickup> pickups;
@@ -197,6 +198,7 @@ public class GameScreen implements Screen {
                 case "node":
                     switch (object.name) {
                         case "start":
+                            startNode = new Dummy(objX, objY, tiledMap.tileWidth, tiledMap.tileHeight);
                             player.setPosition(objX, objY);
                             // Update rotation
                             if (object.properties.containsKey("rotation")) {
@@ -735,6 +737,10 @@ public class GameScreen implements Screen {
 
     public void setAggroRange(float aggroRange) {
         this.aggroRange = aggroRange;
+    }
+
+    public Dummy getStartNode() {
+        return startNode;
     }
 
     public String getTimeString() {

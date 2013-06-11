@@ -8,7 +8,6 @@ import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.enemies.Spawner;
 import org.m110.shooter.entities.terrain.Dummy;
-import org.m110.shooter.pickups.Crate;
 import org.m110.shooter.pickups.PickupFactory;
 
 /**
@@ -28,8 +27,8 @@ public class SurvivalAI extends GameAI {
     public SurvivalAI() {
         spawnTimer = new IntervalTimer(spawnTime);
         weaponTimer = new RandomIntervalTimer(5.0f, 10.0f);
-        pickupTimer = new RandomIntervalTimer(10.0f, 20.0f);
-        Shooter.getInstance().getGame().setAggroRange(5000.0f);
+        pickupTimer = new RandomIntervalTimer(10.0f, 15.0f);
+        game.setAggroRange(5000.0f);
     }
 
     @Override
@@ -39,15 +38,13 @@ public class SurvivalAI extends GameAI {
         // Spawn initial entities and pickups
         for (int i = 0; i < 3; i++) {
             Dummy randomDummy = dummies.random();
-            Shooter.getInstance().getGame().spawnRandomEntity(randomDummy.getX(), randomDummy.getY());
+            game.spawnRandomEntity(randomDummy.getX(), randomDummy.getY());
         }
 
-        Dummy randomDummy = dummies.random();
-        Shooter.getInstance().getGame().addPickup(new Crate("pistol", randomDummy.getX(), randomDummy.getY(), 0));
-        randomDummy = dummies.random();
-        Shooter.getInstance().getGame().addPickup(new Crate("shotgun", randomDummy.getX(), randomDummy.getY(), 0));
-        randomDummy = dummies.random();
-        Shooter.getInstance().getGame().addPickup(new Crate("rifle", randomDummy.getX(), randomDummy.getY(), 0));
+        for (int i = 0; i < 3; i++) {
+            Dummy randomDummy = dummies.random();
+            game.addPickup(PickupFactory.createRandomCrate(randomDummy.getX(), randomDummy.getY()));
+        }
     }
 
     @Override
@@ -74,10 +71,10 @@ public class SurvivalAI extends GameAI {
                 } else {
                     Spawner spawner = new Spawner(EntityProto.getRandomWithoutSpawner(), x, y,
                                                   MathUtils.random(1.0f, 3.0f), MathUtils.random(3, 5));
-                    Shooter.getInstance().getGame().addEntity(spawner);
+                    game.addEntity(spawner);
                 }
             } else {
-                Shooter.getInstance().getGame().spawnRandomEntity(x, y);
+                game.spawnRandomEntity(x, y);
             }
 
             spawnTimer.reset(spawnTime - 0.01f * (challengeCounter-1) * spawnTime);
@@ -85,12 +82,13 @@ public class SurvivalAI extends GameAI {
         }
 
         if (weaponTimer.ready()) {
-            Shooter.getInstance().getGame().addPickup(PickupFactory.createAmmoOrCrate(1600, 1700));
+            game.addPickup(PickupFactory.createAmmoOrCrate(game.getStartNode().getX(),
+                    game.getStartNode().getY()));
             weaponTimer.reset();
         }
 
         if (pickupTimer.ready()) {
-            Shooter.getInstance().getGame().spawnRandomPickup(x, y);
+            game.spawnRandomPickup(x, y);
             pickupTimer.reset();
         }
     }

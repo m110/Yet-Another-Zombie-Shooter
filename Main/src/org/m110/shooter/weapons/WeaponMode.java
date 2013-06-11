@@ -4,10 +4,10 @@ package org.m110.shooter.weapons;
  * @author m1_10sz <m110@m110.pl>
  */
 public enum WeaponMode {
-    SEMI("semi", 1),
+    AUTO("auto", 1000),
     BURST("burst", 2),
     BURST_3("burst", 3),
-    AUTO("auto", 1000);
+    SEMI("semi", 1);
 
     public final String name;
     public final int maxShots;

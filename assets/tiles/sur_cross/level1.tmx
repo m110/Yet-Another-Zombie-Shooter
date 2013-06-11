@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="60" height="60" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="ai" value="survival"/>
+ </properties>
+ <tileset firstgid="1" name="main" tilewidth="32" tileheight="32">
+  <image source="../sur_arena/tileset.png" width="192" height="160"/>
+ </tileset>
+ <layer name="background" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt19uuAyEIBVCd///oPtfgBdywvT2QND1TZAmaOTmllF/Q41ughijns54XX/r3fsJ3O0fp6QW73kjrzl6L9VRv7e/smr16e5v3lPtZ68vC92wD2qt5bvXQGHb3autvzfgOYemVNONsh0dvW8YdzDNncLcz7GGVer7KPqC9WcizWu+1tYy8j0h52ebyHanna1k1/Y10e53XEX+ke2Ydi9NiRtgRea1GS2+t5pk9nO2n1m21ImcG5avl8/ZFeMvft/L2nkPfH6gZmV0DeUYtfdXk1d4pVrfnHGvWmPWOmD2NrB73zrG3V3N2Ud5avsje1tb0mOPamlozujb0PTWSt/Us0tnqOWP/ejOxYszM4E5W9H3K9lh6dENE3K/WWth7w7Cz64ju8TOfGaebo99R2aH9P+QUt8XOrve5cW5pH9j1RfebXVeEufx8ctzilMw32W9x3m5+8eJFO37IfxEJ
+  </data>
+ </layer>
+ <layer name="walls" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztz9EJACAMQ8FC99/ZJRSNvcD7z3VVtSQNb9duO3h5eXl5eXnfjZeXl/e2g5c3yfvLeHl5c8fLy5s7Xl7e3PHyTvSeKu0vLy8vLy8vb168vLy58fLyStLMFhfLGtc=
+  </data>
+ </layer>
+ <objectgroup name="actors" width="60" height="60">
+  <object name="start" type="node" gid="5" x="1024" y="928"/>
+  <object name="dummy" type="terrain" gid="10" x="256" y="800"/>
+  <object name="dummy" type="terrain" gid="10" x="256" y="1152"/>
+  <object name="dummy" type="terrain" gid="10" x="544" y="832"/>
+  <object name="dummy" type="terrain" gid="10" x="544" y="1120"/>
+  <object name="dummy" type="terrain" gid="10" x="896" y="288"/>
+  <object name="dummy" type="terrain" gid="10" x="1216" y="288"/>
+  <object name="dummy" type="terrain" gid="10" x="864" y="512"/>
+  <object name="dummy" type="terrain" gid="10" x="1152" y="480"/>
+  <object name="dummy" type="terrain" gid="10" x="1600" y="832"/>
+  <object name="dummy" type="terrain" gid="10" x="1600" y="1056"/>
+  <object name="dummy" type="terrain" gid="10" x="1376" y="832"/>
+  <object name="dummy" type="terrain" gid="10" x="1376" y="1056"/>
+  <object name="dummy" type="terrain" gid="10" x="960" y="1312"/>
+  <object name="dummy" type="terrain" gid="10" x="1120" y="1312"/>
+  <object name="dummy" type="terrain" gid="10" x="992" y="1600"/>
+  <object name="dummy" type="terrain" gid="10" x="1120" y="1632"/>
+  <object name="dummy" type="terrain" gid="10" x="832" y="704"/>
+  <object name="dummy" type="terrain" gid="10" x="1280" y="736"/>
+  <object name="dummy" type="terrain" gid="10" x="1152" y="1120"/>
+  <object name="dummy" type="terrain" gid="10" x="832" y="1088"/>
+ </objectgroup>
+</map>
