@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.ai.entity.NoneAI;
+import org.m110.shooter.auras.Aura;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.CountdownTimer;
@@ -140,6 +141,8 @@ public abstract class Entity extends Actor {
 
     private State state;
 
+    protected Array<Aura> auras;
+
     protected AI ai = NoneAI.getInstance();
 
     private Array<DamageIndicator> indicators;
@@ -207,6 +210,7 @@ public abstract class Entity extends Actor {
         setY(startY);
 
         state = State.ALIVE;
+        auras = new Array<>();
         indicators = new Array<>();
 
         pieces = new Array<>();
@@ -228,6 +232,15 @@ public abstract class Entity extends Actor {
         // Update flesh piecs
         if (isDead()) {
             updatePieces(delta);
+        }
+
+        Iterator<Aura> it = auras.iterator();
+        while (it.hasNext()) {
+            Aura aura = it.next();
+            aura.update(delta);
+            if (!aura.isActive()) {
+                it.remove();
+            }
         }
 
         damageSoundTimer.update(delta);
@@ -539,5 +552,15 @@ public abstract class Entity extends Actor {
     protected void setBaseHealth(int baseHealth) {
         maxHealth = baseHealth;
         health = maxHealth;
+    }
+
+    /* Aura stuff */
+
+    public void addAura(Aura aura) {
+        auras.add(aura);
+    }
+
+    public Array<Aura> getAuras() {
+        return auras;
     }
 }

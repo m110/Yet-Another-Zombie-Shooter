@@ -19,6 +19,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
+import org.m110.shooter.auras.Aura;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.Map;
@@ -285,7 +286,26 @@ public class GameScreen implements Screen {
         float leftX = 20;
         float leftY = 10;
         batch.draw(leftHUD, leftX, leftY);
+        batch.end();
 
+        Array<Aura> auras = player.getAuras();
+        float auraX = leftX + 20.0f;
+        for (Aura aura : auras) {
+            batch.begin();
+            batch.draw(aura.getTexture(), auraX, leftY + leftHUD.getHeight() + 10.0f);
+            batch.end();
+            renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+            renderer.setColor(0.25f, 0.25f, 0.25f, 0.6f);
+            renderer.filledRect(auraX, leftY + leftHUD.getHeight() + 10.0f, aura.getTexture().getRegionWidth(),
+                    aura.getTexture().getRegionHeight() * aura.getDonePercent());
+            renderer.end();
+            Gdx.gl.glDisable(GL10.GL_BLEND);
+            auraX += aura.getTexture().getRegionWidth() + 5.0f;
+        }
+
+        batch.begin();
         // Health and stamina
         Font.medium.draw(batch, "" + player.getHealth(), leftX + 210, leftY + 62);
         Font.medium.draw(batch, "" + player.getStamina(), leftX + 210, leftY + 32);

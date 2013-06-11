@@ -41,9 +41,7 @@ public class Spawner extends CombatEntity {
 
     @Override
     public void act(float delta) {
-        updateIndicators(delta);
-        updatePieces(delta);
-        pointsEarnedTimer.update(delta);
+        super.act(delta);
 
         if (isDead()) {
             return;

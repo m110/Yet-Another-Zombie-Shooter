@@ -1,5 +1,6 @@
 package org.m110.shooter.pickups;
 
+import org.m110.shooter.auras.HealAura;
 import org.m110.shooter.entities.Player;
 
 /**
@@ -13,11 +14,7 @@ public class Medpack extends Pickup {
 
     @Override
     public boolean pickUp(Player player) {
-        if (player.getHealthPercent() < 1.0f) {
-            player.useMedpack(50);
-            return true;
-        } else {
-            return false;
-        }
+        player.addAura(new HealAura(player, 50));
+        return true;
     }
 }
