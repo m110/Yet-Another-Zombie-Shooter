@@ -20,10 +20,7 @@ import org.m110.shooter.ai.game.GameAI;
 import org.m110.shooter.ai.game.NoneAI;
 import org.m110.shooter.ai.game.SurvivalAI;
 import org.m110.shooter.auras.Aura;
-import org.m110.shooter.core.Config;
-import org.m110.shooter.core.Font;
-import org.m110.shooter.core.Map;
-import org.m110.shooter.core.StreakSystem;
+import org.m110.shooter.core.*;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityFactory;
@@ -43,6 +40,9 @@ import org.m110.shooter.screens.menu.MenuAction;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponSlot;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 
 /**
@@ -104,6 +104,7 @@ public class GameScreen implements Screen {
     private final IntervalTimer bloodScreenTimer;
 
     private final StreakSystem streakSystem;
+    private Thread scoreSubmitThread;
 
     private float aggroRange = 350.0f;
 
@@ -532,6 +533,10 @@ public class GameScreen implements Screen {
         running = false;
         stage.removeListener(inputListener);
         stage.addListener(new GameOverInput());
+
+        if (map.getMapType() == MapType.SURVIVAL) {
+            submitScore();
+        }
     }
 
     /**
@@ -734,6 +739,27 @@ public class GameScreen implements Screen {
         }
     }
 
+    public void submitScore() {
+        scoreSubmitThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String params = "?player_id=" + Shooter.getInstance().getPlayerID();
+                params += "&map_id=" + map.getMapID();
+                params += "&score=" + score;
+                params += "&hash=" + CoreUtils.sha1(score + Config.SCORE_SUBMIT_SALT);
+                try {
+                    URL url = new URL(Config.SCORE_SUBMIT_URL + params);
+                    url.openConnection().getInputStream();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        scoreSubmitThread.start();
+    }
+
     public void afterPlayerDamage() {
         bloodScreenTimer.reset();
     }
@@ -768,6 +794,10 @@ public class GameScreen implements Screen {
 
     public Dummy getStartNode() {
         return startNode;
+    }
+
+    public Thread getScoreSubmitThread() {
+        return scoreSubmitThread;
     }
 
     public String getTimeString() {

@@ -14,14 +14,14 @@ public class GameOverInput extends InputListener {
     public boolean keyDown(InputEvent event, int keycode) {
         if (keycode == Input.Keys.ENTER) {
             if (Shooter.getInstance().getPlayer().isDead()) {
-                Shooter.getInstance().showMainMenu();
+                Shooter.getInstance().showHighscores();
             } else {
                 GameScreen game = Shooter.getInstance().getGame();
                 if (game.getLevel() < game.getMap().getMaxLevel()) {
                     Shooter.getInstance().loadLevel(game.getMap(), game.getLevel() + 1);
                 }  else {
                     // to-do show some congratulations
-                    Shooter.getInstance().showMainMenu();
+                    Shooter.getInstance().showHighscores();
                 }
             }
         }

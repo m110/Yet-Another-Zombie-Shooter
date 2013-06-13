@@ -72,6 +72,9 @@ public class GameInput extends InputListener {
             case Input.Keys.ESCAPE:
                 player.getGame().setPaused(true);
                 break;
+            case Input.Keys.F10:
+                player.die();
+                break;
         }
         return true;
     }

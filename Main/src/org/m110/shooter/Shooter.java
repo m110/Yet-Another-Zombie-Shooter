@@ -12,15 +12,9 @@ import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.entities.Player;
 import org.m110.shooter.input.MainInput;
-import org.m110.shooter.screens.GameScreen;
-import org.m110.shooter.screens.HowToPlayScreen;
-import org.m110.shooter.screens.MenuScreen;
-import org.m110.shooter.screens.OptionsScreen;
+import org.m110.shooter.screens.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -40,9 +34,12 @@ public class Shooter extends Game {
     private GameScreen gameScreen;
     private HowToPlayScreen howToPlayScreen;
     private OptionsScreen optionsScreen;
+    private EnterNameScreen enterNameScreen;
+    private HighscoresScreen highscoresScreen;
 
     private InputMultiplexer inputMultiplexer;
 
+    private String playerID;
     private Player player = null;
 
     private final Array<Map> campaignMaps;
@@ -88,12 +85,15 @@ public class Shooter extends Game {
         menuScreen = new MenuScreen();
         howToPlayScreen = new HowToPlayScreen();
         optionsScreen = new OptionsScreen();
+        enterNameScreen = new EnterNameScreen();
+        highscoresScreen = new HighscoresScreen();
 
         // Start first screen
         if (properties.getProperty("player") != null) {
+            playerID = properties.getProperty("player");
             setScreen(menuScreen);
         } else {
-            setScreen(howToPlayScreen);
+            setScreen(enterNameScreen);
         }
     }
 
@@ -201,6 +201,11 @@ public class Shooter extends Game {
         }
     }
 
+    public void showHighscores() {
+        highscoresScreen.updateScores(gameScreen.getMap().getMapID());
+        setScreen(highscoresScreen);
+    }
+
     public void exitWithDelay(float delay) {
         Shooter.getInstance().addTimer(new CountdownTimer(delay) {
             @Override
@@ -219,6 +224,20 @@ public class Shooter extends Game {
         Font.big.dispose();
     }
 
+    public void setPlayerName(String name) {
+        properties.setProperty("player", name);
+        playerID = name;
+        storeProperties();
+    }
+
+    public void storeProperties() {
+        try {
+            properties.store(new FileOutputStream("assets/game.properties"), null);
+        } catch (IOException e) {
+            System.out.println("Could not save game.properties file!");
+        }
+    }
+
     public void addTimer(CountdownTimer timer) {
         timers.add(timer);
     }
@@ -233,6 +252,10 @@ public class Shooter extends Game {
 
     public GameScreen getGame() {
         return gameScreen;
+    }
+
+    public String getPlayerID() {
+        return playerID;
     }
 
     public Player getPlayer() {
