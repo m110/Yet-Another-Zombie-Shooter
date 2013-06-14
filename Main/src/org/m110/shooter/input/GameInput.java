@@ -51,6 +51,9 @@ public class GameInput extends InputListener {
             case Input.Keys.G:
                 player.dropMagazine();
                 break;
+            case Input.Keys.F:
+                player.dropWeapon();
+                break;
             case Input.Keys.SHIFT_LEFT:
                 player.setSprintActive(true);
                 break;

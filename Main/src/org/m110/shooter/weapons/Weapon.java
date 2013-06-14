@@ -67,9 +67,10 @@ public class Weapon {
      * @return new instance of Weapon.
      */
     public static Weapon createInstance(WeaponProto proto) {
-        switch (proto.slot) {
+        switch (proto) {
             case SHOTGUN:
-                return new Shotgun();
+            case CROSSBOW:
+                return new Shotgun(proto);
             default:
                 return new Weapon(proto);
         }
@@ -95,7 +96,7 @@ public class Weapon {
         magazines = new Array<>();
         activeMagazine = null;
 
-        // Add first magazine.
+        // Add first magArrowazine.
         addMagazine(proto.magazineCapacity);
 
         mode = proto.modes.iterator().next();
@@ -342,6 +343,14 @@ public class Weapon {
         return result;
     }
 
+    public boolean isMagazineFull() {
+        if (activeMagazine != null) {
+            return activeMagazine.isFull() && magazines.size >= proto.maxMagazines;
+        } else {
+            return false;
+        }
+    }
+
     public Magazine getActiveMagazine() {
         return activeMagazine;
     }
@@ -352,6 +361,10 @@ public class Weapon {
 
     public WeaponProto getProto() {
         return proto;
+    }
+
+    public IntervalTimer getReloadTimer() {
+        return reloadTimer;
     }
 
     public void playReloadSound() {

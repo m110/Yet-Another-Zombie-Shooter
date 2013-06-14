@@ -9,7 +9,7 @@
  </layer>
  <layer height="200" name="walls" width="200">
   <data compression="zlib" encoding="base64">
-   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
+   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
   </data>
  </layer>
  <objectgroup height="200" name="actors" opacity="0.8" width="200">
@@ -98,7 +98,7 @@
   <object height="32" name="start" type="node" width="32" x="3904" y="4000"/>
   <object height="44" name="pistol" type="crate" width="45" x="2056" y="3437"/>
   <object height="43" name="pistol" type="ammo" width="40" x="2096" y="3380"/>
-  <object height="38" name="charger" type="entity" width="47" x="4300" y="3785"/>
+  <object height="38" name="charger" type="entity" width="47" x="3424" y="5120"/>
   <object height="32" name="charger" type="entity" width="64" x="2816" y="4352"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4064"/>
   <object gid="4" name="fence" type="terrain" x="3712" y="4032"/>
@@ -146,5 +146,28 @@
   <object gid="9" name="spitter" type="entity" x="4448" y="4544"/>
   <object gid="9" name="spitter" type="entity" x="2656" y="4064"/>
   <object gid="9" name="spitter" type="entity" x="4480" y="3712"/>
+  <object name="crossbow" type="crate" x="4160" y="3968"/>
+  <object name="crossbow" type="ammo" x="4160" y="4000">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object name="crossbow" type="ammo" x="4128" y="3936"/>
+  <object name="crossbow" type="ammo" x="4096" y="3936"/>
+  <object name="crossbow" type="ammo" x="4160" y="4032">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object name="crossbow" type="ammo" x="4160" y="4064">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object name="crossbow" type="ammo" x="4160" y="4096">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

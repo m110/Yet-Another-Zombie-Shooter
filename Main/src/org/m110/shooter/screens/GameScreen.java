@@ -38,6 +38,7 @@ import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuAction;
 import org.m110.shooter.weapons.Weapon;
+import org.m110.shooter.weapons.WeaponProto;
 import org.m110.shooter.weapons.WeaponSlot;
 
 import java.io.IOException;
@@ -70,10 +71,10 @@ public class GameScreen implements Screen {
     private final TiledMap tiledMap;
     private final TileAtlas atlas;
 
-    private final TiledLayer collisions;
-
     private final ShapeRenderer renderer;
     private final SpriteBatch batch;
+
+    private final Collision collision;
 
     // Pause
     private boolean paused = false;
@@ -162,7 +163,8 @@ public class GameScreen implements Screen {
         tiledMap = map.getTiledMap(level);
         atlas = map.getAtlas();
         tileMapRenderer = new TileMapRenderer(tiledMap, atlas, tiledMap.tileWidth, tiledMap.tileHeight);
-        collisions = tiledMap.layers.get(1);
+
+        collision = new Collision(this, tiledMap.layers.get(1));
 
         stage = new Stage();
         stage.setCamera(camera);
@@ -346,7 +348,7 @@ public class GameScreen implements Screen {
 
         // Draw the "laser" sight
         if (player.isAlive() && player.getActiveWeapon() != null &&
-            player.getActiveWeapon().getProto().slot == WeaponSlot.SNIPER_RIFLE) {
+            player.getActiveWeapon().getProto() == WeaponProto.M40) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
             renderer.setColor(1.0f, 0.0f, 0.0f, 0.3f);
@@ -459,7 +461,7 @@ public class GameScreen implements Screen {
 
         // Check collision with end nodes
         for (Dummy endNode : endNodes) {
-            if (collidesWith(player, endNode)) {
+            if (collision.check(player, endNode)) {
                 gameOver();
                 return;
             }
@@ -469,7 +471,7 @@ public class GameScreen implements Screen {
         Iterator<Pickup> pit = pickups.iterator();
         while (pit.hasNext()) {
             Pickup pickup = pit.next();
-            if (collidesWith(player, pickup)) {
+            if (collision.check(player, pickup)) {
                 if (pickup.pickUp(player)) {
                     pickup.remove();
                     pit.remove();
@@ -588,92 +590,6 @@ public class GameScreen implements Screen {
         backgroundGroup.addActor(actor);
     }
 
-    /**
-     * Checks whether the object collides with terrain.
-     * @return true if object collides with terrain, false otherwise.
-     */
-    public boolean collidesWithWall(float x, float y, Actor actor) {
-        int[][] tiles = collisions.tiles;
-        int h = tiles.length - 1;
-        int x1 = (int)(x / 32);
-        int y1 = h - (int)(y / 32);
-
-        int x2 = (int)((x + actor.getWidth()) / 32);
-        int y2 = h - (int)((y + actor.getHeight()) / 32);
-        if (tiles[y1][x1] == 0 && tiles[y2][x2] == 0 &&
-            tiles[y1][x2] == 0 && tiles[y2][x1] == 0) {
-            if (actor instanceof Player || actor instanceof Bullet) {
-                return false;
-            } else {
-                for (Fence fence : fences) {
-                    if (collidesWith(actor, fence)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    public boolean collidesWithEnemy(Bullet bullet) {
-        if (bullet instanceof GooBullet) {
-            return false;
-        }
-
-        float bx = bullet.getX();
-        float by = bullet.getY();
-        float bw = bullet.getWidth();
-        float bh = bullet.getHeight();
-        for (Entity enemy : entities) {
-            float ex = enemy.getX();
-            float ey = enemy.getY();
-            float ew = enemy.getWidth();
-            float eh = enemy.getHeight();
-            if (bx < ex+ew && bx+bw > ex &&
-                by < ey+eh && by+bh > ey) {
-                bullet.dealDamage(player, enemy);
-                return true;
-            }
-
-        }
-        return false;
-    }
-
-    public boolean collidesWithEnemy(float newX, float newY, Entity actor) {
-        for (Entity enemy : entities) {
-            if (enemy == actor) {
-                continue;
-            }
-
-            float ex = enemy.getX();
-            float ey = enemy.getY();
-            float ew = enemy.getWidth();
-            float eh = enemy.getHeight();
-            if (newX < ex+ew && newX+actor.getWidth() > ex &&
-                newY < ey+eh && newY+actor.getHeight() > ey) {
-                return true;
-            }
-        }
-
-        if (actor != player) {
-            return collidesWith(actor, player);
-        }
-
-        return false;
-    }
-
-    public boolean collidesWith(Actor a, Actor b) {
-        return (a.getX() < b.getX()+b.getWidth() && a.getX()+a.getWidth() > b.getX() &&
-                a.getY() < b.getY()+b.getHeight() && a.getY()+a.getHeight() > b.getY());
-    }
-
-    public boolean collidesWith(Actor a, Dummy dummy) {
-        return (a.getX() < dummy.getX()+dummy.getWidth() && a.getX()+a.getWidth() > dummy.getX() &&
-                a.getY() < dummy.getY()+dummy.getHeight() && a.getY()+a.getHeight() > dummy.getY());
-    }
-
     @Override
     public void resize(int width, int height) {
         stage.setViewport(width, height, true);
@@ -776,6 +692,14 @@ public class GameScreen implements Screen {
         return level;
     }
 
+    public float getTileWidth() {
+        return tiledMap.tileWidth;
+    }
+
+    public float getTileHeight() {
+        return tiledMap.tileHeight;
+    }
+
     public float getMapWidth() {
         return tileMapRenderer.getMapWidthUnits();
     }
@@ -794,6 +718,22 @@ public class GameScreen implements Screen {
 
     public Dummy getStartNode() {
         return startNode;
+    }
+
+    public Array<Fence> getFences() {
+        return fences;
+    }
+
+    public Array<CombatEntity> getEntities() {
+        return entities;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Collision getCollision() {
+        return collision;
     }
 
     public Thread getScoreSubmitThread() {

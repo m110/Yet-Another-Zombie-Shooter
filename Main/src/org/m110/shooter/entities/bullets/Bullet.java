@@ -19,7 +19,7 @@ public class Bullet extends Actor {
 
     public static final float BASE_VELOCITY = 10.0f;
 
-    private final GameScreen game;
+    protected final GameScreen game;
 
     private final TextureRegion texture;
 
@@ -86,12 +86,12 @@ public class Bullet extends Actor {
         }
 
         // Did bullet hit the wall?
-        if (game.collidesWithWall(getX(), getY(), this)) {
+        if (game.getCollision().collidesWithWall(getX(), getY(), this)) {
             moving = false;
         }
 
         // Did bullet hit an enemy?
-        if (game.collidesWithEnemy(this)) {
+        if (game.getCollision().collidesWithEnemy(this)) {
             moving = false;
         }
     }
@@ -122,6 +122,9 @@ public class Bullet extends Actor {
         float distance = Math.abs(A * x0 + y0 + C) / (float) Math.sqrt(A*A + 1);
         float radius = victim.getHeight() / 2.0f;
         float hitRatio = 1.0f - distance / radius;
+        if (hitRatio < 0.05f) {
+            hitRatio = 0.05f;
+        }
 
         int damage = minDamage + Math.round((maxDamage - minDamage) * hitRatio);
 

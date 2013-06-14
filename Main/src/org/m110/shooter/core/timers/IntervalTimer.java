@@ -37,4 +37,8 @@ public class IntervalTimer extends Timer {
     public void disable() {
         time = 0.0f;
     }
+
+    public float getPercentDone() {
+        return time / interval;
+    }
 }

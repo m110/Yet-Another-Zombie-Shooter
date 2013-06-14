@@ -14,6 +14,8 @@ public class BulletFactory {
                 return new StandardBullet(proto, x, y, angle);
             case BOLD:
                 return new BoldBullet(proto, x, y, angle);
+            case ARROW:
+                return new Arrow(proto, x, y, angle);
             default:
                 throw new IllegalArgumentException("No such BulletType: " + proto.bulletType);
         }

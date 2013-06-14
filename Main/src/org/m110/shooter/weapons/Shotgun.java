@@ -15,8 +15,8 @@ public class Shotgun extends Weapon {
 
     private final Magazine mainMagazine;
 
-    public Shotgun() {
-        super(WeaponProto.SHOTGUN);
+    public Shotgun(WeaponProto proto) {
+        super(proto);
         mainMagazine = new Magazine(proto.maxMagazines * proto.magazineCapacity, 0);
         addMagazine(mainMagazine);
     }
@@ -66,5 +66,10 @@ public class Shotgun extends Weapon {
     public Magazine dropMagazine() {
         // No action for shotgun
         return null;
+    }
+
+    @Override
+    public boolean isMagazineFull() {
+        return mainMagazine.isFull();
     }
 }

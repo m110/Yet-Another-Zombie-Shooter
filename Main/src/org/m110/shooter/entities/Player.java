@@ -266,9 +266,19 @@ public class Player extends Entity {
         batch.end();
         renderer.setProjectionMatrix(batch.getProjectionMatrix());
         renderer.setTransformMatrix(batch.getTransformMatrix());
+
+        // Stamina bar
         renderer.setColor(Color.YELLOW);
         renderer.begin(ShapeRenderer.ShapeType.FilledRectangle);
         renderer.filledRect(getX(), getY() - 8.0f, getStaminaPercent() * getWidth(), 3);
+
+        // Reloading bar
+        if (activeWeapon != null && !activeWeapon.getReloadTimer().ready()) {
+            renderer.setColor(Color.WHITE);
+            renderer.filledRect(getX(), getY() - 11.0f,
+                    activeWeapon.getReloadTimer().getPercentDone() * getWidth(), 3);
+        }
+
         renderer.end();
         batch.begin();
     }
@@ -376,6 +386,21 @@ public class Player extends Entity {
             if (magazine != null) {
                 // todo wyrzuc magazynek na ziemie
             }
+        }
+    }
+
+    public void dropWeapon() {
+        if (activeWeapon != null) {
+            Weapon tmp = activeWeapon;
+
+            if (weapons.size() > 1) {
+                nextWeapon();
+            } else {
+                activeWeapon = null;
+            }
+
+            weapons.remove(tmp.getProto().slot);
+            // todo wyrzuc bron na ziemie
         }
     }
 

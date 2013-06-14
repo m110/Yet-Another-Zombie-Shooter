@@ -26,7 +26,7 @@ public class Ammo extends Pickup {
     @Override
     public boolean pickUp(Player player) {
         Weapon weapon = player.getWeapon(proto.slot);
-        if (weapon != null) {
+        if (weapon != null && !weapon.isMagazineFull()) {
             return weapon.addMagazine(bullets);
         } else {
             return false;

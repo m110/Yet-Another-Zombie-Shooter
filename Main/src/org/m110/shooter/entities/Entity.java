@@ -424,8 +424,8 @@ public abstract class Entity extends Actor {
     }
 
     private boolean checkCollisions(float newX, float newY) {
-        return game.collidesWithWall(newX, newY, this)
-            || game.collidesWithEnemy(newX, newY, this);
+        return game.getCollision().collidesWithWall(newX, newY, this)
+            || game.getCollision().collidesWithEnemy(newX, newY, this);
     }
 
     public void pushAwayFrom(Entity entity, float pushbackPower) {

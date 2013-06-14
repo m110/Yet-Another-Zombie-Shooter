@@ -35,6 +35,10 @@ public class SurvivalAI extends GameAI {
     public void start() {
         this.dummies = Shooter.getInstance().getGame().getDummies();
 
+        if (dummies.size == 0) {
+            return;
+        }
+
         // Spawn initial entities and pickups
         for (int i = 0; i < 3; i++) {
             Dummy randomDummy = dummies.random();
@@ -53,7 +57,17 @@ public class SurvivalAI extends GameAI {
         weaponTimer.update(delta);
         pickupTimer.update(delta);
 
+        if (weaponTimer.ready()) {
+            game.addPickup(PickupFactory.createAmmoOrCrate(game.getStartNode().getX(),
+                    game.getStartNode().getY()));
+            weaponTimer.reset();
+        }
+
         if (!spawnTimer.ready() && !pickupTimer.ready() && !weaponTimer.ready()) {
+            return;
+        }
+
+        if (dummies.size == 0) {
             return;
         }
 
@@ -79,12 +93,6 @@ public class SurvivalAI extends GameAI {
 
             spawnTimer.reset(spawnTime - 0.01f * (challengeCounter-1) * spawnTime);
             challengeCounter++;
-        }
-
-        if (weaponTimer.ready()) {
-            game.addPickup(PickupFactory.createAmmoOrCrate(game.getStartNode().getX(),
-                    game.getStartNode().getY()));
-            weaponTimer.reset();
         }
 
         if (pickupTimer.ready()) {

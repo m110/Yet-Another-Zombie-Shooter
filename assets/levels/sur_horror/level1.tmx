@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="60" orientation="orthogonal" tileheight="32" tilewidth="32" version="1.0" width="60">
+ <properties><property name="blended tiles" value="6,12,18,22,23,24,28,29,30"/>
+  <property name="ai" value="survival"/>
+ </properties>
+ <tileset firstgid="1" name="main" tileheight="32" tilewidth="32">
+  <image height="160" source="../sur_arena/tileset.png" width="192"/>
+ </tileset>
+ <layer height="60" name="background" width="60">
+  <data compression="zlib" encoding="base64">
+   eJzt19uuAyEIBVCd///oPtfgBdywvT2QND1TZAmaOTmllF/Q41ughijns54XX/r3fsJ3O0fp6QW73kjrzl6L9VRv7e/smr16e5v3lPtZ68vC92wD2qt5bvXQGHb3autvzfgOYemVNONsh0dvW8YdzDNncLcz7GGVer7KPqC9WcizWu+1tYy8j0h52ebyHanna1k1/Y10e53XEX+ke2Ydi9NiRtgRea1GS2+t5pk9nO2n1m21ImcG5avl8/ZFeMvft/L2nkPfH6gZmV0DeUYtfdXk1d4pVrfnHGvWmPWOmD2NrB73zrG3V3N2Ud5avsje1tb0mOPamlozujb0PTWSt/Us0tnqOWP/ejOxYszM4E5W9H3K9lh6dENE3K/WWth7w7Cz64ju8TOfGaebo99R2aH9P+QUt8XOrve5cW5pH9j1RfebXVeEufx8ctzilMw32W9x3m5+8eJFO37IfxEJ
+  </data>
+ </layer>
+ <layer height="60" name="walls" width="60">
+  <data compression="zlib" encoding="base64">
+   eJzt0EEKAzEMBEHD/v/PwQdByGFxEq/G0nTD3FW6xhgXY2xpd6lvy7SupjZkWiu4M1IbM62Rk3VsuLeSNXJxfuZkjVyc7zlZIydr5GSdOVkjJ+sML94u1hnevtYIL168dcOLt1N48XYKL95O4e1tdvKuWruYv/VWNv9irWzG29f7j7WieYe3inuntYL5Ce+p5qesJ5qftp5kzrKe4FZYFWalM8ustmW51ZbMP6jvZYwx5V7ifxGe
+  </data>
+ </layer>
+ <objectgroup height="60" name="actors" width="60">
+  <object gid="5" name="start" type="node" x="1024" y="928"/>
+  <object gid="7" name="spawner" type="entity" x="256" y="960">
+   <properties>
+    <property name="entity" value="zombie"/>
+    <property name="interval" value="0.2"/>
+    <property name="max" value="100"/>
+   </properties>
+  </object>
+  <object gid="7" name="spawner" type="entity" x="1056" y="288">
+   <properties>
+    <property name="entity" value="zombie"/>
+    <property name="interval" value="0.2"/>
+    <property name="max" value="100"/>
+   </properties>
+  </object>
+  <object gid="7" name="spawner" type="entity" x="1632" y="832">
+   <properties>
+    <property name="entity" value="zombie"/>
+    <property name="interval" value="0.2"/>
+    <property name="max" value="100"/>
+   </properties>
+  </object>
+  <object gid="7" name="spawner" type="entity" x="1024" y="1664">
+   <properties>
+    <property name="entity" value="zombie"/>
+    <property name="interval" value="0.2"/>
+    <property name="max" value="100"/>
+   </properties>
+  </object>
+  <object gid="19" name="shotgun" type="crate" x="896" y="800"/>
+  <object gid="25" name="shotgun" type="ammo" x="1024" y="800">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="1056" y="768">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="1120" y="704">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="1280" y="608">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="1376" y="544">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="704" y="640">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="704" y="704">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="shotgun" type="ammo" x="928" y="736">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="19" name="crossbow" type="crate" x="1056" y="1056"/>
+  <object gid="25" name="crossbow" type="ammo" x="896" y="1088">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="960" y="1120">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="960" y="1152">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="864" y="1184">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1056" y="1376">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1248" y="1248">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1312" y="1184">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1344" y="1152">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1536" y="1408">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="crossbow" type="ammo" x="1184" y="1376">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="19" name="mp5" type="crate" x="1216" y="928"/>
+  <object gid="25" name="mp5" type="ammo" x="1344" y="1056">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1408" y="928">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1312" y="736">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1312" y="864">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1344" y="896">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1440" y="832">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1568" y="1024">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1600" y="1056">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1600" y="1088">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+  <object gid="25" name="mp5" type="ammo" x="1632" y="1088">
+   <properties>
+    <property name="ammo" value="80"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
