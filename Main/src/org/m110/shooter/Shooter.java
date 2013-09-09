@@ -26,8 +26,6 @@ public class Shooter extends Game {
 
     public static final String VERSION = "0.1.13";
 
-    private static Shooter INSTANCE = null;
-
     private final Properties properties;
 
     private MenuScreen menuScreen;
@@ -46,18 +44,11 @@ public class Shooter extends Game {
     private final Array<Map> survivalMaps;
     private final Array<CountdownTimer> timers;
 
-    private Shooter() {
+    public Shooter() {
         properties = new Properties();
         campaignMaps = new Array<>();
         survivalMaps = new Array<>();
         timers = new Array<>();
-    }
-
-    public static Shooter getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Shooter();
-        }
-        return INSTANCE;
     }
 
     @Override
@@ -82,11 +73,11 @@ public class Shooter extends Game {
         loadMaps();
 
         // Load screens
-        menuScreen = new MenuScreen();
-        howToPlayScreen = new HowToPlayScreen();
-        optionsScreen = new OptionsScreen();
-        enterNameScreen = new EnterNameScreen();
-        highscoresScreen = new HighscoresScreen();
+        menuScreen = new MenuScreen(this);
+        howToPlayScreen = new HowToPlayScreen(this);
+        optionsScreen = new OptionsScreen(this);
+        enterNameScreen = new EnterNameScreen(this);
+        highscoresScreen = new HighscoresScreen(this);
 
         // Start first screen
         if (properties.getProperty("player") != null) {
@@ -161,10 +152,10 @@ public class Shooter extends Game {
      */
     public void loadLevel(Map map, int level) {
         if (player == null) {
-            player = new Player();
+            player = new Player(gameScreen);
         }
 
-        gameScreen = new GameScreen(map, level, player);
+        gameScreen = new GameScreen(this, map, level, player);
         gameScreen.loadLevel();
         setScreen(gameScreen);
     }
@@ -207,7 +198,7 @@ public class Shooter extends Game {
     }
 
     public void exitWithDelay(float delay) {
-        Shooter.getInstance().addTimer(new CountdownTimer(delay) {
+        addTimer(new CountdownTimer(delay) {
             @Override
             protected void action() {
                 super.action();

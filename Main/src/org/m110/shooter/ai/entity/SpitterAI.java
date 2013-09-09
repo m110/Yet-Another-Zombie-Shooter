@@ -168,7 +168,7 @@ public class SpitterAI extends CombatAI {
         spitTimer.update(delta);
 
         if (spitTimer.ready()) {
-            GooBullet bullet = new GooBullet(me, me.getVictim());
+            GooBullet bullet = new GooBullet(game, me, me.getVictim());
             me.getStage().addActor(bullet);
             bullets.add(bullet);
             spitTimer.reset();

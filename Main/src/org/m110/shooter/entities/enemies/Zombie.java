@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.ChaseAI;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -28,8 +29,8 @@ public class Zombie extends CombatEntity {
         deathSound = Entity.loadDeathSound(name);
     }
 
-    public Zombie(float startX, float startY) {
-        super(EntityProto.ZOMBIE, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
+    public Zombie(GameScreen game, float startX, float startY) {
+        super(game, EntityProto.ZOMBIE, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
         setAI(new ChaseAI(this));
     }
 }

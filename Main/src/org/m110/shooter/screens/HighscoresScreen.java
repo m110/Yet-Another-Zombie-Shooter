@@ -25,7 +25,7 @@ import java.util.HashMap;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class HighscoresScreen implements Screen {
+public class HighscoresScreen extends ShooterScreen {
 
     private class Entry {
 
@@ -43,12 +43,13 @@ public class HighscoresScreen implements Screen {
 
     private final Array<Entry> entries;
 
-    public HighscoresScreen() {
+    public HighscoresScreen(final Shooter shooter) {
+        super(shooter);
         inputAdapter = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.ENTER) {
-                    Shooter.getInstance().showMainMenu();
+                    shooter.showMainMenu();
                     return true;
                 }
                 return false;
@@ -110,12 +111,12 @@ public class HighscoresScreen implements Screen {
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(inputAdapter);
+        shooter.addInput(inputAdapter);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(inputAdapter);
+        shooter.removeInput(inputAdapter);
     }
 
     @Override

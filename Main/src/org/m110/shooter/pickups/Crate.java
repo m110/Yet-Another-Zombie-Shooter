@@ -1,6 +1,7 @@
 package org.m110.shooter.pickups;
 
 import org.m110.shooter.entities.Player;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponProto;
 
@@ -12,10 +13,10 @@ public class Crate extends Pickup {
     private final int bullets;
     private final Weapon weapon;
 
-    public Crate(String name, float x, float y, int bullets) {
+    public Crate(GameScreen game, String name, float x, float y, int bullets) {
         super("crates/" + name, x, y);
         this.bullets = bullets;
-        weapon = Weapon.createInstance(WeaponProto.getByName(name));
+        weapon = Weapon.createInstance(game, WeaponProto.getByName(name));
         if (bullets > 0) {
             weapon.setActiveMagazineAmmo(bullets);
         }

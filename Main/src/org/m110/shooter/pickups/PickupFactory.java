@@ -2,6 +2,8 @@ package org.m110.shooter.pickups;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.math.MathUtils;
+import org.m110.shooter.input.GameOverInput;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.WeaponProto;
 
 /**
@@ -10,12 +12,12 @@ import org.m110.shooter.weapons.WeaponProto;
 public class PickupFactory {
     private PickupFactory() {}
 
-    public static Pickup createPickup(TiledObject object, float x, float y) {
+    public static Pickup createPickup(GameScreen game, TiledObject object, float x, float y) {
         switch (object.type) {
             case "ammo":
                 return new Ammo(object.name, x, y, getIntegerProperty(object, "ammo"));
             case "crate":
-                return new Crate(object.name, x, y, getIntegerProperty(object, "ammo"));
+                return new Crate(game,object.name, x, y, getIntegerProperty(object, "ammo"));
             case "bonus":
                 switch (object.name) {
                     case "medpack":
@@ -30,11 +32,11 @@ public class PickupFactory {
         }
     }
 
-    public static Pickup createRandomPickup(float x, float y) {
+    public static Pickup createRandomPickup(GameScreen game, float x, float y) {
         PickupProto type = PickupProto.getRandom();
         switch (type) {
             case AMMO: return createRandomAmmo(x, y);
-            case CRATE: return createRandomCrate(x, y);
+            case CRATE: return createRandomCrate(game, x, y);
             case MEDPACK:
                 return new Medpack(x, y);
             case ADRENALINE:
@@ -44,11 +46,11 @@ public class PickupFactory {
         }
     }
 
-    public static Pickup createAmmoOrCrate(float x, float y) {
+    public static Pickup createAmmoOrCrate(GameScreen game, float x, float y) {
         PickupProto type = MathUtils.random(1) == 0 ? PickupProto.AMMO : PickupProto.CRATE;
         switch (type) {
             case AMMO: return createRandomAmmo(x, y);
-            case CRATE: return createRandomCrate(x, y);
+            case CRATE: return createRandomCrate(game, x, y);
         }
         return null;
     }
@@ -59,10 +61,10 @@ public class PickupFactory {
         return new Ammo(weaponProto.name, x, y, ammo);
     }
 
-    public static Pickup createRandomCrate(float x, float y) {
+    public static Pickup createRandomCrate(GameScreen game, float x, float y) {
         WeaponProto weaponProto = WeaponProto.getRandom();
         int ammo =  MathUtils.random(1, weaponProto.magazineCapacity);
-        return new Crate(weaponProto.name, x, y, ammo);
+        return new Crate(game, weaponProto.name, x, y, ammo);
     }
 
     private static Integer getIntegerProperty(TiledObject object, String property) {

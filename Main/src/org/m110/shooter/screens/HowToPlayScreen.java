@@ -14,17 +14,18 @@ import org.m110.shooter.core.Font;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class HowToPlayScreen implements Screen {
+public class HowToPlayScreen extends ShooterScreen {
 
     private final InputAdapter inputAdapter;
     private final SpriteBatch batch;
 
-    public HowToPlayScreen() {
+    public HowToPlayScreen(final Shooter shooter) {
+        super(shooter);
         inputAdapter = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.ENTER) {
-                    Shooter.getInstance().resumeGame();
+                    shooter.resumeGame();
                     return true;
                 }
                 return false;
@@ -59,12 +60,12 @@ public class HowToPlayScreen implements Screen {
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(inputAdapter);
+        shooter.addInput(inputAdapter);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(inputAdapter);
+        shooter.removeInput(inputAdapter);
     }
 
     @Override

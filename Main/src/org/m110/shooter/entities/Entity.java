@@ -196,8 +196,8 @@ public abstract class Entity extends Actor {
      * @param startX
      * @param startY
      */
-    public Entity(TextureRegion texture, Array<TextureRegion> fleshTextures, String name, float startX, float startY) {
-        this.game = Shooter.getInstance().getGame();
+    public Entity(GameScreen game, TextureRegion texture, Array<TextureRegion> fleshTextures, String name, float startX, float startY) {
+        this.game = game;
         this.name = name;
         renderer = new ShapeRenderer();
 

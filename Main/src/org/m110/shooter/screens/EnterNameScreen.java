@@ -17,7 +17,7 @@ import org.m110.shooter.core.Font;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class EnterNameScreen implements Screen {
+public class EnterNameScreen extends ShooterScreen {
 
     private final InputAdapter inputAdapter;
     private final SpriteBatch batch;
@@ -27,13 +27,14 @@ public class EnterNameScreen implements Screen {
     private final TextField.TextFieldStyle tfs;
     private final TextField textField;
 
-    public EnterNameScreen() {
+    public EnterNameScreen(final Shooter shooter) {
+        super(shooter);
         inputAdapter = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.ENTER) {
-                    Shooter.getInstance().setPlayerName(textField.getText());
-                    Shooter.getInstance().showMainMenu();
+                    shooter.setPlayerName(textField.getText());
+                    shooter.showMainMenu();
                     return true;
                 }
                 return false;
@@ -87,14 +88,14 @@ public class EnterNameScreen implements Screen {
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(inputAdapter);
-        Shooter.getInstance().addInput(stage);
+        shooter.addInput(inputAdapter);
+        shooter.addInput(stage);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(stage);
-        Shooter.getInstance().removeInput(inputAdapter);
+        shooter.removeInput(stage);
+        shooter.removeInput(inputAdapter);
     }
 
     @Override

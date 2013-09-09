@@ -66,13 +66,13 @@ public class Weapon {
      * @param proto prototype of the created weapon.
      * @return new instance of Weapon.
      */
-    public static Weapon createInstance(WeaponProto proto) {
+    public static Weapon createInstance(GameScreen game, WeaponProto proto) {
         switch (proto) {
             case SHOTGUN:
             case CROSSBOW:
-                return new Shotgun(proto);
+                return new Shotgun(game, proto);
             default:
-                return new Weapon(proto);
+                return new Weapon(game, proto);
         }
     }
 
@@ -80,9 +80,9 @@ public class Weapon {
      * Creates new weapon by given prototype.
      * @param proto weapon prototype.
      */
-    protected Weapon(WeaponProto proto) {
+    protected Weapon(GameScreen game, WeaponProto proto) {
+        this.game = game;
         this.proto = proto;
-        this.game = Shooter.getInstance().getGame();
 
         texture = new TextureRegion(mainTexture, proto.textureID * 48, 0, 48, 48);
 
@@ -158,7 +158,7 @@ public class Weapon {
             // Angle = player's angle + random recoil factor increased with mode factor
             float recoil = proto.recoilFactor + shots * burstFactor;
             float totalAngle = angle + MathUtils.random(-recoil, recoil);
-            bullets.add(BulletFactory.createBullet(proto, x, y, totalAngle));
+            bullets.add(BulletFactory.createBullet(game, proto, x, y, totalAngle));
         } else {
             // Angle = player's angle - factor, and then increase it by %
             float startAngle = angle - proto.recoilFactor;
@@ -169,7 +169,7 @@ public class Weapon {
                 float totalAngle = startAngle +
                         MathUtils.random(-proto.recoilFactor, proto.recoilFactor) / 10.0f;
 
-                bullets.add(BulletFactory.createBullet(proto, x, y, totalAngle));
+                bullets.add(BulletFactory.createBullet(game, proto, x, y, totalAngle));
 
                 // Increase angle for the next bullet
                 startAngle += increase;

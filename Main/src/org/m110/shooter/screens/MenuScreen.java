@@ -14,7 +14,7 @@ import org.m110.shooter.screens.menu.MenuAction;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class MenuScreen implements Screen {
+public class MenuScreen extends ShooterScreen {
 
     private final Menu mainMenu;
     private final Menu campaignMenu;
@@ -24,7 +24,8 @@ public class MenuScreen implements Screen {
 
     private Menu activeMenu;
 
-    public MenuScreen() {
+    public MenuScreen(final Shooter shooter) {
+        super(shooter);
         mainMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
         campaignMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
         survivalMenu = new Menu(0.0f, Gdx.graphics.getHeight() * 0.6f);
@@ -47,27 +48,27 @@ public class MenuScreen implements Screen {
         mainMenu.addMenuItem("How to play", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().showHowToPlay();
+                shooter.showHowToPlay();
             }
         });
         mainMenu.addMenuItem("Options", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().showOptions();
+                shooter.showOptions();
             }
         });
         mainMenu.addMenuItem("Quit", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().exitWithDelay(0.5f);
+                shooter.exitWithDelay(0.5f);
             }
         });
 
-        for (final Map map : Shooter.getInstance().getCampaignMaps()) {
+        for (final Map map : shooter.getCampaignMaps()) {
             campaignMenu.addMenuItem(map.getName(), new MenuAction() {
                 @Override
                 public void action() {
-                Shooter.getInstance().loadLevel(map, 1);
+                shooter.loadLevel(map, 1);
                 }
             });
         }
@@ -78,11 +79,11 @@ public class MenuScreen implements Screen {
             }
         });
 
-        for (final Map map : Shooter.getInstance().getSurvivalMaps()) {
+        for (final Map map : shooter.getSurvivalMaps()) {
             survivalMenu.addMenuItem(map.getName(), new MenuAction() {
                 @Override
                 public void action() {
-                Shooter.getInstance().loadLevel(map, 1);
+                shooter.loadLevel(map, 1);
                 }
             });
         }
@@ -120,9 +121,9 @@ public class MenuScreen implements Screen {
     }
 
     protected void setActiveMenu(Menu activeMenu) {
-        Shooter.getInstance().removeInput(this.activeMenu);
+        shooter.removeInput(this.activeMenu);
         this.activeMenu = activeMenu;
-        Shooter.getInstance().addInput(this.activeMenu);
+        shooter.addInput(this.activeMenu);
     }
 
     @Override
@@ -131,12 +132,12 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(activeMenu);
+        shooter.addInput(activeMenu);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(activeMenu);
+        shooter.removeInput(activeMenu);
     }
 
     @Override

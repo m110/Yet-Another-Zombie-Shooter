@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.SpitterAI;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -28,8 +29,8 @@ public class Spitter extends CombatEntity {
         deathSound = Entity.loadDeathSound(name);
     }
 
-    public Spitter(float startX, float startY) {
-        super(EntityProto.SPITTER, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
+    public Spitter(GameScreen game, float startX, float startY) {
+        super(game, EntityProto.SPITTER, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
         setAI(new SpitterAI(this));
     }
 }

@@ -13,4 +13,8 @@ public class NoneAI extends GameAI {
         }
         return INSTANCE;
     }
+
+    private NoneAI() {
+        super(null);
+    }
 }

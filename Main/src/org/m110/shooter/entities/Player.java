@@ -94,8 +94,8 @@ public class Player extends Entity {
         fleshTextures = Entity.loadFleshTextures(texture);
     }
 
-    public Player() {
-        super(texture, fleshTextures, "player", 0.0f, 0.0f);
+    public Player(GameScreen game) {
+        super(game, texture, fleshTextures, "player", 0.0f, 0.0f);
 
         // Load step sounds
         stepSound = new Sound[3];

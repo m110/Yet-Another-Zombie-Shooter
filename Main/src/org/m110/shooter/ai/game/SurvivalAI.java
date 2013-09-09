@@ -9,6 +9,7 @@ import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.enemies.Spawner;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.pickups.PickupFactory;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -24,7 +25,9 @@ public class SurvivalAI extends GameAI {
 
     private final float spawnTime = 8.0f;
 
-    public SurvivalAI() {
+    public SurvivalAI(GameScreen game) {
+        super(game);
+
         spawnTimer = new IntervalTimer(spawnTime);
         weaponTimer = new RandomIntervalTimer(5.0f, 10.0f);
         pickupTimer = new RandomIntervalTimer(10.0f, 15.0f);
@@ -33,7 +36,7 @@ public class SurvivalAI extends GameAI {
 
     @Override
     public void start() {
-        this.dummies = Shooter.getInstance().getGame().getDummies();
+        this.dummies = game.getDummies();
 
         if (dummies.size == 0) {
             return;
@@ -47,7 +50,7 @@ public class SurvivalAI extends GameAI {
 
         for (int i = 0; i < 3; i++) {
             Dummy randomDummy = dummies.random();
-            game.addPickup(PickupFactory.createRandomCrate(randomDummy.getX(), randomDummy.getY()));
+            game.addPickup(PickupFactory.createRandomCrate(game, randomDummy.getX(), randomDummy.getY()));
         }
     }
 
@@ -58,7 +61,7 @@ public class SurvivalAI extends GameAI {
         pickupTimer.update(delta);
 
         if (weaponTimer.ready()) {
-            game.addPickup(PickupFactory.createAmmoOrCrate(game.getStartNode().getX(),
+            game.addPickup(PickupFactory.createAmmoOrCrate(game, game.getStartNode().getX(),
                     game.getStartNode().getY()));
             weaponTimer.reset();
         }
@@ -83,7 +86,7 @@ public class SurvivalAI extends GameAI {
                                                y + 10 + MathUtils.random(-40.0f, 40.0f));
                     }
                 } else {
-                    Spawner spawner = new Spawner(EntityProto.getRandomWithoutSpawner(), x, y,
+                    Spawner spawner = new Spawner(game, EntityProto.getRandomWithoutSpawner(), x, y,
                                                   MathUtils.random(1.0f, 3.0f), MathUtils.random(3, 5));
                     game.addEntity(spawner);
                 }

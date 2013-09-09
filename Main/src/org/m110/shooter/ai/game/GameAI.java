@@ -12,9 +12,14 @@ public abstract class GameAI {
     protected final GameScreen game;
     protected final Player player;
 
-    public GameAI() {
-        game = Shooter.getInstance().getGame();
-        player = Shooter.getInstance().getPlayer();
+    public GameAI(GameScreen game) {
+        this.game = game;
+
+        if (game != null) {
+            player = game.getPlayer();
+        } else {
+            player = null;
+        }
     }
 
     public void start() {}

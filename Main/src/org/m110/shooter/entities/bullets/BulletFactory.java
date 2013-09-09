@@ -1,5 +1,6 @@
 package org.m110.shooter.entities.bullets;
 
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.WeaponProto;
 
 /**
@@ -8,14 +9,14 @@ import org.m110.shooter.weapons.WeaponProto;
 public class BulletFactory {
     private BulletFactory() {}
 
-    public static Bullet createBullet(WeaponProto proto, float x, float y, float angle) {
+    public static Bullet createBullet(GameScreen game, WeaponProto proto, float x, float y, float angle) {
         switch (proto.bulletType) {
             case STANDARD:
-                return new StandardBullet(proto, x, y, angle);
+                return new StandardBullet(game, proto, x, y, angle);
             case BOLD:
-                return new BoldBullet(proto, x, y, angle);
+                return new BoldBullet(game, proto, x, y, angle);
             case ARROW:
-                return new Arrow(proto, x, y, angle);
+                return new Arrow(game, proto, x, y, angle);
             default:
                 throw new IllegalArgumentException("No such BulletType: " + proto.bulletType);
         }

@@ -10,6 +10,6 @@ public class AppletStarter extends LwjglApplet {
     private static final long serialVersionUID = 1L;
 
     public AppletStarter() {
-        super(Shooter.getInstance(), true);
+        super(new Shooter(), true);
     }
 }

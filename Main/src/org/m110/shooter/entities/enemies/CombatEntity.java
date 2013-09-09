@@ -12,6 +12,7 @@ import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -29,9 +30,9 @@ public abstract class CombatEntity extends Entity {
     // Combat
     private final IntervalTimer attackTimer;
 
-    public CombatEntity(EntityProto proto, TextureRegion texture, Array<TextureRegion> fleshTextures, String name,
+    public CombatEntity(GameScreen game, EntityProto proto, TextureRegion texture, Array<TextureRegion> fleshTextures, String name,
                         float startX, float startY, Sound attackSound, Sound damageSound, Sound deathSound) {
-        super(texture, fleshTextures, name, startX, startY);
+        super(game, texture, fleshTextures, name, startX, startY);
         this.proto = proto;
         this.points = proto.points;
 

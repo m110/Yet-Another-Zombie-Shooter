@@ -13,6 +13,6 @@ public class DesktopStarter {
         cfg.useGL20 = true;
         cfg.width = 800;
         cfg.height = 600;
-        new LwjglApplication(Shooter.getInstance(), cfg);
+        new LwjglApplication(new Shooter(), cfg);
     }
 }

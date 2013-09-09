@@ -15,8 +15,8 @@ public class GameInput extends InputListener {
 
     private final Player player;
 
-    public GameInput() {
-        this.player = Shooter.getInstance().getPlayer();
+    public GameInput(Player player) {
+        this.player = player;
     }
 
     @Override

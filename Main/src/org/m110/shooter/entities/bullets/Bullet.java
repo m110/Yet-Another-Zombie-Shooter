@@ -45,8 +45,8 @@ public class Bullet extends Actor {
         return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullets/" + name + ".png")));
     }
 
-    public Bullet(TextureRegion texture, float x, float y, float angle, float velocity, int minDamage, int maxDamage) {
-        this.game = Shooter.getInstance().getGame();
+    public Bullet(GameScreen game, TextureRegion texture, float x, float y, float angle, float velocity, int minDamage, int maxDamage) {
+        this.game = game;
 
         this.texture = texture;
         this.angle = angle;
@@ -63,8 +63,8 @@ public class Bullet extends Actor {
         setRotation(angle);
     }
 
-    public Bullet(TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
-        this(texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage);
+    public Bullet(GameScreen game, TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
+        this(game, texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage);
     }
 
     @Override

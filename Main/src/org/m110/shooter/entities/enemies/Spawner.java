@@ -7,6 +7,7 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
+import org.m110.shooter.screens.GameScreen;
 
 import java.util.Iterator;
 
@@ -31,8 +32,8 @@ public class Spawner extends CombatEntity {
         fleshTextures = Entity.loadFleshTextures(texture);
     }
 
-    public Spawner(EntityProto spawnProto, float startX, float startY, float interval, int maxEntities) {
-        super(EntityProto.SPAWNER, texture, fleshTextures, name, startX, startY, null, null, null);
+    public Spawner(GameScreen game, EntityProto spawnProto, float startX, float startY, float interval, int maxEntities) {
+        super(game, EntityProto.SPAWNER, texture, fleshTextures, name, startX, startY, null, null, null);
         this.spawnProto = spawnProto;
         this.maxEntities = maxEntities;
         spawnTimer = new IntervalTimer(interval);
@@ -67,6 +68,6 @@ public class Spawner extends CombatEntity {
         float dist = getWidth() * 3.0f;
         float x = getWorldX() + (float) Math.cos(Math.toRadians(MathUtils.random(0.0f, 360.0f))) * dist;
         float y = getWorldY() + (float) Math.sin(Math.toRadians(MathUtils.random(0.0f, 360.0f))) * dist;
-        entities.add(Shooter.getInstance().getGame().spawnEntity(spawnProto, x, y));
+        entities.add(game.spawnEntity(spawnProto, x, y));
     }
 }

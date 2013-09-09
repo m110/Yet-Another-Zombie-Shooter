@@ -1,11 +1,13 @@
 package org.m110.shooter.entities.enemies;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.ai.entity.ChargerAI;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -28,8 +30,8 @@ public class Charger extends CombatEntity {
         deathSound = Entity.loadDeathSound(name);
     }
 
-    public Charger(float startX, float startY) {
-        super(EntityProto.CHARGER, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
+    public Charger(GameScreen game, float startX, float startY) {
+        super(game, EntityProto.CHARGER, texture, fleshTextures, name, startX, startY, attackSound, damageSound, deathSound);
         setAI(new ChargerAI(this));
     }
 }

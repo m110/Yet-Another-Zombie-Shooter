@@ -49,7 +49,7 @@ import java.util.Iterator;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class GameScreen implements Screen {
+public class GameScreen extends ShooterScreen {
 
     private final Map map;
     private final int level;
@@ -109,7 +109,8 @@ public class GameScreen implements Screen {
 
     private float aggroRange = 350.0f;
 
-    public GameScreen(final Map map, final int level, Player player) {
+    public GameScreen(final Shooter shooter, final Map map, final int level, Player player) {
+        super(shooter);
         this.map = map;
         this.level = level;
         this.player = player;
@@ -135,19 +136,19 @@ public class GameScreen implements Screen {
         pauseMenu.addMenuItem("Restart", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().restartLevel(map, level);
+                shooter.restartLevel(map, level);
             }
         });
         pauseMenu.addMenuItem("How to play", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().showHowToPlay();
+                shooter.showHowToPlay();
             }
         });
         pauseMenu.addMenuItem("Quit", new MenuAction() {
             @Override
             public void action() {
-                Shooter.getInstance().showMainMenu();
+                shooter.showMainMenu();
             }
         });
         pauseMenu.alignToCenter();
@@ -197,7 +198,7 @@ public class GameScreen implements Screen {
         // Check AI
         switch (map.getMapType()) {
             case SURVIVAL:
-                ai = new SurvivalAI();
+                ai = new SurvivalAI(this);
                 break;
         }
 
@@ -215,7 +216,7 @@ public class GameScreen implements Screen {
                             if (object.properties.containsKey("rotation")) {
                                 player.setRotation(Integer.parseInt(object.properties.get("rotation")));
                             }
-                            inputListener = new GameInput();
+                            inputListener = new GameInput(player);
                             stage.addListener(inputListener);
                             break;
                         case "end":
@@ -534,7 +535,7 @@ public class GameScreen implements Screen {
     protected void gameOver() {
         running = false;
         stage.removeListener(inputListener);
-        stage.addListener(new GameOverInput());
+        stage.addListener(new GameOverInput(shooter));
 
         if (map.getMapType() == MapType.SURVIVAL) {
             submitScore();
@@ -546,19 +547,19 @@ public class GameScreen implements Screen {
      * @return new created entity.
      */
     public Entity spawnEntity(TiledObject object, float x, float y) {
-        CombatEntity entity = EntityFactory.createEntity(object, x, y);
+        CombatEntity entity = EntityFactory.createEntity(this, object, x, y);
         addEntity(entity);
         return entity;
     }
 
     public Entity spawnEntity(EntityProto proto, float x, float y) {
-        CombatEntity entity = EntityFactory.createEntity(proto, x, y);
+        CombatEntity entity = EntityFactory.createEntity(this, proto, x, y);
         addEntity(entity);
         return entity;
     }
 
     public Entity spawnRandomEntity(float x, float y) {
-        CombatEntity entity = EntityFactory.createEntity(EntityProto.getRandom(), x, y);
+        CombatEntity entity = EntityFactory.createEntity(this, EntityProto.getRandom(), x, y);
         addEntity(entity);
         return entity;
     }
@@ -569,13 +570,13 @@ public class GameScreen implements Screen {
     }
 
     public Pickup spawnPickup(TiledObject object, float x, float y) {
-        Pickup pickup = PickupFactory.createPickup(object, x, y);
+        Pickup pickup = PickupFactory.createPickup(this, object, x, y);
         addPickup(pickup);
         return pickup;
     }
 
     public Pickup spawnRandomPickup(float x, float y) {
-        Pickup pickup = PickupFactory.createRandomPickup(x, y);
+        Pickup pickup = PickupFactory.createRandomPickup(this, x, y);
         addPickup(pickup);
         return pickup;
     }
@@ -598,18 +599,18 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         if (paused) {
-            Shooter.getInstance().addInput(pauseMenu);
+            shooter.addInput(pauseMenu);
         } else {
-            Shooter.getInstance().addInput(stage);
+            shooter.addInput(stage);
         }
     }
 
     @Override
     public void hide() {
         if (paused) {
-            Shooter.getInstance().removeInput(pauseMenu);
+            shooter.removeInput(pauseMenu);
         } else {
-            Shooter.getInstance().removeInput(stage);
+            shooter.removeInput(stage);
         }
     }
 
@@ -647,11 +648,11 @@ public class GameScreen implements Screen {
         pauseSound.play();
         this.paused = paused;
         if (paused) {
-            Shooter.getInstance().removeInput(stage);
-            Shooter.getInstance().addInput(pauseMenu);
+            shooter.removeInput(stage);
+            shooter.addInput(pauseMenu);
         } else {
-            Shooter.getInstance().removeInput(pauseMenu);
-            Shooter.getInstance().addInput(stage);
+            shooter.removeInput(pauseMenu);
+            shooter.addInput(stage);
         }
     }
 
@@ -659,15 +660,13 @@ public class GameScreen implements Screen {
         scoreSubmitThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String params = "?player_id=" + Shooter.getInstance().getPlayerID();
+                String params = "?player_id=" + shooter.getPlayerID();
                 params += "&map_id=" + map.getMapID();
                 params += "&score=" + score;
                 params += "&hash=" + CoreUtils.sha1(score + Config.SCORE_SUBMIT_SALT);
                 try {
                     URL url = new URL(Config.SCORE_SUBMIT_URL + params);
                     url.openConnection().getInputStream();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

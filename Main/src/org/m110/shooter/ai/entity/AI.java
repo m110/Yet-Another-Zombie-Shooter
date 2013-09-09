@@ -4,17 +4,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.Player;
+import org.m110.shooter.screens.GameScreen;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public abstract class AI {
     protected final Entity me;
+    protected final GameScreen game;
     protected Player player;
 
     public AI(Entity me) {
         this.me = me;
-        player = Shooter.getInstance().getPlayer();
+
+        if (me != null) {
+            game = me.getGame();
+            player = game.getPlayer();
+        } else {
+            game = null;
+        }
     }
 
     public void act(float delta) {}

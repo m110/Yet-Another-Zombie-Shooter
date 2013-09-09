@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Font;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.magazines.Magazine;
 
 /**
@@ -15,8 +16,8 @@ public class Shotgun extends Weapon {
 
     private final Magazine mainMagazine;
 
-    public Shotgun(WeaponProto proto) {
-        super(proto);
+    public Shotgun(GameScreen game, WeaponProto proto) {
+        super(game, proto);
         mainMagazine = new Magazine(proto.maxMagazines * proto.magazineCapacity, 0);
         addMagazine(mainMagazine);
     }

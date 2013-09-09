@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.entities.Entity;
+import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.WeaponProto;
 
 /**
@@ -21,8 +22,8 @@ public class Arrow extends Bullet {
         texture = Bullet.loadTexture("arrow");
     }
 
-    public Arrow(WeaponProto proto, float x, float y, float angle) {
-        super(texture, proto, x, y, angle);
+    public Arrow(GameScreen game, WeaponProto proto, float x, float y, float angle) {
+        super(game, texture, proto, x, y, angle);
     }
 
     @Override

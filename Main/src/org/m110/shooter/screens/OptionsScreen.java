@@ -14,17 +14,18 @@ import org.m110.shooter.core.Font;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class OptionsScreen implements Screen {
+public class OptionsScreen extends ShooterScreen {
 
     private final InputAdapter inputAdapter;
     private final SpriteBatch batch;
 
-    public OptionsScreen() {
+    public OptionsScreen(final Shooter shooter) {
+        super(shooter);
         inputAdapter = new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.ENTER) {
-                    Shooter.getInstance().resumeGame();
+                    shooter.resumeGame();
                     return true;
                 }
                 return false;
@@ -52,12 +53,12 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void show() {
-        Shooter.getInstance().addInput(inputAdapter);
+        shooter.addInput(inputAdapter);
     }
 
     @Override
     public void hide() {
-        Shooter.getInstance().removeInput(inputAdapter);
+        shooter.removeInput(inputAdapter);
     }
 
     @Override
