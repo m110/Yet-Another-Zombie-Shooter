@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.screens.GameScreen;
@@ -40,6 +40,10 @@ public class Bullet extends Actor {
      * Is the bullet still moving.
      */
     protected boolean moving;
+
+    protected float pierceChance = 0.0f;
+    protected float pierceDamageFactor = 0.0f;
+    protected int pierced = 0;
 
     protected static TextureRegion loadTexture(String name) {
         return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullets/" + name + ".png")));
@@ -92,7 +96,11 @@ public class Bullet extends Actor {
 
         // Did bullet hit an enemy?
         if (game.getCollision().collidesWithEnemy(this)) {
-            moving = false;
+            if (pierceChance > 0.0f && MathUtils.random(0.0f, 1.0f) < pierceChance) {
+                pierced++;
+            } else {
+                moving = false;
+            }
         }
     }
 
@@ -127,6 +135,11 @@ public class Bullet extends Actor {
         }
 
         int damage = minDamage + Math.round((maxDamage - minDamage) * hitRatio);
+
+        // Subsequent hits lower damage
+        if (pierced > 0) {
+            damage *= Math.pow(pierceDamageFactor, pierced);
+        }
 
         // Check if the shot was a critical hit
         boolean critical = false;
