@@ -73,6 +73,8 @@ public class Player extends Entity {
     private boolean sprintActive = false;
     private float bonusVelocity = 4.0f;
 
+    private boolean isReloading = false;
+
     // Weapons related stuff
     private final HashMap<WeaponSlot, Weapon> weapons;
     private Weapon activeWeapon;
@@ -134,6 +136,10 @@ public class Player extends Entity {
 
         if (activeWeapon != null) {
             activeWeapon.updateCooldowns(delta);
+
+            if (isReloading && activeWeapon.isReady()) {
+                activeWeapon.reload();
+            }
         }
 
         // Stamina regeneration
@@ -407,10 +413,12 @@ public class Player extends Entity {
     /**
      * Reload active weapon.
      */
-    public void reload() {
-        if (activeWeapon != null) {
-            activeWeapon.reload();
-        }
+    public void startReloading() {
+        isReloading = true;
+    }
+
+    public void stopReloading() {
+        isReloading = false;
     }
 
     public void nextWeaponMode() {

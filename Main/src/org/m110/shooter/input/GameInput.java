@@ -46,7 +46,7 @@ public class GameInput extends InputListener {
                 player.movement().add(Movement.RIGHT);
                 break;
             case Input.Keys.R:
-                player.reload();
+                player.startReloading();
                 break;
             case Input.Keys.G:
                 player.dropMagazine();
@@ -96,6 +96,9 @@ public class GameInput extends InputListener {
                 break;
             case Input.Keys.D:
                 player.movement().remove(Movement.RIGHT);
+                break;
+            case Input.Keys.R:
+                player.stopReloading();
                 break;
             case Input.Keys.SHIFT_LEFT:
                 player.setSprintActive(false);
