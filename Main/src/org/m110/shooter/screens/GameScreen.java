@@ -1,13 +1,11 @@
 package org.m110.shooter.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -26,8 +24,6 @@ import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityFactory;
 import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.Player;
-import org.m110.shooter.entities.bullets.Bullet;
-import org.m110.shooter.entities.bullets.GooBullet;
 import org.m110.shooter.entities.enemies.CombatEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.entities.terrain.Fence;
@@ -39,10 +35,8 @@ import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.screens.menu.MenuAction;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponProto;
-import org.m110.shooter.weapons.WeaponSlot;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
@@ -104,7 +98,7 @@ public class GameScreen extends ShooterScreen {
     private boolean running = true;
     private final IntervalTimer bloodScreenTimer;
 
-    private final StreakSystem streakSystem;
+    private final Stats stats;
     private Thread scoreSubmitThread;
 
     private float aggroRange = 350.0f;
@@ -188,7 +182,7 @@ public class GameScreen extends ShooterScreen {
         bloodScreenTimer = new IntervalTimer(0.7f);
         bloodScreenTimer.disable();
 
-        streakSystem = new StreakSystem();
+        stats = new Stats();
     }
 
     public void loadLevel() {
@@ -280,11 +274,6 @@ public class GameScreen extends ShooterScreen {
         Font.large.setColor(1.0f, 1.0f, 1.0f, 0.7f);
         Font.large.draw(batch, String.format("%08d", score), 10.0f, scoreY + Font.large.getLineHeight() + 5.0f);
 
-        // Bonus multiplier
-        if (streakSystem.getKills() > 1) {
-            Font.large.draw(batch, "x"+streakSystem.getKills(), 200.0f, scoreY + Font.large.getLineHeight() + 5.0f);
-        }
-
         float topX = Gdx.graphics.getWidth() - 175;
         float topY = Gdx.graphics.getHeight() - 90;
         batch.draw(topHUD, topX, topY);
@@ -364,9 +353,6 @@ public class GameScreen extends ShooterScreen {
             Gdx.gl.glDisable(GL10.GL_BLEND);
         }
 
-        // Draw notifications from bonus system
-        streakSystem.draw(batch);
-
         if (!bloodScreenTimer.ready()) {
             Gdx.gl.glEnable(GL10.GL_BLEND);
             Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -398,8 +384,7 @@ public class GameScreen extends ShooterScreen {
             Font.medium.setColor(Color.WHITE);
             Font.medium.draw(batch, "Time: " + getTimeString(), 330, 390);
             Font.medium.draw(batch, "Score: " + score, 330, 370);
-            Font.medium.draw(batch, "Total kills: " + streakSystem.getTotalKills(), 330, 340);
-            Font.medium.draw(batch, "Best kill streak: " + streakSystem.getBestStreak(), 330, 320);
+            Font.medium.draw(batch, "Total kills: " + stats.getKills(), 330, 340);
             Font.medium.draw(batch, "Press ENTER to continue...", 280, 290);
             batch.end();
         }
@@ -489,12 +474,8 @@ public class GameScreen extends ShooterScreen {
             if (enemy.isDead()) {
                 int points = enemy.getPoints();
 
-                if (streakSystem.getKills() > 1) {
-                    points *= streakSystem.getKills();
-                }
-
                 score += points;
-                streakSystem.addKill();
+                stats.addKill();
                 enemy.setPointsEarned(points);
                 it.remove();
             }
@@ -504,7 +485,6 @@ public class GameScreen extends ShooterScreen {
         ai.act(delta);
 
         bloodScreenTimer.update(delta);
-        streakSystem.update(delta);
     }
 
     protected void centerCamera() {
