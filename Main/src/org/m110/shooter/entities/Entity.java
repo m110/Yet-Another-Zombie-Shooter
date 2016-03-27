@@ -283,11 +283,6 @@ public abstract class Entity extends Actor {
                 piece.draw(batch);
             }
         }
-
-        // Draw damage indicators
-        for (DamageIndicator indicator : indicators) {
-            indicator.draw(batch);
-        }
     }
 
     public void takenDamage(int damage, Entity attacker) {

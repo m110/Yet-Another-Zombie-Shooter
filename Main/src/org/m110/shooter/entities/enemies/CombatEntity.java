@@ -49,19 +49,6 @@ public abstract class CombatEntity extends Entity {
     }
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        if (pointsEarned > 0 && !pointsEarnedTimer.ready()) {
-            BitmapFont font = Font.large;
-            font.setColor(1.0f, 1.0f, 1.0f, Math.min(Math.max(pointsEarnedTimer.getTimeLeft(), 0.0f), 1.0f));
-            font.draw(batch, ""+pointsEarned, getWorldX() - font.getBounds(""+pointsEarned).width / 2.0f,
-                    getY() + getHeight() + getHeight() *
-                    (2.0f - pointsEarnedTimer.getTimeLeft()));
-        }
-    }
-
-    @Override
     public void act(float delta) {
         super.act(delta);
 
