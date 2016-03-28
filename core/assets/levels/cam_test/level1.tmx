@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" nextobjectid="79">
+ <properties>
+  <property name="blended tiles" value="6,12,18,22,23,24,28,29,30"/>
+ </properties>
+ <tileset firstgid="1" name="Main" tilewidth="32" tileheight="32" tilecount="30" columns="6">
+  <image source="tileset.png" width="192" height="160"/>
+ </tileset>
+ <layer name="background" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt18FOG0EURFES+P9vzjZCftLYPXZVz5wjvVUE9KKuIV9fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0OOvqzq6pPfg9NEsvQenj2bpPTh9NEvvwemjWXoPTh/N0ntw+miW3oPTR7P0Hpw+mqX34PTRLL0Hp49m6T04fTRL78Hpo1l6D04fzdJ7cPpolt6D00ez9B6cPpql9+D00Sy9B6ePZuk9OH00S+/B6aNZeg9OH83Se3D6aJbeg9NHs/QenD6apffg9NEsvQenj2bpPTh9NEvvwemjWXoPTh/N0ntw+miW3oPTR7P0Hpw+mqX34PTRLL0Hp49m6T04fTRL78Hpo1l6D04fzdJ7cPpolt6D00ez9B6cPpql9+D00Sy9B6ePZuk9HL2fgjfo437Se3D6aJbeg9NHs/QenD6apfdw5P4UvEEf9/TJja/s/C6N0OXTfbzayWpfuxxdUn38v/eju1/pa5ejS7qPZza/+jtoh6NLqoWVXl5pa5ejS0Mb0/d55eek962Pa/lkB8808srfW1dohS4tffze8zP/J5nek966PvbX0sbK75DfbzqreX3Q0sarfTx6mz44S1Mfj/7GencfK/2e0aQ+ujW1sbqzo9/j7N9x+riutj4+0cgZb3vH2/XRp7GPlZ0d/XvoXX2sNkKX1j5W9jZ93Q5vp8td+tjl7XS5Uh+p9+njuq7SR7qDsxqhy7Ofb2fd6ufsu95xVp+P/k0f+2nd5BVPH/vRhz6Y6UMfzPShD2b60AczfeiDmT70wUwf+mCmD30w04c+mN29j58P/ix97Ecf+mCmD30wu3sfnzx97Ecf+mCmD30w04c+mOlDH8z0oQ9m+tAHM33og5k+9MFMHz1t6KOPPvTBTB/6YJboQyP62MUzn2360Mfd6EMfzFJ93LERfexHH/pgpg99MEv2cbdG9LGf9F6+v453tHtb+uBZ34tfn9780YOE9O71QbP07rVBu/T+9UGz9P61QbN0A9qgWboDfdAs3YE2aJZuQRs0S/egD9qlm9AI7dJN6INm6SY0QrN0DxqhWboFfdAs3YI+aJZuQR+0S/egD9qlm9AHO0i3oQ92YPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADADv4BXmRGmw==
+  </data>
+ </layer>
+ <layer name="walls" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt09uK20AQBFDD/v8/h31YCEaXkUbu6tk9BQcSR/aoJ11fr9frCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAlSI+k9wD96Jz0HqAfnZPeA/Sjc9J7gH50TnoP0I/OSe8B+tE56T1APzonvQfoR+ek9wD96Jz0HqAfnZPeA/Sjc9J7gH50TnoP0I/OSe8B+tE56T1APzonvQfoR+ek9wD96Jz0HqAfnZPeA/Sjc9J7gH50TnoP0I/OSe8B+tE56T1APzonvQfoR+ek9wD96Jz0HqAfnZPeA/Sjc9J7gH50TnoP0I/OSe8B+tE56T1APzonvQfoR+ek9wD96Jz0HqAfnZPeA/Sjc9J7gH50TnoPyPdjlfdMJL0H5PZu9ry/0JP0HpDtx1O/81s7kt4D1u/H07/VKek9QD86J70H9OnHzNn6wW/sx1Md0Q/+Qj9eO58dPX/0ndWT3gPy/Xg/7+o7Vr5zddJ7QKYfM+el+pxIeg+o37f3c2bO1A9+ez/eP7t6ftV7J5LeA3L9OPv3q+9SOUNV0ntAbT+unjHTkd+Q9B5Q04+Rs558r8rZPpn0HvD5HXrqN+/+hn7QoR+f7tvsb+sH6X58MrMzrNaN76T3gGf6MdOrJ845m+HubLP3Mpv0HjDfj8rdudOPO7Od/c7I9564k/Qe8Ew/qrL1fmczXJntage2/m3rz3eT3gPm+nGnT09nZIaz2Z6Yfe/vM/eT3gPu9+PuPm19Z2aXRmfY+nx2h9/7cPR+d3+ffkZy9f883Y/X2+cze7t39shzM79PDyOZ3a072Xq/O/14oht3cvXc9B6wVj/Ozh3pR6ob/7/DlWfpZyQd+7FCrt4x/YxkZk9Hzjz6fPXox9pG8ukz03fQ4Z7T78e9/7cnU33eUSrvRz/WVZlO/fhJxV3ox7oq07EfFdGPdVVGP46foZ/K6MfxM/RTGf04foZ+KqMfx8/QT2VW6cfT96Yf66pMt37cvZerd6cf66pMx35UfFc/1lWZbv2YiX78DZXRj+Nn6Kcy+nH8DP1Upls/Zt7naj/Onk/vAfrxnpl7uPod/VhTZbr14yf6gX7sRz/Qj/3oB/qxH/1AP/Zz9X7u3J1+rKkyXfuxl607untv+rGmyqzWj+88dWf6sabKrNiPJzJy1+k9QD9S0Y91VUY/zp+hl8okzuyQkZnTe0C+H6/Qmenox7qqkzo3Gf1YVyL6sf0M/SSSPDsR/VhXKunzK6Mf60omfX5V9IMOUknPDSNSSc8NI1JJzw0jUknPDSNSSc8NI1JJzw0jUknPDSNSSc8NI1JJzw0jUknPDSNSSc8NI1JJzw0jUknPDSNSSc8NI1JJzw0jUknPDSNSSc8NI1JJzw0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAw6h9AoGRK
+  </data>
+ </layer>
+ <objectgroup name="actors" opacity="0.8">
+  <object id="1" name="zombie" type="entity" x="2612" y="3255" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="2" name="pistol" type="ammo" x="1332" y="3273" width="38" height="31"/>
+  <object id="3" name="zombie" type="entity" x="3021" y="3552" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="4" name="zombie" type="entity" x="2945" y="2875" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="5" name="shotgun" type="ammo" x="3085" y="3531" width="34" height="26"/>
+  <object id="6" name="zombie" type="entity" x="2976" y="3099" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="7" name="zombie" type="entity" x="3603" y="3571" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="8" name="pistol" type="crate" x="1260" y="3350" width="35" height="31"/>
+  <object id="9" name="rifle" type="crate" x="3961" y="3444" width="45" height="34"/>
+  <object id="10" name="zombie" type="entity" x="3287" y="3345" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="11" name="zombie" type="entity" x="3151" y="3567" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="12" name="zombie" type="entity" x="3613" y="3509" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="13" name="zombie" type="entity" x="3676" y="3564" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="14" name="zombie" type="entity" x="2953" y="2814" width="32" height="32"/>
+  <object id="15" name="shotgun" type="ammo" x="3085" y="3570" width="42" height="24"/>
+  <object id="16" name="rifle" type="ammo" x="4235" y="3379" width="45" height="34"/>
+  <object id="17" name="zombie" type="entity" x="2675" y="3339" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="18" name="zombie" type="entity" x="2564" y="2828" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="19" name="zombie" type="entity" x="2618" y="2805" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="20" name="end" type="node" x="3009" y="2877" width="32" height="32"/>
+  <object id="21" name="pistol" type="ammo" x="2506" y="3129" width="38" height="31"/>
+  <object id="22" name="shotgun" type="crate" x="3055" y="3309" width="34" height="31">
+   <properties>
+    <property name="ammo" value="5"/>
+   </properties>
+  </object>
+  <object id="23" name="zombie" type="entity" x="3278" y="3292" width="32" height="32">
+   <properties>
+    <property name="rotation" value="180"/>
+   </properties>
+  </object>
+  <object id="24" name="zombie" type="entity" x="2904" y="3092" width="32" height="32"/>
+  <object id="25" name="zombie" type="entity" x="2993" y="3312" width="32" height="32"/>
+  <object id="26" name="rifle" type="ammo" x="2736" y="3052" width="45" height="34"/>
+  <object id="27" name="start" type="node" x="3904" y="4000" width="32" height="32"/>
+  <object id="28" name="pistol" type="crate" x="2056" y="3437" width="45" height="44"/>
+  <object id="29" name="pistol" type="ammo" x="2096" y="3380" width="40" height="43"/>
+  <object id="30" name="charger" type="entity" x="3424" y="5120" width="47" height="38"/>
+  <object id="31" name="charger" type="entity" x="2816" y="4352" width="64" height="32"/>
+  <object id="32" name="fence" type="terrain" gid="4" x="3712" y="4064" width="32" height="32"/>
+  <object id="33" name="fence" type="terrain" gid="4" x="3712" y="4032" width="32" height="32"/>
+  <object id="34" name="fence" type="terrain" gid="4" x="3712" y="4000" width="32" height="32"/>
+  <object id="35" name="shotgun" type="crate" x="3776" y="3968"/>
+  <object id="36" name="shotgun" type="ammo" x="3776" y="4064"/>
+  <object id="37" name="shotgun" type="ammo" x="3808" y="4064"/>
+  <object id="38" name="shotgun" type="ammo" x="3840" y="4064"/>
+  <object id="39" name="rifle" type="crate" x="3840" y="3968"/>
+  <object id="40" name="rifle" type="ammo" x="3776" y="4032"/>
+  <object id="41" name="rifle" type="ammo" x="3808" y="4032"/>
+  <object id="42" name="rifle" type="ammo" x="3840" y="4032"/>
+  <object id="43" name="medpack" type="bonus" x="3968" y="3936"/>
+  <object id="44" name="adrenaline" type="bonus" x="4032" y="4064"/>
+  <object id="45" name="adrenaline" type="bonus" x="4032" y="4000"/>
+  <object id="46" name="medpack" type="bonus" x="4032" y="3936"/>
+  <object id="47" name="medpack" type="bonus" x="4000" y="3968"/>
+  <object id="48" name="spawner" type="entity" x="2848" y="3840" width="64" height="32">
+   <properties>
+    <property name="entity" value="zombie"/>
+    <property name="interval" value="2"/>
+    <property name="max" value="10"/>
+   </properties>
+  </object>
+  <object id="49" name="pistol" type="crate" x="3904" y="3968"/>
+  <object id="50" name="pistol" type="ammo" x="3968" y="4096"/>
+  <object id="51" name="pistol" type="ammo" x="4032" y="4096"/>
+  <object id="52" name="pistol" type="ammo" x="4000" y="4032"/>
+  <object id="53" name="boomer" type="entity" gid="9" x="3552" y="3872" width="32" height="32"/>
+  <object id="54" name="boomer" type="entity" gid="9" x="3360" y="3840" width="32" height="32"/>
+  <object id="55" name="boomer" type="entity" gid="9" x="3200" y="4096" width="32" height="32"/>
+  <object id="56" name="mp5" type="crate" x="3840" y="4160"/>
+  <object id="57" name="mp5" type="ammo" x="3936" y="4160"/>
+  <object id="58" name="mp5" type="ammo" x="3936" y="4192"/>
+  <object id="59" name="mp5" type="ammo" x="3904" y="4224"/>
+  <object id="60" name="mp5" type="ammo" x="3872" y="4224"/>
+  <object id="61" name="mp5" type="ammo" x="3840" y="4224"/>
+  <object id="62" name="m40" type="crate" x="4160" y="4224"/>
+  <object id="63" name="m40" type="ammo" x="4096" y="4192"/>
+  <object id="64" name="m40" type="ammo" x="4096" y="4256"/>
+  <object id="65" name="m40" type="ammo" x="4064" y="4256"/>
+  <object id="66" name="m40" type="ammo" x="4064" y="4224"/>
+  <object id="67" name="m40" type="ammo" x="4064" y="4160"/>
+  <object id="68" name="spitter" type="entity" gid="9" x="3840" y="4992" width="32" height="32"/>
+  <object id="69" name="spitter" type="entity" gid="9" x="4448" y="4544" width="32" height="32"/>
+  <object id="70" name="spitter" type="entity" gid="9" x="2656" y="4064" width="32" height="32"/>
+  <object id="71" name="spitter" type="entity" gid="9" x="4480" y="3712" width="32" height="32"/>
+  <object id="72" name="crossbow" type="crate" x="4160" y="3968"/>
+  <object id="73" name="crossbow" type="ammo" x="4160" y="4000">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object id="74" name="crossbow" type="ammo" x="4128" y="3936"/>
+  <object id="75" name="crossbow" type="ammo" x="4096" y="3936"/>
+  <object id="76" name="crossbow" type="ammo" x="4160" y="4032">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object id="77" name="crossbow" type="ammo" x="4160" y="4064">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+  <object id="78" name="crossbow" type="ammo" x="4160" y="4096">
+   <properties>
+    <property name="ammo" value="10"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
