@@ -177,12 +177,6 @@ public class SpitterAI extends CombatAI {
         }
     }
 
-    @Override
-    public void afterDeath() {
-        super.afterDeath();
-        spawnGoo(me.getWorldX(), me.getWorldY());
-    }
-
     private Goo spawnGoo(float x, float y) {
         Goo goo = new Goo(me.getVictim(), x, y);
         goos.add(goo);
