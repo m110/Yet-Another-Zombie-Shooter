@@ -13,19 +13,19 @@ import java.util.List;
  */
 public enum WeaponProto {
     PISTOL(new Builder(0, "pistol", WeaponSlot.HANDGUN).magazineCapacity(12).cooldown(0.6f).reloadCooldown(0.5f).
-            recoilFactor(2.5f).damage(4, 6).maxMagazines(5)),
+            recoilFactor(2.5f).damage(4, 6).maxMagazines(5).maxRange(500.0f)),
     SHOTGUN(new Builder(1, "shotgun", WeaponSlot.SHOTGUN).bulletsCount(8).magazineCapacity(8).
-            bulletVelocity(1.0f).cooldown(0.75f).reloadCooldown(0.55f).recoilFactor(12.0f).
+            bulletVelocity(1.0f).cooldown(0.75f).reloadCooldown(0.55f).recoilFactor(12.0f).maxRange(400.0f).
             maxMagazines(10).damage(5, 7).pierceChance(0.5f).pierceDamageFactor(0.6f).bulletType(BulletType.BOLD)),
     RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE, WeaponMode.AUTO).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.18f).
             reloadCooldown(0.8f).recoilFactor(3.5f).damage(13, 18).mode(WeaponMode.BURST).mode(WeaponMode.SEMI).
             maxMagazines(4).pierceChance(0.1f).pierceDamageFactor(0.75f)),
     MP5(new Builder(3, "mp5", WeaponSlot.SMG, WeaponMode.BURST_3).magazineCapacity(32).bulletVelocity(4.5f).cooldown(0.1f).
-            reloadCooldown(0.75f).recoilFactor(3.0f).damage(6, 8).mode(WeaponMode.AUTO).maxMagazines(5)),
+            reloadCooldown(0.75f).recoilFactor(3.0f).damage(6, 8).mode(WeaponMode.AUTO).maxMagazines(5).maxRange(800.0f)),
     M40(new Builder(4, "m40", WeaponSlot.SNIPER_RIFLE).magazineCapacity(10).bulletVelocity(7.0f).cooldown(1.2f).
             reloadCooldown(1.25f).recoilFactor(0.5f).damage(50, 60).maxMagazines(3).pierceChance(0.9f).pierceDamageFactor(0.8f)),
     CROSSBOW(new Builder(5, "crossbow", WeaponSlot.SNIPER_RIFLE).magazineCapacity(1).bulletVelocity(0.0f).cooldown(1.0f).
-            reloadCooldown(1.5f).recoilFactor(0.2f).damage(35, 70).maxMagazines(10).bulletType(BulletType.ARROW));
+            reloadCooldown(1.5f).recoilFactor(0.2f).damage(35, 70).maxMagazines(10).maxRange(500.0f).bulletType(BulletType.ARROW));
 
     public final int textureID;
     public final String name;
@@ -52,6 +52,11 @@ public enum WeaponProto {
      */
     public final float pierceDamageFactor;
 
+    /**
+     * Max distance the bullet can travel
+     */
+    public final float maxRange;
+
     private static final List<WeaponProto> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
 
@@ -72,6 +77,7 @@ public enum WeaponProto {
         private int maxDamage = 1;
         private float pierceChance = 0.0f;
         private float pierceDamageFactor = 1.0f;
+        private float maxRange = 0.0f;
 
         // Bullet specific stats
         private BulletType bulletType = BulletType.STANDARD;
@@ -156,6 +162,11 @@ public enum WeaponProto {
             this.pierceDamageFactor = pierceDamageFactor;
             return this;
         }
+
+        public Builder maxRange(float maxRange) {
+            this.maxRange = maxRange;
+            return this;
+        }
     }
 
     WeaponProto(Builder builder) {
@@ -175,6 +186,7 @@ public enum WeaponProto {
         bulletsCount = builder.bulletsCount;
         pierceChance = builder.pierceChance;
         pierceDamageFactor = builder.pierceDamageFactor;
+        maxRange = builder.maxRange;
     }
 
     public static WeaponProto getByName(String name) {

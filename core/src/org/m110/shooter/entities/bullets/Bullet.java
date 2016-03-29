@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import org.m110.shooter.core.Config;
@@ -47,6 +48,9 @@ public class Bullet extends Actor {
     protected float pierceDamageFactor;
     protected int pierced = 0;
 
+    protected float maxRange;
+    protected Vector2 spawnPosition;
+
     private ArrayList<Entity> entitiesHit;
 
     protected static TextureRegion loadTexture(String name) {
@@ -54,7 +58,7 @@ public class Bullet extends Actor {
     }
 
     public Bullet(GameScreen game, TextureRegion texture, float x, float y, float angle, float velocity,
-                  int minDamage, int maxDamage, float pierceChance, float pierceDamageFactor) {
+                  int minDamage, int maxDamage, float pierceChance, float pierceDamageFactor, float maxRange) {
         this.game = game;
         this.texture = texture;
         this.angle = angle;
@@ -63,9 +67,12 @@ public class Bullet extends Actor {
         this.maxDamage = maxDamage;
         this.pierceChance = pierceChance;
         this.pierceDamageFactor = pierceDamageFactor;
+        this.maxRange = maxRange;
 
         moving = true;
         entitiesHit = new ArrayList<>();
+
+        spawnPosition = new Vector2(x, y);
 
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
@@ -76,7 +83,8 @@ public class Bullet extends Actor {
     }
 
     public Bullet(GameScreen game, TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
-        this(game, texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage, proto.pierceChance, proto.pierceDamageFactor);
+        this(game, texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage,
+             proto.pierceChance, proto.pierceDamageFactor, proto.maxRange);
     }
 
     @Override
@@ -109,6 +117,11 @@ public class Bullet extends Actor {
             } else {
                 moving = false;
             }
+        }
+
+        // Is bullet out of max range?
+        if (maxRange > 0.0f && spawnPosition.dst(getX(), getY()) > maxRange) {
+            moving = false;
         }
     }
 
