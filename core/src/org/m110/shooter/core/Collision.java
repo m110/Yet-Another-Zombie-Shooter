@@ -82,8 +82,8 @@ public class Collision {
                 by < ey+eh && by+bh > ey) {
                 if (!bullet.hitEntityBefore(enemy)) {
                     bullet.dealDamage(game.getPlayer(), enemy);
-                    entity = enemy;
                 }
+                entity = enemy;
                 return true;
             }
 
