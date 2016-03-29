@@ -8,4 +8,5 @@ public class Config {
     public static final String FONTS_DIR = "core/assets/fonts/";
     public static final String LEVELS_DIR = "core/assets/levels/";
     public static final String TEXTURES_DIR = "core/assets/textures/";
+    public static final String WEAPONS_CONFIG = "core/assets/config/weapons.ini";
 }

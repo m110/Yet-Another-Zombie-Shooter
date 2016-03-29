@@ -13,6 +13,7 @@ import org.m110.shooter.core.Font;
 import org.m110.shooter.entities.Player;
 import org.m110.shooter.input.MainInput;
 import org.m110.shooter.screens.*;
+import org.m110.shooter.weapons.WeaponProto;
 
 import java.io.*;
 import java.util.Iterator;
@@ -86,6 +87,8 @@ public class Shooter extends Game {
         } else {
             setScreen(enterNameScreen);
         }
+
+        WeaponProto.getBy("");
     }
 
     public void loadMaps() {

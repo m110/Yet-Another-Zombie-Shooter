@@ -1,16 +1,14 @@
 package org.m110.shooter.weapons;
 
 import com.badlogic.gdx.math.MathUtils;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.entities.bullets.BulletType;
+import org.ini4j.Ini;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
-/**
- * @author m1_10sz <m110@m110.pl>
- */
 public enum WeaponProto {
     PISTOL(new Builder(0, "pistol", WeaponSlot.HANDGUN).magazineCapacity(12).cooldown(0.6f).reloadCooldown(0.5f).
             recoilFactor(2.5f).damage(4, 6).maxMagazines(5).maxRange(500.0f)),
@@ -59,6 +57,8 @@ public enum WeaponProto {
 
     private static final List<WeaponProto> VALUES =
             Collections.unmodifiableList(Arrays.asList(values()));
+
+    private static HashMap<String, WeaponStat> weapons;
 
     public static class Builder {
 
@@ -196,6 +196,74 @@ public enum WeaponProto {
             }
         }
         throw new IllegalArgumentException("No such WeaponProto: " + name);
+    }
+
+    public static WeaponStat getBy(String name) {
+        if (weapons == null) {
+            try {
+                loadWeapons();
+            } catch (IOException exc) {
+                System.out.println("Loading weapons config failed!");
+            }
+        }
+
+        return weapons.get(name);
+    }
+
+    private static void loadWeapons() throws IOException {
+            Ini config = new Ini(new File(Config.WEAPONS_CONFIG));
+            weapons = new HashMap<>();
+
+            for (String name : config.keySet()) {
+                Ini.Section section = config.get(name);
+
+                int textureID = section.get("texture", Integer.class);
+                WeaponSlot slot = WeaponSlot.HANDGUN;
+
+                WeaponStat stat = new WeaponStat(name, textureID, slot);
+
+                // TODO weapon slot
+
+                stat.magazineCapacity = section.get("capacity", Integer.class);
+                stat.maxMagazines = section.get("magazines", Integer.class);
+                stat.cooldown = section.get("cooldown", Float.class);
+                stat.reloadCooldown = section.get("reload", Float.class);
+                stat.recoilFactor = section.get("recoil", Float.class);
+                stat.minDamage = section.get("damageMin", Integer.class);
+                stat.maxDamage = section.get("damageMax", Integer.class);
+
+                if (section.containsKey("pierceChance")) {
+                    stat.pierceChance = section.get("pierceChance", Float.class);
+                }
+
+                if (section.containsKey("pierceDamage")) {
+                    stat.pierceDamageFactor = section.get("pierceDamage", Float.class);
+                }
+
+                if (section.containsKey("range")) {
+                    stat.maxRange = section.get("range", Float.class);
+                }
+
+                if (section.containsKey("velocity")) {
+                    stat.bulletVelocity = section.get("velocity", Float.class);
+                }
+
+                if (section.containsKey("bullets")) {
+                    stat.bulletsCount = section.get("bullets", Integer.class);
+                }
+
+                if (section.get("mode") != null) {
+                    for (String mode : section.getAll("mode", String[].class)) {
+                        stat.addMode(WeaponMode.valueOf(mode.toUpperCase()));
+                    }
+                }
+
+                for (WeaponMode mode : stat.modes) {
+                    System.out.println("mode: " + mode);
+                }
+
+                weapons.put(name, stat);
+            }
     }
 
     public static WeaponProto getRandom()  {
