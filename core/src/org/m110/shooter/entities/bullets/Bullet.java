@@ -12,6 +12,8 @@ import org.m110.shooter.entities.Entity;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.WeaponProto;
 
+import java.util.ArrayList;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
@@ -41,23 +43,29 @@ public class Bullet extends Actor {
      */
     protected boolean moving;
 
-    protected float pierceChance = 0.0f;
-    protected float pierceDamageFactor = 0.0f;
+    protected float pierceChance;
+    protected float pierceDamageFactor;
     protected int pierced = 0;
+
+    private ArrayList<Entity> entitiesHit;
 
     protected static TextureRegion loadTexture(String name) {
         return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullets/" + name + ".png")));
     }
 
-    public Bullet(GameScreen game, TextureRegion texture, float x, float y, float angle, float velocity, int minDamage, int maxDamage) {
+    public Bullet(GameScreen game, TextureRegion texture, float x, float y, float angle, float velocity,
+                  int minDamage, int maxDamage, float pierceChance, float pierceDamageFactor) {
         this.game = game;
-
         this.texture = texture;
         this.angle = angle;
         this.velocity = BASE_VELOCITY + velocity;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
+        this.pierceChance = pierceChance;
+        this.pierceDamageFactor = pierceDamageFactor;
+
         moving = true;
+        entitiesHit = new ArrayList<>();
 
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
@@ -68,7 +76,7 @@ public class Bullet extends Actor {
     }
 
     public Bullet(GameScreen game, TextureRegion texture, WeaponProto proto, float x, float y, float angle) {
-        this(game, texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage);
+        this(game, texture, x, y, angle, proto.bulletVelocity, proto.minDamage, proto.maxDamage, proto.pierceChance, proto.pierceDamageFactor);
     }
 
     @Override
@@ -114,6 +122,10 @@ public class Bullet extends Actor {
         return moving;
     }
 
+    public boolean hitEntityBefore(Entity entity) {
+        return entitiesHit.contains(entity);
+    }
+
     public void dealDamage(Entity attacker, Entity victim) {
         float x = getX() + getOriginX();
         float y = getY() + getOriginY();
@@ -149,5 +161,7 @@ public class Bullet extends Actor {
         }
 
         victim.takenDamage(damage, attacker, critical);
+
+        entitiesHit.add(victim);
     }
 }

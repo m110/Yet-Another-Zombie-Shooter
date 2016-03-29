@@ -17,7 +17,5 @@ public class BoldBullet extends Bullet {
 
     public BoldBullet(GameScreen game, WeaponProto proto, float x, float y, float angle) {
         super(game, texture, proto, x, y, angle);
-        pierceChance = 0.5f;
-        pierceDamageFactor = 0.8f;
     }
 }

@@ -80,8 +80,10 @@ public class Collision {
             float eh = enemy.getHeight();
             if (bx < ex+ew && bx+bw > ex &&
                 by < ey+eh && by+bh > ey) {
-                bullet.dealDamage(game.getPlayer(), enemy);
-                entity = enemy;
+                if (!bullet.hitEntityBefore(enemy)) {
+                    bullet.dealDamage(game.getPlayer(), enemy);
+                    entity = enemy;
+                }
                 return true;
             }
 
