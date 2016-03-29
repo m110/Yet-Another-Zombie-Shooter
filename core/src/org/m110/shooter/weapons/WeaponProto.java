@@ -15,7 +15,7 @@ public enum WeaponProto {
     PISTOL(new Builder(0, "pistol", WeaponSlot.HANDGUN).magazineCapacity(12).cooldown(0.6f).reloadCooldown(0.5f).
             recoilFactor(2.5f).damage(4, 6).maxMagazines(5)),
     SHOTGUN(new Builder(1, "shotgun", WeaponSlot.SHOTGUN).bulletsCount(8).magazineCapacity(8).
-            bulletVelocity(1.0f).cooldown(0.75f).reloadCooldown(0.55f).recoilFactor(16.0f).
+            bulletVelocity(1.0f).cooldown(0.75f).reloadCooldown(0.55f).recoilFactor(12.0f).
             maxMagazines(10).damage(5, 7).pierceChance(0.5f).pierceDamageFactor(0.6f).bulletType(BulletType.BOLD)),
     RIFLE(new Builder(2, "rifle", WeaponSlot.RIFLE, WeaponMode.AUTO).magazineCapacity(30).bulletVelocity(5.0f).cooldown(0.18f).
             reloadCooldown(0.8f).recoilFactor(3.5f).damage(13, 18).mode(WeaponMode.BURST).mode(WeaponMode.SEMI).
