@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -35,8 +34,6 @@ import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponProto;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Iterator;
 
 /**
@@ -496,9 +493,7 @@ public class GameScreen extends ShooterScreen {
         stage.removeListener(inputListener);
         stage.addListener(new GameOverInput(shooter));
 
-        if (map.getMapType() == MapType.SURVIVAL) {
-            submitScore();
-        }
+        // TODO save scores if survival, in local storage
     }
 
     /**
@@ -612,25 +607,6 @@ public class GameScreen extends ShooterScreen {
             shooter.removeInput(pauseMenu);
             shooter.addInput(stage);
         }
-    }
-
-    public void submitScore() {
-        scoreSubmitThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String params = "?player_id=" + shooter.getPlayerID();
-                params += "&map_id=" + map.getMapID();
-                params += "&score=" + score;
-                params += "&hash=" + CoreUtils.sha1(score + Config.SCORE_SUBMIT_SALT);
-                try {
-                    URL url = new URL(Config.SCORE_SUBMIT_URL + params);
-                    url.openConnection().getInputStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        scoreSubmitThread.start();
     }
 
     public void afterPlayerDamage() {

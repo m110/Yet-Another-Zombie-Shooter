@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.MapType;
 import org.m110.shooter.screens.GameScreen;
 
 /**
@@ -20,15 +21,21 @@ public class GameOverInput extends InputListener {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
         if (keycode == Input.Keys.ENTER) {
+            GameScreen game = shooter.getGame();
             if (shooter.getPlayer().isDead()) {
-                shooter.showHighscores();
+                if (game.getMap().getMapType() == MapType.SURVIVAL) {
+                    // TODO - show highscores when implemented
+                    // shooter.showHighscores();
+                    shooter.showMainMenu();
+                } else {
+                    shooter.showMainMenu();
+                }
             } else {
-                GameScreen game = shooter.getGame();
                 if (game.getLevel() < game.getMap().getMaxLevel()) {
                     shooter.loadLevel(game.getMap(), game.getLevel() + 1);
                 }  else {
-                    // to-do show some congratulations
-                    shooter.showHighscores();
+                    // TODO Last level complete - show congratulations
+                    shooter.showMainMenu();
                 }
             }
         }

@@ -155,6 +155,12 @@ public class Shooter extends Game {
             player = new Player(gameScreen);
         }
 
+        // End current game
+        if (gameScreen != null) {
+            gameScreen.dispose();
+            gameScreen = null;
+        }
+
         gameScreen = new GameScreen(this, map, level, player);
         gameScreen.loadLevel();
         setScreen(gameScreen);
@@ -168,10 +174,7 @@ public class Shooter extends Game {
     public void showMainMenu() {
         setScreen(menuScreen);
 
-        // End current game
         if (gameScreen != null) {
-            gameScreen.dispose();
-            gameScreen = null;
             player = null;
         }
     }
@@ -193,7 +196,6 @@ public class Shooter extends Game {
     }
 
     public void showHighscores() {
-        highscoresScreen.updateScores(gameScreen.getMap().getMapID());
         setScreen(highscoresScreen);
     }
 
