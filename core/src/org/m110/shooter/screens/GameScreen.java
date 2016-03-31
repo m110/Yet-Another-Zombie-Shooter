@@ -97,6 +97,9 @@ public class GameScreen extends ShooterScreen {
 
     private float aggroRange = 350.0f;
 
+    private final int[] backgroundLayer = new int[]{0};
+    private final int[] wallsLayer = new int[]{1};
+
     public GameScreen(final Shooter shooter, final Map map, final int level, Player player) {
         super(shooter);
         this.map = map;
@@ -234,11 +237,11 @@ public class GameScreen extends ShooterScreen {
 
         tileMapRenderer.setView(camera);
         // Render background
-        tileMapRenderer.render(new int[]{0});
+        tileMapRenderer.render(backgroundLayer);
         // Render stage
         stage.draw();
         // Render walls
-        tileMapRenderer.render(new int[]{1});
+        tileMapRenderer.render(wallsLayer);
         // Draw HUD
         batch.begin();
 
