@@ -28,11 +28,6 @@ public class Player extends Entity {
     private static final Array<TextureRegion> fleshTextures;
 
     /**
-     * Time in seconds between steps sound.
-     */
-    private static final float STEP_TIME = 0.35f;
-
-    /**
      * Step sound.
      */
     private final Sound[] stepSound;
@@ -57,20 +52,13 @@ public class Player extends Entity {
      */
     private final Array<Bullet> bullets;
 
-    private int maxStamina = 100;
-    private int stamina = 100;
-    private final float staminaRegenTime = 0.1f;
+    private int stamina = Config.Player.BASE_STAMINA;
     private float staminaTime = 0.0f;
-
-    private final float staminaBaseUseTime = 0.01f;
     private float staminaUseTime = 0.0f;
 
-    private final float changeWeaponBaseTime = 0.4f;
     private float changeWeaponTime = 0.0f;
 
     private boolean sprintActive = false;
-    private float bonusVelocity = 4.0f;
-
     private boolean isReloading = false;
 
     // Weapons related stuff
@@ -78,6 +66,7 @@ public class Player extends Entity {
     private Weapon activeWeapon;
     private boolean attacking = false;
 
+    // TODO Move adrenaline to auras system
     private float adrenalineInterval = 5.0f;
     private float adrenalineTimer = 0.0f;
     private boolean adrenalineActive = false;
@@ -95,7 +84,7 @@ public class Player extends Entity {
         for (int i = 0; i < 3; i++) {
             stepSound[i] = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "step"+(i+1)+".ogg"));
         }
-        stepSoundTimer = STEP_TIME;
+        stepSoundTimer = Config.Player.STEP_TIME;
         stepNumber = 0;
 
         // None of movement at this moment
@@ -107,8 +96,8 @@ public class Player extends Entity {
         activeWeapon = null;
 
         // Stats
-        setBaseHealth(100);
-        setVelocity(8.0f);
+        setBaseHealth(Config.Player.BASE_HEALTH);
+        setVelocity(Config.Player.BASE_VELOCITY);
     }
 
     public void updateGame(GameScreen game) {
@@ -132,7 +121,7 @@ public class Player extends Entity {
         }
 
         // Stamina regeneration
-        if ((!sprintActive || movement.isEmpty()) && stamina < 100) {
+        if ((!sprintActive || movement.isEmpty()) && stamina < Config.Player.BASE_STAMINA) {
             if (staminaTime < 0) {
                 regenerateStamina(1);
 
@@ -145,7 +134,7 @@ public class Player extends Entity {
                     }
                 }
 
-                staminaTime = staminaRegenTime;
+                staminaTime = Config.Player.STAMINA_REGEN_TIME;
             } else staminaTime -= delta;
         }
 
@@ -169,7 +158,7 @@ public class Player extends Entity {
                 } else {
                     if (staminaUseTime < 0) {
                         stamina--;
-                        staminaUseTime = staminaBaseUseTime;
+                        staminaUseTime = Config.Player.STAMINA_USE_TIME;
                     } else staminaUseTime -= delta;
                 }
             }
@@ -179,7 +168,7 @@ public class Player extends Entity {
 
             float totalVelocity = getVelocity();
             if (sprintActive) {
-                totalVelocity += bonusVelocity;
+                totalVelocity += Config.Player.SPRINT_VELOCITY_BONUS;
             }
 
             if (movement.contains(Movement.UP)) {
@@ -200,8 +189,8 @@ public class Player extends Entity {
             if (stepSoundTimer < delta) {
                 stepSound[stepNumber].play();
                 stepNumber++;
-                stepNumber %= 3;
-                stepSoundTimer = STEP_TIME;
+                stepNumber %= Config.Player.STEPS;
+                stepSoundTimer = Config.Player.STEP_TIME;
             } else stepSoundTimer -= delta;
 
             // Move player
@@ -312,7 +301,7 @@ public class Player extends Entity {
             if (activeWeapon.getProto().slot != slot) {
                 activeWeapon = weapons.get(slot);
                 activeWeapon.setActive();
-                changeWeaponTime = changeWeaponBaseTime;
+                changeWeaponTime = Config.Player.WEAPON_CHANGE_TIME;
                 return true;
             } else {
                 return false;
@@ -366,7 +355,7 @@ public class Player extends Entity {
             }
 
             weapons.remove(tmp.getProto().slot);
-            // todo wyrzuc bron na ziemie
+            // TODO drop weapon on the ground
         }
     }
 
@@ -413,15 +402,15 @@ public class Player extends Entity {
     }
 
     public void regenerateStamina(int regen) {
-        if (stamina + regen > 100) {
-            stamina = 100;
+        if (stamina + regen > Config.Player.BASE_STAMINA) {
+            stamina = Config.Player.BASE_STAMINA;
         } else {
             stamina += regen;
         }
     }
 
     public float getStaminaPercent() {
-        return (float) stamina / maxStamina;
+        return (float) stamina / Config.Player.BASE_STAMINA;
     }
 
     public void setSprintActive(boolean sprintActive) {
