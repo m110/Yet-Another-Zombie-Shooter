@@ -170,7 +170,7 @@ public class Player extends Entity {
         // Update change weapon time
         changeWeaponTime -= delta;
 
-        if (attacking && activeWeapon.isReady()) {
+        if (attacking && activeWeapon != null && activeWeapon.isReady()) {
             fire();
         }
 
@@ -389,7 +389,7 @@ public class Player extends Entity {
         if (activeWeapon != null) {
             Magazine magazine = activeWeapon.dropMagazine();
             if (magazine != null) {
-                // todo wyrzuc magazynek na ziemie
+                // TODO drop magazine on the ground
             }
         }
     }

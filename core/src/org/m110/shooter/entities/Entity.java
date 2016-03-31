@@ -141,11 +141,11 @@ public abstract class Entity extends Actor {
 
     private State state;
 
-    protected Array<Aura> auras;
+    protected final Array<Aura> auras;
 
     protected AI ai = NoneAI.getInstance();
 
-    private Array<DamageIndicator> indicators;
+    private final Array<DamageIndicator> indicators;
     private final Array<Piece> pieces;
 
     static {
@@ -260,7 +260,7 @@ public abstract class Entity extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         ai.draw(batch);
 
-        TextureRegion toDraw = null;
+        TextureRegion toDraw;
         if (state == State.ALIVE) {
             toDraw = texture;
         } else {

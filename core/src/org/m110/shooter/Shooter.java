@@ -47,9 +47,9 @@ public class Shooter extends Game {
 
     public Shooter() {
         properties = new Properties();
-        campaignMaps = new Array<Map>();
-        survivalMaps = new Array<Map>();
-        timers = new Array<CountdownTimer>();
+        campaignMaps = new Array<>();
+        survivalMaps = new Array<>();
+        timers = new Array<>();
     }
 
     @Override
@@ -97,9 +97,9 @@ public class Shooter extends Game {
         for (final File dir : levelsDir.listFiles()) {
             if (dir.isDirectory()) {
                 String mapID = dir.getName();
-                MapType mapType = null;
                 int maxLevelID = 0;
 
+                MapType mapType;
                 if (mapID.contains("cam")) {
                     mapType = MapType.CAMPAIGN;
                 } else if (mapID.contains("sur")) {

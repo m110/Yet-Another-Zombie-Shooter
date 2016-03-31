@@ -8,7 +8,6 @@ import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.Map;
 import org.m110.shooter.screens.menu.Menu;
-import org.m110.shooter.screens.menu.MenuAction;
 
 /**
  * @author m1_10sz <m110@m110.pl>
@@ -32,67 +31,21 @@ public class MenuScreen extends ShooterScreen {
         batch = new SpriteBatch();
         renderer = new ShapeRenderer();
 
-        mainMenu.addMenuItem("Campaign", new MenuAction() {
-            @Override
-            public void action() {
-                setActiveMenu(campaignMenu);
-            }
-        });
-        mainMenu.addMenuItem("Survival", new MenuAction() {
-            @Override
-            public void action() {
-                setActiveMenu(survivalMenu);
-            }
-        });
-        mainMenu.addMenuItem("How to play", new MenuAction() {
-            @Override
-            public void action() {
-                shooter.showHowToPlay();
-            }
-        });
-        mainMenu.addMenuItem("Options", new MenuAction() {
-            @Override
-            public void action() {
-                shooter.showOptions();
-            }
-        });
-        mainMenu.addMenuItem("Quit", new MenuAction() {
-            @Override
-            public void action() {
-                shooter.exitWithDelay(0.5f);
-            }
-        });
+        mainMenu.addMenuItem("Campaign", () -> setActiveMenu(campaignMenu));
+        mainMenu.addMenuItem("Survival", () -> setActiveMenu(survivalMenu));
+        mainMenu.addMenuItem("How to play", shooter::showHowToPlay);
+        mainMenu.addMenuItem("Options", shooter::showOptions);
+        mainMenu.addMenuItem("Quit", () -> shooter.exitWithDelay(0.5f));
 
         for (final Map map : shooter.getCampaignMaps()) {
-            campaignMenu.addMenuItem(map.getName(), new MenuAction() {
-                @Override
-                public void action() {
-                shooter.loadLevel(map, 1);
-                }
-            });
+            campaignMenu.addMenuItem(map.getName(), () -> shooter.loadLevel(map, 1));
         }
-        campaignMenu.addMenuItem("Back", new MenuAction() {
-            @Override
-            public void action() {
-                setActiveMenu(mainMenu);
-            }
-        });
+        campaignMenu.addMenuItem("Back", () -> setActiveMenu(mainMenu));
 
         for (final Map map : shooter.getSurvivalMaps()) {
-            survivalMenu.addMenuItem(map.getName(), new MenuAction() {
-                @Override
-                public void action() {
-                shooter.loadLevel(map, 1);
-                }
-            });
+            survivalMenu.addMenuItem(map.getName(), () -> shooter.loadLevel(map, 1));
         }
-        survivalMenu.addMenuItem("Back", new MenuAction() {
-            @Override
-            public void action() {
-                setActiveMenu(mainMenu);
-
-            }
-        });
+        survivalMenu.addMenuItem("Back", () -> setActiveMenu(mainMenu));
 
         activeMenu = mainMenu;
     }

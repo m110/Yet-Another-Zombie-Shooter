@@ -34,7 +34,7 @@ public class Bullet extends Actor {
     /**
      * The bullet's velocity.
      */
-    private float velocity;
+    private final float velocity;
 
     private final int minDamage;
     private final int maxDamage;
@@ -44,12 +44,12 @@ public class Bullet extends Actor {
      */
     protected boolean moving;
 
-    protected float pierceChance;
-    protected float pierceDamageFactor;
+    protected final float pierceChance;
+    protected final float pierceDamageFactor;
     protected int pierced = 0;
 
-    protected float maxRange;
-    protected Vector2 spawnPosition;
+    protected final float maxRange;
+    protected final Vector2 spawnPosition;
 
     private ArrayList<Entity> entitiesHit;
 

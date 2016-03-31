@@ -436,7 +436,8 @@ public class GameScreen extends ShooterScreen {
                     pickup.remove();
                     pit.remove();
                 } else {
-                    // todo print alert or somethin
+                    // Can't pick up that object
+                    // TODO Tell player ammo is full or something similar
                 }
             }
         }
