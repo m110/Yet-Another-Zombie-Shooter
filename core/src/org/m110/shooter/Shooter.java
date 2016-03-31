@@ -250,10 +250,6 @@ public class Shooter extends Game {
         return gameScreen;
     }
 
-    public String getPlayerID() {
-        return playerID;
-    }
-
     public Player getPlayer() {
         return player;
     }

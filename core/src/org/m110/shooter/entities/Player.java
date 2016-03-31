@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Movement;
-import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;

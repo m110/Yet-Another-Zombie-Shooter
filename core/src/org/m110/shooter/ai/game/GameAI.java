@@ -1,6 +1,5 @@
 package org.m110.shooter.ai.game;
 
-import org.m110.shooter.Shooter;
 import org.m110.shooter.entities.Player;
 import org.m110.shooter.screens.GameScreen;
 

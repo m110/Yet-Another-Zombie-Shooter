@@ -3,7 +3,6 @@ package org.m110.shooter.entities.enemies;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;

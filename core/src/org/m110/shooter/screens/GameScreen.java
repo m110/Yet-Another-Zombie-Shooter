@@ -32,7 +32,6 @@ import org.m110.shooter.pickups.Pickup;
 import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.screens.menu.Menu;
 import org.m110.shooter.weapons.Weapon;
-import org.m110.shooter.weapons.WeaponProto;
 
 import java.util.Iterator;
 

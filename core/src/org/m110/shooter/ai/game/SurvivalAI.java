@@ -2,7 +2,6 @@ package org.m110.shooter.ai.game;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.EntityProto;

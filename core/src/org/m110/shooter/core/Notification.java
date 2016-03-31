@@ -2,7 +2,6 @@ package org.m110.shooter.core;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.timers.CountdownTimer;
 
 /**

@@ -1,6 +1,5 @@
 package org.m110.shooter.entities.enemies;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;

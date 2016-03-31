@@ -1,13 +1,9 @@
 package org.m110.shooter.entities.enemies;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
-import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.CountdownTimer;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
