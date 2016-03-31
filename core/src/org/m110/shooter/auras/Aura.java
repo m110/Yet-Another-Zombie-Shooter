@@ -43,7 +43,7 @@ public class Aura {
 
         mainTimer = new CountdownTimer(duration);
 
-        texture = new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "auras/" + textureName + ".png")));
+        texture = new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "auras/" + textureName + ".png")));
     }
 
     public void update(float delta) {

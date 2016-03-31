@@ -57,10 +57,10 @@ public class Shooter extends Game {
         Gdx.input.setCursorCatched(true);
 
         // Try to load properties file
-        File propertiesFile = new File(Config.GAME_PROPERTIES);
+        File propertiesFile = new File(Config.Path.GAME_PROPERTIES);
         if (propertiesFile.exists()) {
             try {
-                properties.load(new FileInputStream(Config.GAME_PROPERTIES));
+                properties.load(new FileInputStream(Config.Path.GAME_PROPERTIES));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -92,7 +92,7 @@ public class Shooter extends Game {
     }
 
     public void loadMaps() {
-        final File levelsDir = new File(Config.LEVELS_DIR);
+        final File levelsDir = new File(Config.Path.LEVELS_DIR);
 
         for (final File dir : levelsDir.listFiles()) {
             if (dir.isDirectory()) {
@@ -117,7 +117,7 @@ public class Shooter extends Game {
                 Properties prop = new Properties();
                 String name = "empty";
                 try {
-                    prop.load(new FileInputStream(Config.LEVELS_DIR + mapID + Config.LEVEL_PROPERTIES));
+                    prop.load(new FileInputStream(Config.Path.LEVELS_DIR + mapID + Config.Path.LEVEL_PROPERTIES));
                     name = prop.getProperty("name", "empty");
                 } catch (IOException e) {
                     System.out.println("Failed to open level.properties file for map: " + mapID);
@@ -228,7 +228,7 @@ public class Shooter extends Game {
 
     public void storeProperties() {
         try {
-            properties.store(new FileOutputStream(Config.GAME_PROPERTIES), null);
+            properties.store(new FileOutputStream(Config.Path.GAME_PROPERTIES), null);
         } catch (IOException e) {
             System.out.println("Could not save game.properties file!");
         }

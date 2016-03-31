@@ -2,6 +2,7 @@ package org.m110.shooter.ai.game;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.EntityProto;
@@ -30,7 +31,7 @@ public class SurvivalAI extends GameAI {
         spawnTimer = new IntervalTimer(spawnTime);
         weaponTimer = new RandomIntervalTimer(5.0f, 10.0f);
         pickupTimer = new RandomIntervalTimer(10.0f, 15.0f);
-        game.setAggroRange(5000.0f);
+        game.setAggroRange(Config.Game.SURVIVAL_AGGRO_RANGE);
     }
 
     @Override

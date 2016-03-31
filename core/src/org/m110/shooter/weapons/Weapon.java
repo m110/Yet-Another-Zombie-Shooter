@@ -52,12 +52,10 @@ public class Weapon {
 
     private boolean pickedUp = false;
 
-    private static final float burstFactor = 0.2f;
-
     static {
-        mainTexture = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/weapons.png"));
-        emptySound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "empty.ogg"));
-        dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "drop_magazine.ogg"));
+        mainTexture = new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "hud/weapons.png"));
+        emptySound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "empty.ogg"));
+        dropMagazineSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "drop_magazine.ogg"));
     }
 
     /**
@@ -86,9 +84,9 @@ public class Weapon {
 
         texture = new TextureRegion(mainTexture, proto.textureID * 48, 0, 48, 48);
 
-        readySound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_ready.ogg"));
-        reloadSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_ready.ogg"));
-        fireSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + proto.name + "_fire.ogg"));
+        readySound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + proto.name + "_ready.ogg"));
+        reloadSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + proto.name + "_ready.ogg"));
+        fireSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + proto.name + "_fire.ogg"));
 
         cooldownTimer = new IntervalTimer(proto.cooldown);
         reloadTimer = new IntervalTimer(proto.reloadCooldown);
@@ -156,7 +154,7 @@ public class Weapon {
         // Fire just a single bullet or multiple bullets?
         if (proto.bulletsCount == 1) {
             // Angle = player's angle + random recoil factor increased with mode factor
-            float recoil = proto.recoilFactor + shots * burstFactor;
+            float recoil = proto.recoilFactor + shots * Config.Weapon.BURST_FACTOR;
             float totalAngle = angle + MathUtils.random(-recoil, recoil);
             bullets.add(BulletFactory.createBullet(game, proto, x, y, totalAngle));
         } else {

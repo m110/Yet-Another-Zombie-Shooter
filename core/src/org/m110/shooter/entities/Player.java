@@ -82,7 +82,7 @@ public class Player extends Entity {
         // Load step sounds
         stepSound = new Sound[3];
         for (int i = 0; i < 3; i++) {
-            stepSound[i] = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "step"+(i+1)+".ogg"));
+            stepSound[i] = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "step"+(i+1)+".ogg"));
         }
         stepSoundTimer = Config.Player.STEP_TIME;
         stepNumber = 0;

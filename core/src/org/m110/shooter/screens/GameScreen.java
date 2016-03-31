@@ -93,9 +93,8 @@ public class GameScreen extends ShooterScreen {
     private final IntervalTimer bloodScreenTimer;
 
     private final Stats stats;
-    private Thread scoreSubmitThread;
 
-    private float aggroRange = 350.0f;
+    private float aggroRange = Config.Game.CAMPAIGN_AGGRO_RANGE;
 
     private final int[] backgroundLayer = new int[]{0};
     private final int[] wallsLayer = new int[]{1};
@@ -125,13 +124,13 @@ public class GameScreen extends ShooterScreen {
         pauseMenu.addMenuItem("How to play", shooter::showHowToPlay);
         pauseMenu.addMenuItem("Quit", shooter::showMainMenu);
         pauseMenu.alignToCenter();
-        pauseSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "pause.ogg"));
+        pauseSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "pause.ogg"));
 
         // Textures
-        crosshair = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/crosshair.png"));
-        leftHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/left.png"));
-        rightHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/right.png"));
-        topHUD = new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "hud/top.png"));
+        crosshair = new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "hud/crosshair.png"));
+        leftHUD = new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "hud/left.png"));
+        rightHUD = new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "hud/right.png"));
+        topHUD = new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "hud/top.png"));
 
         // Tile map
         tiledMap = map.getTiledMap(level);
@@ -673,10 +672,6 @@ public class GameScreen extends ShooterScreen {
 
     public Collision getCollision() {
         return collision;
-    }
-
-    public Thread getScoreSubmitThread() {
-        return scoreSubmitThread;
     }
 
     public String getTimeString() {

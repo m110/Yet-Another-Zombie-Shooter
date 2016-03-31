@@ -149,12 +149,12 @@ public abstract class Entity extends Actor {
     private final Array<Piece> pieces;
 
     static {
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "entities/dead.png")));
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "entities/dead.png")));
     }
 
     protected static Sound loadSound(String name) {
         // Load sounds
-        FileHandle soundFile = Gdx.files.internal(Config.AUDIO_DIR + "" + name + ".ogg");
+        FileHandle soundFile = Gdx.files.internal(Config.Path.AUDIO_DIR + "" + name + ".ogg");
 
         if (soundFile.exists()) {
             return Gdx.audio.newSound(soundFile);
@@ -168,7 +168,7 @@ public abstract class Entity extends Actor {
     protected static Sound loadDeathSound(String name) { return loadSound(name + "_death"); }
 
     protected static TextureRegion loadTexture(String name) {
-        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "entities/" + name + ".png")));
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "entities/" + name + ".png")));
     }
 
     protected static Array<TextureRegion> loadFleshTextures(TextureRegion texture) {

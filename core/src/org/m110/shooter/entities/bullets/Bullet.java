@@ -20,8 +20,6 @@ import java.util.ArrayList;
  */
 public class Bullet extends Actor {
 
-    public static final float BASE_VELOCITY = 10.0f;
-
     protected final GameScreen game;
 
     private final TextureRegion texture;
@@ -54,7 +52,7 @@ public class Bullet extends Actor {
     private ArrayList<Entity> entitiesHit;
 
     protected static TextureRegion loadTexture(String name) {
-        return new TextureRegion(new Texture(Gdx.files.internal(Config.TEXTURES_DIR + "bullets/" + name + ".png")));
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "bullets/" + name + ".png")));
     }
 
     public Bullet(GameScreen game, TextureRegion texture, float x, float y, float angle, float velocity,
@@ -62,7 +60,7 @@ public class Bullet extends Actor {
         this.game = game;
         this.texture = texture;
         this.angle = angle;
-        this.velocity = BASE_VELOCITY + velocity;
+        this.velocity = Config.Weapon.BASE_VELOCITY + velocity;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         this.pierceChance = pierceChance;

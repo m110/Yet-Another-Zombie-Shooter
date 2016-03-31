@@ -71,7 +71,7 @@ public class WeaponProto {
     }
 
     private static void loadWeapons() throws IOException {
-        Ini config = new Ini(new File(Config.WEAPONS_CONFIG));
+        Ini config = new Ini(new File(Config.Path.WEAPONS_CONFIG));
         weapons = new HashMap<>();
 
         for (String name : config.keySet()) {

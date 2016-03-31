@@ -34,8 +34,8 @@ public class Menu extends InputAdapter {
     private final ShapeRenderer renderer;
 
     static {
-        choiceSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "menu_choice.ogg"));
-        activeSound = Gdx.audio.newSound(Gdx.files.internal(Config.AUDIO_DIR + "menu_active.ogg"));
+        choiceSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "menu_choice.ogg"));
+        activeSound = Gdx.audio.newSound(Gdx.files.internal(Config.Path.AUDIO_DIR + "menu_active.ogg"));
     }
 
     public Menu(float x, float y) {

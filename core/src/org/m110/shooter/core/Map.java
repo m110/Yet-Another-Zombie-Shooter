@@ -39,7 +39,7 @@ public class Map {
             return null;
         }
 
-        map = new TmxMapLoader().load(Config.LEVELS_DIR + mapID + "/level" + level + ".tmx");
+        map = new TmxMapLoader().load(Config.Path.LEVELS_DIR + mapID + "/level" + level + ".tmx");
         return map;
     }
 }
