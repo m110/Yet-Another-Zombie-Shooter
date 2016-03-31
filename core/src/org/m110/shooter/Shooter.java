@@ -73,6 +73,8 @@ public class Shooter extends Game {
         // Load available maps
         loadMaps();
 
+        WeaponProto.load();
+
         // Load screens
         menuScreen = new MenuScreen(this);
         howToPlayScreen = new HowToPlayScreen(this);

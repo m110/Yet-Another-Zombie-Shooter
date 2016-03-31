@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class WeaponProto {
 
@@ -51,6 +52,16 @@ public class WeaponProto {
     }
 
     public static WeaponProto getByName(String name) {
+        return weapons.get(name);
+    }
+
+    public static WeaponProto getRandom()  {
+        Random generator = new Random();
+        Object[] values = weapons.values().toArray();
+        return (WeaponProto) values[generator.nextInt(values.length)];
+    }
+
+    public static void load() {
         if (weapons == null) {
             try {
                 loadWeapons();
@@ -58,8 +69,6 @@ public class WeaponProto {
                 System.out.println("Loading weapons config failed!");
             }
         }
-
-        return weapons.get(name);
     }
 
     private static void loadWeapons() throws IOException {
@@ -124,9 +133,5 @@ public class WeaponProto {
 
             weapons.put(name, proto);
         }
-    }
-
-    public static WeaponProto getRandom()  {
-        return weapons.get(MathUtils.random(weapons.size()-1));
     }
 }
