@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Movement;
-import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.Weapon;
@@ -79,15 +78,8 @@ public class Player extends Entity {
     private Weapon activeWeapon;
     private boolean attacking = false;
 
-    // This should be replaced with proper buff system
-    private float medpackInterval = 0.5f;
-    private final IntervalTimer medpackTimer;
-    private int medpackAmount;
-    private int medpackBonus;
-
     private float adrenalineInterval = 5.0f;
     private float adrenalineTimer = 0.0f;
-    private boolean medpackActive = false;
     private boolean adrenalineActive = false;
 
     static {
@@ -113,8 +105,6 @@ public class Player extends Entity {
         // Weapon system
         weapons = new HashMap<>();
         activeWeapon = null;
-
-        medpackTimer = new IntervalTimer(medpackInterval);
 
         // Stats
         setBaseHealth(100);
@@ -163,9 +153,6 @@ public class Player extends Entity {
         if (adrenalineActive) {
             adrenalineTimer -= delta;
         }
-
-        // Medpack health regeneration
-
 
         // Update change weapon time
         changeWeaponTime -= delta;
@@ -465,10 +452,6 @@ public class Player extends Entity {
 
     public void setSprintActive(boolean sprintActive) {
         this.sprintActive = sprintActive;
-    }
-
-    public void useMedpack(int bonus) {
-        medpackActive = true;
     }
 
     public void useAdrenaline() {
