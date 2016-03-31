@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.Shooter;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.timers.IntervalTimer;
@@ -48,7 +47,7 @@ public class Weapon {
     protected Magazine activeMagazine;
 
     private int shots = 0;
-    private  WeaponMode mode;
+    private WeaponMode mode;
     private boolean blocked = false;
 
     private boolean pickedUp = false;
@@ -67,9 +66,10 @@ public class Weapon {
      * @return new instance of Weapon.
      */
     public static Weapon createInstance(GameScreen game, WeaponProto proto) {
-        switch (proto) {
+        switch (proto.magazineType) {
+            case STANDARD:
+                return new Weapon(game, proto);
             case SHOTGUN:
-            case CROSSBOW:
                 return new Shotgun(game, proto);
             default:
                 return new Weapon(game, proto);
@@ -230,7 +230,7 @@ public class Weapon {
             }
 
             if (pickedUp) {
-                if (proto != WeaponProto.SHOTGUN) {
+                if (proto.slot != WeaponSlot.SHOTGUN) {
                     reloadSound.play();
                 }
             }

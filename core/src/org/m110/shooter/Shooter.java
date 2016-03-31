@@ -87,8 +87,6 @@ public class Shooter extends Game {
         } else {
             setScreen(enterNameScreen);
         }
-
-        WeaponProto.getBy("");
     }
 
     public void loadMaps() {

@@ -69,7 +69,7 @@ public class GameInput extends InputListener {
                 player.changeWeapon(WeaponSlot.RIFLE);
                 break;
             case Input.Keys.NUM_5:
-                player.changeWeapon(WeaponSlot.SNIPER_RIFLE);
+                player.changeWeapon(WeaponSlot.HEAVY);
                 break;
             case Input.Keys.ESCAPE:
                 player.getGame().setPaused(true);

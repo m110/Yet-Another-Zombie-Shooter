@@ -313,7 +313,7 @@ public class GameScreen extends ShooterScreen {
 
         // Draw the "laser" sight
         if (player.isAlive() && player.getActiveWeapon() != null &&
-            player.getActiveWeapon().getProto() == WeaponProto.M40) {
+            player.getActiveWeapon().getProto().laserSight) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             renderer.setColor(1.0f, 0.0f, 0.0f, 0.3f);
