@@ -1,3 +1,14 @@
 language: java
 jdk:
   - oraclejdk8
+
+before_deploy:
+  script: ./scripts/prepare_deploy.sh
+deploy:
+  provider: releases
+  api_key:
+    secure: fhWjjeFhLS+IPdA06lwfLX9EbTI2oP8tqrLy5ZJINNnGsYewyLW+WUuNK9JF8AUEmivDJXifYLl0+PACdA6kSpl6OCsYDqFnV4QmhbUiNbxLSp0L8S+QpuAT/QkukyS2oDvvO8FIS3AUhmd6SJ2qWOfF9bNXxJUOVwX+qYna5+R/c3C39n1AfQ0H0nUzvGA7okjvAOAZtRwB+CtZPwaR2oyJT0dVz02qpvMuOcGIXeaB8+nHVPysHAJDF3Kvqoq7yPKqANqAGTEqCveFB45OjCanYG/p45M50Q5LscdtuiChEPrGcfu6tEcHLAsoWK0OkX1EoKnPbR2L+B2g5RqeYcBnpsianWCoYTQA57GiEtmV6RsWPdeMFJaDJf8MuIMc8ddE0WBkwTnr4IgjAG1S10F0a/eXesItNK+3ec47q+qXv5PFuSzWln1PnDmVBJ8/8B9cgCerOxwKw7Nr52thVVziM3U7HCaRtldloZ0VlWXepLTfsctkgZ8DlQxsPIYZmZQ2MhDrdVRH1MRfPLGVYGFkeacgQFBBvuWGlZZfSy6CicUFDJaL9flZ7BMm4a3CDlogRb3vm8Ucf98Kwn5y0iT58beqXf86DaDwUITuydUg54QX5Imjep2j9KVXuAqOO62uWDFDRtiKIqEScHdbUxqorqgd5zs8MuBVX+T+i6U=
+  file: desktop/build/libs/Shooter.zip
+  skip_cleanup: true
+  on:
+    tags: true
