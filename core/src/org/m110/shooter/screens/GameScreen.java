@@ -206,6 +206,7 @@ public class GameScreen extends ShooterScreen {
                     }
                     break;
                 case "entity":
+                case "spawner":
                     Entity enemy = spawnEntity(object, objX, objY);
                     // Update rotation
                     if (object.getProperties().containsKey("rotation")) {

@@ -120,7 +120,7 @@
   <object id="45" name="adrenaline" type="bonus" x="4032" y="4000"/>
   <object id="46" name="medpack" type="bonus" x="4032" y="3936"/>
   <object id="47" name="medpack" type="bonus" x="4000" y="3968"/>
-  <object id="48" name="spawner" type="entity" x="2848" y="3840" width="64" height="32">
+  <object id="48" name="spawner" type="spawner" x="2848" y="3840" width="64" height="32">
    <properties>
     <property name="entity" value="zombie"/>
     <property name="interval" value="2"/>
