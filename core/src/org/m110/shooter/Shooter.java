@@ -53,8 +53,6 @@ public class Shooter extends Game {
     public void create() {
         Gdx.input.setCursorCatched(true);
 
-        Config.load();
-
         // Try to load properties file
         File propertiesFile = new File(Config.Path.GAME_PROPERTIES);
         if (propertiesFile.exists()) {

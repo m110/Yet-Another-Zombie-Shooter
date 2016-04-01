@@ -75,6 +75,10 @@ public class WeaponProto {
         weapons = new HashMap<>();
 
         for (String name : config.keySet()) {
+            if (name.equals("base")) {
+                continue;
+            }
+
             Ini.Section section = config.get(name);
 
             int textureID = section.get("texture", Integer.class);

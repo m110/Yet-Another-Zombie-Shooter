@@ -1,5 +1,8 @@
 package org.m110.shooter.core;
 
+import org.ini4j.Ini;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,32 +16,62 @@ public class Config {
     public static String VERSION;
 
     public static class Game {
-        public static final float CAMPAIGN_AGGRO_RANGE = 350.0f;
-        public static final float SURVIVAL_AGGRO_RANGE = 5000.0f;
+        public static final float CAMPAIGN_AGGRO_RANGE;
+        public static final float SURVIVAL_AGGRO_RANGE;
+
+        static {
+            Ini config = loadIni("game.ini");
+            Ini.Section section = config.get("game");
+
+            CAMPAIGN_AGGRO_RANGE = section.get("campaignAggroRange", Float.class);
+            SURVIVAL_AGGRO_RANGE = section.get("survivalAggroRange", Float.class);
+        }
     }
 
     public static class Player {
-        public static final int BASE_HEALTH = 100;
+        public static final int BASE_HEALTH;
 
-        public static final int BASE_STAMINA = 100;
-        public static final float STAMINA_USE_TIME = 0.01f;
-        public static final float STAMINA_REGEN_TIME = 0.1f;
+        public static final int BASE_STAMINA;
+        public static final float STAMINA_USE_TIME;
+        public static final float STAMINA_REGEN_TIME;
 
-        public static final float BASE_VELOCITY = 8.0f;
-        public static final float SPRINT_VELOCITY_BONUS = 4.0f;
+        public static final float BASE_VELOCITY;
+        public static final float SPRINT_VELOCITY_BONUS;
 
-        public static final float WEAPON_CHANGE_TIME = 0.4f;
+        public static final float WEAPON_CHANGE_TIME;
 
         /**
          * Time in seconds between steps sound.
          */
-        public static final float STEP_TIME = 0.35f;
-        public static final int STEPS = 3;
+        public static final float STEP_TIME;
+        public static final int STEPS;
+
+        static {
+            Ini config = loadIni("player.ini");
+            Ini.Section section = config.get("player");
+
+            BASE_HEALTH = section.get("baseHealth", Integer.class);
+            BASE_STAMINA = section.get("baseStamina", Integer.class);
+            STAMINA_USE_TIME = section.get("staminaUseTime", Float.class);
+            STAMINA_REGEN_TIME = section.get("staminaRegenTime", Float.class);
+            BASE_VELOCITY = section.get("baseVelocity", Float.class);
+            SPRINT_VELOCITY_BONUS = section.get("sprintVelocityBonus", Float.class);
+            WEAPON_CHANGE_TIME = section.get("weaponChangeTime", Float.class);
+            STEP_TIME = section.get("stepTime", Float.class);
+            STEPS = section.get("steps", Integer.class);
+        }
     }
 
     public static class Weapon {
-        public static final float BASE_VELOCITY = 10.0f;
-        public static final float BURST_FACTOR = 0.2f;
+        public static final float BASE_VELOCITY;
+        public static final float BURST_FACTOR;
+
+        static {
+            Ini.Section section = loadIni("weapons.ini").get("base");
+
+            BASE_VELOCITY = section.get("baseVelocity", Float.class);
+            BURST_FACTOR = section.get("burstFactor", Float.class);
+        }
     }
 
     public static class Path {
@@ -56,7 +89,7 @@ public class Config {
         public static final String VERSION = ASSETS_DIR + "/version";
     }
 
-    public static void load() {
+    static {
         loadVersion();
     }
 
@@ -67,6 +100,14 @@ public class Config {
             VERSION = version.trim();
         } catch (IOException e) {
             VERSION = "unknown";
+        }
+    }
+
+    private static Ini loadIni(String fileName) {
+        try {
+            return new Ini(new File(Path.CONFIG_DIR + fileName));
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 }
