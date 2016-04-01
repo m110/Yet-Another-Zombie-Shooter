@@ -10,7 +10,7 @@ import java.util.List;
  * @author m1_10sz <m110@m110.pl>
  */
 public enum EntityProto {
-    ZOMBIE(new Builder("zombie").points(1).health(20).damage(1, 5).velocity(8.5f).attackInterval(0.8f)),
+    ZOMBIE(new Builder("zombie").points(1).health(20).damage(1, 5).velocity(8.0f).attackInterval(0.8f)),
     BOOMER(new Builder("boomer").points(10).health(200).damage(50, 75).velocity(4.0f).attackInterval(0.0f)),
     CHARGER(new Builder("charger").points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
     SPITTER(new Builder("spitter").points(5).health(120).damage(5).velocity(0.2f)),
