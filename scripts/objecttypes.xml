@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="spawner" color="#ff0000">
+  <property name="entity" type="string"/>
+  <property name="interval" type="float"/>
+  <property name="max" type="int"/>
+ </objecttype>
+</objecttypes>
