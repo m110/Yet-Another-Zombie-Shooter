@@ -85,10 +85,9 @@ public class Shooter extends Game {
         // Start first screen
         if (properties.getProperty("player") != null) {
             playerID = properties.getProperty("player");
-            setScreen(menuScreen);
-        } else {
-            setScreen(enterNameScreen);
         }
+
+        setScreen(menuScreen);
     }
 
     public void loadMaps() {
