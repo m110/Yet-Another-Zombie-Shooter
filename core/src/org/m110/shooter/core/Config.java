@@ -77,7 +77,7 @@ public class Config {
     }
 
     public static class Path {
-        public static final String ASSETS_DIR = "core/assets/";
+        public static final String ASSETS_DIR = "assets/";
         public static final String AUDIO_DIR = ASSETS_DIR + "audio/";
         public static final String FONTS_DIR = ASSETS_DIR + "fonts/";
         public static final String LEVELS_DIR = ASSETS_DIR + "levels/";
