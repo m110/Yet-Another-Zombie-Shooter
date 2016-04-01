@@ -18,6 +18,7 @@ public class Config {
     public static class Game {
         public static final float CAMPAIGN_AGGRO_RANGE;
         public static final float SURVIVAL_AGGRO_RANGE;
+        public static final boolean DRAW_DAMAGE;
 
         static {
             Ini config = loadIni("game.ini");
@@ -25,6 +26,7 @@ public class Config {
 
             CAMPAIGN_AGGRO_RANGE = section.get("campaignAggroRange", Float.class);
             SURVIVAL_AGGRO_RANGE = section.get("survivalAggroRange", Float.class);
+            DRAW_DAMAGE = section.get("drawDamage", Boolean.class);
         }
     }
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -55,7 +54,7 @@ public abstract class Entity extends Actor {
             timer.update(delta);
         }
 
-        public void draw(SpriteBatch batch) {
+        public void draw(Batch batch) {
             font.setColor(1.0f, 0.0f, 0.0f, Math.min(Math.max(timer.getTimeLeft(), 0.0f), 1.0f));
             font.draw(batch, damage, x, y + finalY * (duration - timer.getTimeLeft()));
         }
@@ -247,10 +246,6 @@ public abstract class Entity extends Actor {
         updateIndicators(delta);
     }
 
-    public void beforeDraw(SpriteBatch batch) {
-
-    }
-
     /**
      * Draws the entity on stage.
      * @param batch
@@ -281,6 +276,12 @@ public abstract class Entity extends Actor {
         if (isDead()) {
             for (Piece piece : pieces) {
                 piece.draw(batch);
+            }
+        }
+
+        if (Config.Game.DRAW_DAMAGE) {
+            for (DamageIndicator indicator : indicators) {
+                indicator.draw(batch);
             }
         }
     }
