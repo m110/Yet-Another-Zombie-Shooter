@@ -10,4 +10,4 @@ git describe --tags > $DEPLOY_DIR/$ASSETS_DIR/version
 
 cd $DEPLOY_DIR
 mv *.jar Shooter.jar
-zip -r Shooter.zip Shooter.jar core
+zip -r Shooter.zip Shooter.jar assets
