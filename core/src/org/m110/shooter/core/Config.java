@@ -1,9 +1,16 @@
 package org.m110.shooter.core;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public class Config {
+
+    public static String VERSION;
 
     public static class Game {
         public static final float CAMPAIGN_AGGRO_RANGE = 350.0f;
@@ -46,5 +53,20 @@ public class Config {
         public static final String WEAPONS_CONFIG = CONFIG_DIR + "weapons.ini";
 
         public static final String LEVEL_PROPERTIES = "/level.properties";
+        public static final String VERSION = ASSETS_DIR + "/version";
+    }
+
+    public static void load() {
+        loadVersion();
+    }
+
+    private static void loadVersion() {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(Path.VERSION));
+            String version = new String(bytes, StandardCharsets.UTF_8);
+            VERSION = version.trim();
+        } catch (IOException e) {
+            VERSION = "unknown";
+        }
     }
 }

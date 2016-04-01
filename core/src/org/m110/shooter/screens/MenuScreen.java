@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Config;
 import org.m110.shooter.core.Font;
 import org.m110.shooter.core.Map;
 import org.m110.shooter.screens.menu.Menu;
@@ -61,7 +62,7 @@ public class MenuScreen extends ShooterScreen {
         Font.large.draw(batch, "yet another zombie", 10.0f, Gdx.graphics.getHeight() * 0.95f);
         Font.big.setColor(1.0f, 1.0f, 1.0f, 0.7f);
         Font.big.draw(batch, "Sh00ter", 30.0f, Gdx.graphics.getHeight() * 0.91f);
-        Font.medium.draw(batch, "version " + Shooter.VERSION, 5.0f, 20.0f);
+        Font.medium.draw(batch, "version " + Config.VERSION, 5.0f, 20.0f);
         batch.end();
 
         renderer.setProjectionMatrix(batch.getProjectionMatrix());

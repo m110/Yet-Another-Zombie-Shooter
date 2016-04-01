@@ -163,17 +163,26 @@ public class GameScreen extends ShooterScreen {
     }
 
     public void loadLevel() {
-        // Update Player's GameScreen
         player.updateGame(this);
 
-        // Check AI
+        loadLevelAI();
+        loadMapObjects();
+
+        // To ensure player will appear on top...
+        entitiesGroup.addActor(player);
+
+        ai.start();
+    }
+
+    private void loadLevelAI() {
         switch (map.getMapType()) {
             case SURVIVAL:
                 ai = new SurvivalAI(this);
                 break;
         }
+    }
 
-        // Load map objects
+    private void loadMapObjects() {
         for (MapObject object : tiledMap.getLayers().get("actors").getObjects()) {
             final float objX = object.getProperties().get("x", Float.class);
             final float objY = object.getProperties().get("y", Float.class);
@@ -217,11 +226,6 @@ public class GameScreen extends ShooterScreen {
                     break;
             }
         }
-
-        // To ensure player will appear on top...
-        entitiesGroup.addActor(player);
-        // Call AI's start
-        ai.start();
     }
 
     @Override
@@ -377,8 +381,11 @@ public class GameScreen extends ShooterScreen {
             pauseMenu.draw(batch, delta);
         }
 
-        // Check crossahair's position
         // Has to be done here, not in the update()!
+        updateCrosshair();
+    }
+
+    private void updateCrosshair() {
         float crossX = Gdx.input.getX();
         float crossY = Gdx.input.getY();
         int newCrossX = (int) crossX;

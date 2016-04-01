@@ -21,11 +21,8 @@ import java.util.Properties;
 
 /**
  * @author m1_10sz <m110@m110.pl>
- * @version 0.1.13
  */
 public class Shooter extends Game {
-
-    public static final String VERSION = "0.1.13";
 
     private final Properties properties;
 
@@ -55,6 +52,8 @@ public class Shooter extends Game {
     @Override
     public void create() {
         Gdx.input.setCursorCatched(true);
+
+        Config.load();
 
         // Try to load properties file
         File propertiesFile = new File(Config.Path.GAME_PROPERTIES);
