@@ -1,6 +1,8 @@
 #!/bin/bash
 DEPLOY_DIR=./desktop/build/libs
 
+./gradlew desktop:dist
+
 mkdir -p $DEPLOY_DIR/core
 cp -r core/assets $DEPLOY_DIR/core
 
