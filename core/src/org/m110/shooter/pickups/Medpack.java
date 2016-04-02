@@ -1,5 +1,6 @@
 package org.m110.shooter.pickups;
 
+import org.m110.shooter.auras.Aura;
 import org.m110.shooter.auras.HealAura;
 import org.m110.shooter.entities.Player;
 
@@ -14,7 +15,7 @@ public class Medpack extends Pickup {
 
     @Override
     public boolean pickUp(Player player) {
-        player.addAura(new HealAura(player, 50));
+        player.addAura(new Aura(player, "heal", 5.0f, 10, new HealAura(50)));
         return true;
     }
 }

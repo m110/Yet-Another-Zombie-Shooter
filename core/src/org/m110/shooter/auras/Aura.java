@@ -18,27 +18,30 @@ public class Aura {
     protected CountdownTimer mainTimer;
     protected IntervalTimer tickTimer;
 
-    protected AuraAction action = null;
-    protected AuraAction tick = null;
+    protected AuraEffect effect = null;
+    protected AuraPeriodicEffect periodicEffect = null;
 
     protected final TextureRegion texture;
     protected final String textureName;
+
+    protected boolean effectDone = false;
+
     protected final float duration;
     protected int ticks;
     protected int ticksDone = 0;
 
-    public Aura(Entity owner, String textureName, float duration, int ticks, AuraAction action, AuraAction tick) {
-        this(owner, textureName, duration, action);
+    public Aura(Entity owner, String textureName, float duration, int ticks, AuraPeriodicEffect periodicEffect) {
+        this(owner, textureName, duration, null);
         this.ticks = ticks;
-        this.tick = tick;
+        this.periodicEffect = periodicEffect;
         tickTimer = new IntervalTimer(duration / ticks);
     }
 
-    public Aura(Entity owner, String textureName, float duration, AuraAction action) {
+    public Aura(Entity owner, String textureName, float duration, AuraEffect effect) {
         this.owner = owner;
         this.textureName = textureName;
         this.duration = duration;
-        this.action = action;
+        this.effect = effect;
         this.ticks = 0;
 
         mainTimer = new CountdownTimer(duration);
@@ -47,17 +50,22 @@ public class Aura {
     }
 
     public void update(float delta) {
+        if (!effectDone) {
+            if (effect != null) {
+                effect.effect(owner);
+            }
+            effectDone = true;
+        }
+
         mainTimer.update(delta);
         if (!isActive()) {
             return;
         }
 
-        action.action();
-
-        if (tickTimer != null) {
+        if (periodicEffect != null) {
             tickTimer.update(delta);
             if (tickTimer.ready()) {
-                tick.action();
+                periodicEffect.effect(owner, ticks);
                 ticksDone++;
                 tickTimer.reset();
             }
@@ -70,10 +78,6 @@ public class Aura {
 
     public TextureRegion getTexture() {
         return texture;
-    }
-
-    public float getDuration() {
-        return duration;
     }
 
     public boolean isActive() {

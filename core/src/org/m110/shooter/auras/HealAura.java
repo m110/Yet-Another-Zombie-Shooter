@@ -5,10 +5,16 @@ import org.m110.shooter.entities.Entity;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class HealAura extends Aura {
-    protected static final float duration = 5.0f;
-    protected static final int ticks = 10;
-    public HealAura(final Entity owner, final int healAmount) {
-        super(owner, "heal", duration, ticks, () -> {}, () -> owner.addHealth(healAmount / ticks));
+public class HealAura implements AuraPeriodicEffect {
+
+    private int healAmount;
+
+    public HealAura(int healAmount) {
+        this.healAmount = healAmount;
+    }
+
+    @Override
+    public void effect(Entity owner, int ticks) {
+        owner.addHealth(healAmount / ticks);
     }
 }
