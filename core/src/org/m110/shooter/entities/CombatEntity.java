@@ -1,47 +1,52 @@
-package org.m110.shooter.entities.enemies;
+package org.m110.shooter.entities;
 
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
-import org.m110.shooter.core.timers.CountdownTimer;
+import org.m110.shooter.ai.EntityAI;
+import org.m110.shooter.ai.entity.AI;
 import org.m110.shooter.core.timers.IntervalTimer;
-import org.m110.shooter.entities.Entity;
-import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.screens.GameScreen;
+
+import java.lang.reflect.Constructor;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public abstract class CombatEntity extends Entity {
+
+public class CombatEntity extends Entity {
 
     private final EntityProto proto;
+    private MapProperties properties;
     private final int points;
-
-    private int pointsEarned = 0;
-    protected final CountdownTimer pointsEarnedTimer;
 
     private Entity victim = null;
 
     // Combat
     private final IntervalTimer attackTimer;
 
-    public CombatEntity(GameScreen game, EntityProto proto, TextureRegion texture, Array<TextureRegion> fleshTextures, String name,
-                        float startX, float startY, Sound attackSound, Sound damageSound, Sound deathSound) {
-        super(game, texture, fleshTextures, name, startX, startY);
+    public CombatEntity(GameScreen game, EntityProto proto, float startX, float startY, MapProperties properties) {
+        super(game, proto.texture, proto.fleshTextures, proto.name, startX, startY);
         this.proto = proto;
         this.points = proto.points;
+        this.properties = properties;
 
         setBaseHealth(proto.health);
         setVelocity(proto.velocity);
 
-        setAttackSound(attackSound);
-        setDamageSound(damageSound);
-        setDeathSound(deathSound);
+        setAttackSound(proto.attackSound);
+        setDamageSound(proto.damageSound);
+        setDeathSound(proto.deathSound);
+
+        try {
+            Class<?> aiClass = EntityAI.valueOf(proto.ai).AIClass;
+            Constructor<?> constructor = aiClass.getConstructor(CombatEntity.class);
+            AI ai = (AI) constructor.newInstance(this);
+            setAI(ai);
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
+        }
 
         attackTimer = new IntervalTimer(proto.attackInterval);
-        pointsEarnedTimer = new CountdownTimer(2.0f);
-        pointsEarnedTimer.disable();
     }
 
     @Override
@@ -55,13 +60,6 @@ public abstract class CombatEntity extends Entity {
         }
 
         attackTimer.update(delta);
-        pointsEarnedTimer.update(delta);
-    }
-
-    @Override
-    public void die() {
-        super.die();
-        pointsEarnedTimer.reset();
     }
 
     @Override
@@ -127,7 +125,7 @@ public abstract class CombatEntity extends Entity {
         return victim != null;
     }
 
-    public void setPointsEarned(int pointsEarned) {
-        this.pointsEarned = pointsEarned;
+    public MapProperties getProperties() {
+        return properties;
     }
 }

@@ -1,11 +1,13 @@
 package org.m110.shooter.ai.entity;
 
+import org.m110.shooter.entities.CombatEntity;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
 public class NoneAI extends AI {
 
-    private NoneAI() {
+    public NoneAI(CombatEntity me) {
         super(null);
     }
 
@@ -13,7 +15,7 @@ public class NoneAI extends AI {
 
     public static NoneAI getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new NoneAI();
+            INSTANCE = new NoneAI(null);
         }
         return INSTANCE;
     }

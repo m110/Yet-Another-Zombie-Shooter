@@ -1,105 +1,120 @@
 package org.m110.shooter.entities;
 
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.utils.Array;
+import org.ini4j.Ini;
+import org.m110.shooter.core.Config;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public enum EntityProto {
-    ZOMBIE(new Builder("zombie").points(1).health(20).damage(1, 5).velocity(8.0f).attackInterval(0.8f)),
-    BOOMER(new Builder("boomer").points(10).health(200).damage(50, 75).velocity(4.0f).attackInterval(0.0f)),
-    CHARGER(new Builder("charger").points(5).health(140).damage(10, 20).velocity(1.0f).attackInterval(0.0f)),
-    SPITTER(new Builder("spitter").points(5).health(120).damage(5).velocity(0.2f)),
-    SPAWNER(new Builder("spawner").points(15).health(150).damage(0).velocity(0.0f));
+public class EntityProto {
 
     public final String name;
-    public final int points;
-    public final int health;
-    public final int minDamage;
-    public final int maxDamage;
-    public final float velocity;
-    public final float attackInterval;
+    public int points = 0;
+    public int health = 100;
+    public int minDamage = 1;
+    public int maxDamage = 1;
+    public float velocity = 1.0f;
+    public float attackInterval = 1.0f;
+    public String ai = "NONE";
 
-    public static class Builder {
+    // Resources
+    public TextureRegion texture;
+    public Array<TextureRegion> fleshTextures;
+    public Sound attackSound;
+    public Sound damageSound;
+    public Sound deathSound;
 
-        private final String name;
-        private int points = 1;
-        private int health = 100;
-        private int minDamage = 1;
-        private int maxDamage = 1;
-        private float velocity = 1.0f;
-        private float attackInterval = 1.0f;
+    private static HashMap<String, EntityProto> entities;
 
-        public Builder(String name) {
-            this.name = name;
-        }
-
-        public Builder points(int points) {
-            this.points = points;
-            return this;
-        }
-
-        public Builder health(int health) {
-            this.health = health;
-            return this;
-        }
-
-        public Builder damage(int minDamage, int maxDamage) {
-            this.minDamage = minDamage;
-            this.maxDamage = maxDamage;
-            return this;
-        }
-
-        public Builder damage(int damage) {
-            return damage(damage, damage);
-        }
-
-        public Builder velocity(float velocity) {
-            this.velocity = velocity;
-            return this;
-        }
-
-        public Builder attackInterval(float attackInterval) {
-            this.attackInterval = attackInterval;
-            return this;
+    static {
+        entities = new HashMap<>();
+        try {
+            loadEntities();
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 
-    EntityProto(Builder builder) {
-        name = builder.name;
-        points = builder.points;
-        health = builder.health;
-        minDamage = builder.minDamage;
-        maxDamage = builder.maxDamage;
-        velocity = builder.velocity;
-        attackInterval = builder.attackInterval;
+    private static void loadEntities() throws IOException {
+        Ini config = new Ini(new File(Config.Path.ENTITIES_CONFIG));
+
+        for (String name : config.keySet()) {
+            if (name.equals("base")) {
+                continue;
+            }
+
+            Ini.Section section = config.get(name);
+
+            EntityProto proto = new EntityProto(name);
+
+            if (section.containsKey("points")) {
+                proto.points = section.get("points", Integer.class);
+            }
+
+            if (section.containsKey("health")) {
+                proto.health = section.get("health", Integer.class);
+            }
+
+            if (section.containsKey("damageMin")) {
+                proto.minDamage = section.get("damageMin", Integer.class);
+            }
+
+            if (section.containsKey("damageMax")) {
+                proto.maxDamage = section.get("damageMax", Integer.class);
+            }
+
+            if (section.containsKey("velocity")) {
+                proto.velocity = section.get("velocity", Float.class);
+            }
+
+            if (section.containsKey("attackInterval")) {
+                proto.attackInterval = section.get("attackInterval", Float.class);
+            }
+
+            if (section.containsKey("ai")) {
+                proto.ai = section.get("ai", String.class).toUpperCase();
+            }
+
+            proto.texture = Entity.loadTexture(name);
+            proto.fleshTextures = Entity.loadFleshTextures(proto.texture);
+            proto.attackSound = Entity.loadAttackSound(name);
+            proto.damageSound = Entity.loadDamageSound(name);
+            proto.deathSound = Entity.loadDeathSound(name);
+
+            entities.put(name, proto);
+        }
     }
 
-    private static final List<EntityProto> VALUES =
-            Collections.unmodifiableList(Arrays.asList(values()));
+    public EntityProto(String name) {
+        this.name = name;
+    }
 
     public static EntityProto getByName(String name) {
-        for (EntityProto entityProto : values()) {
-            if (entityProto.name.equalsIgnoreCase(name)) {
-                return entityProto;
-            }
-        }
-        throw new IllegalArgumentException("No such EntityProto: " + name);
+        return entities.get(name);
     }
 
     public static EntityProto getRandom()  {
-        return VALUES.get(MathUtils.random(VALUES.size()-1));
+        Random generator = new Random();
+        Object[] values = entities.values().toArray();
+        return (EntityProto) values[generator.nextInt(values.length)];
     }
 
     public static EntityProto getRandomWithoutSpawner()  {
-        return getRandom(ZOMBIE, BOOMER, CHARGER, SPITTER);
+        Random generator = new Random();
+        Object[] values = entities.values().toArray();
+        values = Arrays.stream(values).filter(e -> !((EntityProto)e).name.equals("spawner")).toArray();
+        return (EntityProto) values[generator.nextInt(values.length)];
     }
 
-    public static EntityProto getRandom(EntityProto... entityProtos) {
-        return entityProtos[MathUtils.random(entityProtos.length-1)];
+    public static HashMap<String, EntityProto> getEntities() {
+        return entities;
     }
 }

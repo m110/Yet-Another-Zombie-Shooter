@@ -1,12 +1,13 @@
 package org.m110.shooter.ai.game;
 
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import org.m110.shooter.core.Config;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.EntityProto;
-import org.m110.shooter.entities.enemies.Spawner;
+import org.m110.shooter.entities.CombatEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.pickups.PickupFactory;
 import org.m110.shooter.screens.GameScreen;
@@ -86,8 +87,12 @@ public class SurvivalAI extends GameAI {
                                                y + 10 + MathUtils.random(-40.0f, 40.0f));
                     }
                 } else {
-                    Spawner spawner = new Spawner(game, EntityProto.getRandomWithoutSpawner(), x, y,
-                                                  MathUtils.random(1.0f, 3.0f), MathUtils.random(3, 5));
+                    MapProperties properties = new MapProperties();
+                    // TODO rework properties to avoid string casting
+                    properties.put("entity", EntityProto.getRandomWithoutSpawner().name);
+                    properties.put("max", Integer.toString(MathUtils.random(3, 5)));
+                    properties.put("interval", Float.toString(MathUtils.random(1.0f, 3.0f)));
+                    CombatEntity spawner = new CombatEntity(game, EntityProto.getByName("spawner"), x, y, properties);
                     game.addEntity(spawner);
                 }
             } else {

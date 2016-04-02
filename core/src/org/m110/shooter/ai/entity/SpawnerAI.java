@@ -3,7 +3,7 @@ package org.m110.shooter.ai.entity;
 import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityProto;
-import org.m110.shooter.entities.enemies.CombatEntity;
+import org.m110.shooter.entities.CombatEntity;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -17,11 +17,17 @@ public class SpawnerAI extends CombatAI {
 
     private Array<Entity> entities;
 
-    public SpawnerAI(CombatEntity me, EntityProto spawnProto, float interval, int maxEntities) {
+    public SpawnerAI(CombatEntity me) {
         super(me);
-        this.spawnProto = spawnProto;
-        this.maxEntities = maxEntities;
+
+        String entity = me.getProperties().get("entity", String.class);
+        this.spawnProto = EntityProto.getByName(entity);
+
+        this.maxEntities = Integer.parseInt(me.getProperties().get("max", String.class));
+
+        float interval = Float.parseFloat(me.getProperties().get("interval", String.class));
         spawnTimer = new IntervalTimer(interval);
+
         entities = new Array<>();
     }
 

@@ -1,6 +1,6 @@
 package org.m110.shooter.ai.entity;
 
-import org.m110.shooter.entities.enemies.CombatEntity;
+import org.m110.shooter.entities.CombatEntity;
 
 /**
  * @author m1_10sz <m110@m110.pl>

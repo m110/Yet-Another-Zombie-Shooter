@@ -8,7 +8,7 @@ import org.m110.shooter.core.timers.IntervalTimer;
 import org.m110.shooter.core.timers.RandomIntervalTimer;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.bullets.GooBullet;
-import org.m110.shooter.entities.enemies.CombatEntity;
+import org.m110.shooter.entities.CombatEntity;
 
 import java.util.Iterator;
 

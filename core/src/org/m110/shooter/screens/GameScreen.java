@@ -23,7 +23,7 @@ import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.EntityFactory;
 import org.m110.shooter.entities.EntityProto;
 import org.m110.shooter.entities.Player;
-import org.m110.shooter.entities.enemies.CombatEntity;
+import org.m110.shooter.entities.CombatEntity;
 import org.m110.shooter.entities.terrain.Dummy;
 import org.m110.shooter.entities.terrain.Fence;
 import org.m110.shooter.input.GameInput;
@@ -461,7 +461,6 @@ public class GameScreen extends ShooterScreen {
 
                 score += points;
                 stats.addKill();
-                enemy.setPointsEarned(points);
                 it.remove();
             }
         }
@@ -523,7 +522,7 @@ public class GameScreen extends ShooterScreen {
     }
 
     public Entity spawnRandomEntity(float x, float y) {
-        CombatEntity entity = EntityFactory.createEntity(this, EntityProto.getRandom(), x, y);
+        CombatEntity entity = EntityFactory.createEntity(this, EntityProto.getRandomWithoutSpawner(), x, y);
         addEntity(entity);
         return entity;
     }

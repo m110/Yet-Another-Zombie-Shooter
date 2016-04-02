@@ -86,6 +86,7 @@ public class Config {
 
         public static final String CONFIG_DIR = ASSETS_DIR + "config/";
         public static final String WEAPONS_CONFIG = CONFIG_DIR + "weapons.ini";
+        public static final String ENTITIES_CONFIG = CONFIG_DIR + "entities.ini";
 
         public static final String LEVEL_PROPERTIES = "/level.properties";
         public static final String VERSION = ASSETS_DIR + "/version";

@@ -2,7 +2,7 @@ package org.m110.shooter.ai.entity;
 
 import com.badlogic.gdx.math.MathUtils;
 import org.m110.shooter.core.timers.IntervalTimer;
-import org.m110.shooter.entities.enemies.CombatEntity;
+import org.m110.shooter.entities.CombatEntity;
 
 /**
  * @author m1_10sz <m110@m110.pl>
