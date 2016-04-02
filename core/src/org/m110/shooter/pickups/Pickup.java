@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.m110.shooter.core.Config;
+import org.m110.shooter.effects.Effect;
 import org.m110.shooter.entities.Player;
 
 /**
@@ -14,6 +15,7 @@ import org.m110.shooter.entities.Player;
 public abstract class Pickup extends Actor {
 
     protected TextureRegion texture;
+    protected Effect effect;
 
     protected final String name;
 
@@ -33,5 +35,7 @@ public abstract class Pickup extends Actor {
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    public abstract boolean pickUp(Player player);
+    public boolean pickUp(Player player) {
+        return effect.effect(player);
+    }
 }

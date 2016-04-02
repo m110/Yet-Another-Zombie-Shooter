@@ -12,6 +12,7 @@ import org.m110.shooter.core.Movement;
 import org.m110.shooter.entities.bullets.Bullet;
 import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.Weapon;
+import org.m110.shooter.weapons.WeaponProto;
 import org.m110.shooter.weapons.WeaponSlot;
 import org.m110.shooter.weapons.magazines.Magazine;
 
@@ -274,6 +275,15 @@ public class Player extends Entity {
             }
             weapon.setPickedUp();
             return true;
+        }
+    }
+
+    public boolean addAmmo(WeaponProto proto, int bullets) {
+        Weapon weapon = getWeapon(proto.slot);
+        if (weapon != null && !weapon.isMagazineFull()) {
+            return weapon.addMagazine(bullets);
+        } else {
+            return false;
         }
     }
 
