@@ -4,6 +4,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.m110.shooter.Shooter;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * @author m1_10sz <m110@m110.pl>
  */
@@ -13,6 +17,19 @@ public class DesktopLauncher {
         cfg.title = "Shooter";
         cfg.width = 800;
         cfg.height = 600;
+
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            try {
+                FileWriter fw = new FileWriter("error.log", false);
+                PrintWriter pw = new PrintWriter(fw);
+
+                e.printStackTrace(pw);
+
+                pw.close();
+                fw.close();
+            } catch (IOException ignored) {}
+        });
+
         new LwjglApplication(new Shooter(), cfg);
     }
 }
