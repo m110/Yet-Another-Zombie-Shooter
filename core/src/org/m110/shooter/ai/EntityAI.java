@@ -6,7 +6,6 @@ public enum EntityAI {
     BOOMER(BoomerAI.class),
     CHARGER(ChargerAI.class),
     CHASE(ChaseAI.class),
-    COMBAT(CombatAI.class),
     NONE(NoneAI.class),
     SPAWNER(SpawnerAI.class),
     SPITTER(SpitterAI.class);

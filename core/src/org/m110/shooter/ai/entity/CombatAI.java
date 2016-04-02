@@ -6,7 +6,7 @@ import org.m110.shooter.entities.CombatEntity;
 /**
  * @author m1_10sz <m110@m110.pl>
  */
-public class CombatAI extends AI {
+public abstract class CombatAI extends AI {
 
     protected final CombatEntity me;
 

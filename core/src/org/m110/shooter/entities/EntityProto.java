@@ -2,7 +2,6 @@ package org.m110.shooter.entities;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.utils.Array;
 import org.ini4j.Ini;
 import org.m110.shooter.core.Config;
