@@ -1,5 +1,7 @@
 package org.m110.shooter.pickups;
 
+import org.m110.shooter.auras.AdrenalineAura;
+import org.m110.shooter.auras.Aura;
 import org.m110.shooter.entities.Player;
 
 /**
@@ -13,7 +15,7 @@ public class Adrenaline extends Pickup {
 
     @Override
     public boolean pickUp(Player player) {
-        player.useAdrenaline();
+        player.addAura(new Aura(player, "adrenaline", 5.0f, new AdrenalineAura()));
         return true;
     }
 }

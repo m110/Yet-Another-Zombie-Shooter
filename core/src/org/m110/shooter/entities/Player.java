@@ -66,10 +66,7 @@ public class Player extends Entity {
     private Weapon activeWeapon;
     private boolean attacking = false;
 
-    // TODO Move adrenaline to auras system
-    private float adrenalineInterval = 5.0f;
-    private float adrenalineTimer = 0.0f;
-    private boolean adrenalineActive = false;
+    private int adrenalineActive = 0;
 
     static {
         texture = Entity.loadTexture("player");
@@ -125,22 +122,12 @@ public class Player extends Entity {
             if (staminaTime < 0) {
                 regenerateStamina(1);
 
-                if (adrenalineActive) {
-                    if (adrenalineTimer > 0.0f) {
-                        regenerateStamina(2);
-                    } else {
-                        adrenalineActive = false;
-                        adrenalineTimer = 0.0f;
-                    }
+                if (adrenalineActive > 0) {
+                    regenerateStamina(2);
                 }
 
                 staminaTime = Config.Player.STAMINA_REGEN_TIME;
             } else staminaTime -= delta;
-        }
-
-        // Adrenaline bonus
-        if (adrenalineActive) {
-            adrenalineTimer -= delta;
         }
 
         // Update change weapon time
@@ -418,8 +405,11 @@ public class Player extends Entity {
     }
 
     public void useAdrenaline() {
-        adrenalineActive = true;
-        adrenalineTimer += adrenalineInterval;
+        adrenalineActive++;
+    }
+
+    public void stopAdrenaline() {
+        adrenalineActive--;
     }
 }
 

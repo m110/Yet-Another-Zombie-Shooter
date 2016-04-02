@@ -14,7 +14,13 @@ public class HealAura implements AuraPeriodicEffect {
     }
 
     @Override
-    public void effect(Entity owner, int ticks) {
+    public void tick(Entity owner, int ticks) {
         owner.addHealth(healAmount / ticks);
     }
+
+    @Override
+    public void apply(Entity owner) {}
+
+    @Override
+    public void wearOff(Entity owner) {}
 }
