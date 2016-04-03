@@ -1,7 +1,15 @@
 package org.m110.shooter.effects;
 
-import org.m110.shooter.entities.Entity;
+public enum Effect {
+    ADRENALINE(AdrenalineEffect.class),
+    AMMO(AmmoEffect.class),
+    CRATE(CrateEffect.class),
+    HEAL(HealEffect.class),
+    HEALOVERTIME(HealOverTimeEffect.class);
 
-public interface Effect {
-    boolean effect(Entity target);
+    public Class effectClass;
+
+    Effect(Class effectClass) {
+        this.effectClass = effectClass;
+    }
 }

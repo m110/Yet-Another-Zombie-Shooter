@@ -5,7 +5,14 @@ import org.m110.shooter.auras.Aura;
 import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.Player;
 
-public class AdrenalineEffect implements Effect {
+public class AdrenalineEffect implements EntityEffect {
+
+    private float duration;
+
+    public AdrenalineEffect(float duration) {
+        this.duration = duration;
+    }
+
     @Override
     public boolean effect(Entity target) {
         if (!(target instanceof Player)) {
@@ -13,7 +20,7 @@ public class AdrenalineEffect implements Effect {
         }
 
         Player player = (Player) target;
-        player.addAura(new Aura(player, "adrenaline", 5.0f, new AdrenalineAura()));
+        player.addAura(new Aura(player, "adrenaline", duration, new AdrenalineAura()));
         return true;
     }
 }

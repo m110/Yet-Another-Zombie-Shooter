@@ -7,8 +7,11 @@ import org.m110.shooter.effects.AdrenalineEffect;
  */
 public class Adrenaline extends Pickup {
 
-    public Adrenaline(float x, float y) {
-        super("adrenaline", x, y);
-        effect = new AdrenalineEffect();
+    public Adrenaline(PickupProto proto, float x, float y) {
+        super(proto, x, y);
+
+        float duration = Float.parseFloat(proto.values.get("duration"));
+
+        effect = new AdrenalineEffect(duration);
     }
 }

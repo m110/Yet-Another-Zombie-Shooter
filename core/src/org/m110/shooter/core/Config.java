@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 public class Config {
 
     public static String VERSION;
+    public static String TEXTURE_EXTENSION = ".png";
 
     public static class Game {
         public static final float CAMPAIGN_AGGRO_RANGE;
@@ -87,6 +88,7 @@ public class Config {
         public static final String CONFIG_DIR = ASSETS_DIR + "config/";
         public static final String WEAPONS_CONFIG = CONFIG_DIR + "weapons.ini";
         public static final String ENTITIES_CONFIG = CONFIG_DIR + "entities.ini";
+        public static final String PICKUPS_CONFIG = CONFIG_DIR + "pickups.ini";
 
         public static final String LEVEL_PROPERTIES = "/level.properties";
         public static final String VERSION = ASSETS_DIR + "/version";

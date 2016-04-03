@@ -8,10 +8,10 @@ import org.m110.shooter.weapons.WeaponProto;
  */
 public class Ammo extends Pickup {
 
-    public Ammo(String name, float x, float y, int bullets) {
-        super("ammo/" + name, x, y);
-        WeaponProto proto = WeaponProto.getByName(name);
+    public Ammo(PickupProto proto, float x, float y, String weapon, int bullets) {
+        super(proto, x, y, weapon);
 
-        effect = new AmmoEffect(proto, bullets);
+        WeaponProto weaponProto = WeaponProto.getByName(weapon);
+        effect = new AmmoEffect(weaponProto, bullets);
     }
 }

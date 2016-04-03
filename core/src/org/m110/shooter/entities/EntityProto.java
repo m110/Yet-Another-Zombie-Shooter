@@ -92,7 +92,7 @@ public class EntityProto {
         }
     }
 
-    public EntityProto(String name) {
+    private EntityProto(String name) {
         this.name = name;
     }
 

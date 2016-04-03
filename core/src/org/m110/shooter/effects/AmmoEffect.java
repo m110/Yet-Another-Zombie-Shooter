@@ -4,7 +4,7 @@ import org.m110.shooter.entities.Entity;
 import org.m110.shooter.entities.Player;
 import org.m110.shooter.weapons.WeaponProto;
 
-public class AmmoEffect implements Effect {
+public class AmmoEffect implements EntityEffect {
 
     private final WeaponProto proto;
     private final int bullets;

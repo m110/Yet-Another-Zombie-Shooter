@@ -215,7 +215,8 @@ public class GameScreen extends ShooterScreen {
                     break;
                 case "crate":
                 case "ammo":
-                case "bonus":
+                case "medpack":
+                case "adrenaline":
                     spawnPickup(object, objX, objY);
                     break;
                 case "terrain":

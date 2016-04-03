@@ -3,6 +3,7 @@ package org.m110.shooter.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.m110.shooter.Shooter;
+import org.m110.shooter.core.Config;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +19,15 @@ public class DesktopLauncher {
         cfg.width = 800;
         cfg.height = 600;
 
+        String disableLog = System.getenv("DISABLE_ERROR_LOG");
+        if (disableLog == null || !disableLog.equals("1")) {
+            setExceptionHandler();
+        }
+
+        new LwjglApplication(new Shooter(), cfg);
+    }
+
+    private static void setExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             try {
                 FileWriter fw = new FileWriter("error.log", false);
@@ -27,9 +37,8 @@ public class DesktopLauncher {
 
                 pw.close();
                 fw.close();
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
         });
-
-        new LwjglApplication(new Shooter(), cfg);
     }
 }

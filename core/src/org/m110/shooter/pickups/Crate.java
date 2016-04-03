@@ -9,9 +9,10 @@ import org.m110.shooter.weapons.WeaponProto;
  */
 public class Crate extends Pickup {
 
-    public Crate(GameScreen game, String name, float x, float y, int bullets) {
-        super("crates/" + name, x, y);
-        WeaponProto proto = WeaponProto.getByName(name);
-        effect = new CrateEffect(game, proto, bullets);
+    public Crate(PickupProto proto, float x, float y, GameScreen game, String weapon, int bullets) {
+        super(proto, x, y, weapon);
+
+        WeaponProto weaponProto = WeaponProto.getByName(weapon);
+        effect = new CrateEffect(game, weaponProto, bullets);
     }
 }

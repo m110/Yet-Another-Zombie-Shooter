@@ -6,7 +6,7 @@ import org.m110.shooter.screens.GameScreen;
 import org.m110.shooter.weapons.Weapon;
 import org.m110.shooter.weapons.WeaponProto;
 
-public class CrateEffect implements Effect {
+public class CrateEffect implements EntityEffect {
 
     private final Weapon weapon;
 

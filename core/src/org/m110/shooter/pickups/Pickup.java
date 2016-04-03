@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.m110.shooter.core.Config;
-import org.m110.shooter.effects.Effect;
+import org.m110.shooter.effects.EntityEffect;
 import org.m110.shooter.entities.Player;
 
 /**
@@ -14,14 +14,23 @@ import org.m110.shooter.entities.Player;
  */
 public abstract class Pickup extends Actor {
 
+    protected PickupProto proto;
     protected TextureRegion texture;
-    protected Effect effect;
+    protected EntityEffect effect;
 
-    protected final String name;
+    public static TextureRegion loadTexture(String fileName) {
+        return new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "pickups/" + fileName)));
+    }
 
-    public Pickup(String name, float x, float y) {
-        this.name = name;
-        texture = new TextureRegion(new Texture(Gdx.files.internal(Config.Path.TEXTURES_DIR + "pickups/" + name + ".png")));
+    Pickup(PickupProto proto, float x, float y) {
+        this(proto, x, y, null);
+    }
+
+    Pickup(PickupProto proto, float x, float y, String textureName) {
+        this.proto = proto;
+
+        texture = proto.getTexture(textureName);
+
         setWidth(texture.getRegionWidth());
         setHeight(texture.getRegionHeight());
         setOrigin(getWidth() / 2, getHeight() / 2);
